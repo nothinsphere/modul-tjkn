@@ -1,10 +1,15 @@
-/* Mesin simulator Asterisk untuk pembelajaran: membaca sip.conf, extensions.conf, voicemail.conf,
- * lalu mensimulasikan REGISTER, INVITE, dan dialplan. Pesan log meniru format CLI Asterisk (chan_sip),
- * sedangkan petunjuk perbaikan ditulis dalam bahasa Indonesia. Bukan server sungguhan. */
+/* Mesin simulator Asterisk untuk pembelajaran: membaca pjsip.conf (Asterisk 21+, jalur utama) atau sip.conf
+ * (chan_sip, Asterisk 20 ke bawah), extensions.conf, dan voicemail.conf, lalu mensimulasikan REGISTER, INVITE,
+ * dan dialplan. Pesan log meniru format CLI Asterisk, sedangkan petunjuk perbaikan ditulis dalam bahasa Indonesia.
+ * Bukan server sungguhan. */
 (function () {
   'use strict';
 
   const SERVER_IP = '192.168.1.5';
+  const MODES = {
+    pjsip: { tech: 'PJSIP', file: 'pjsip.conf', ver: 'Asterisk 21 (PJSIP)' },
+    sip: { tech: 'SIP', file: 'sip.conf', ver: 'Asterisk 18 (chan_sip, usang)' }
+  };
   const CODECS = ['ulaw', 'alaw', 'gsm', 'g729', 'g722', 'g726', 'ilbc', 'speex', 'opus'];
   const DEFAULT_CODECS = ['ulaw', 'alaw', 'gsm'];
   // codec yang bisa diterjemahkan Asterisk tanpa lisensi tambahan
@@ -16,12 +21,42 @@
     'Goto', 'GotoIf', 'Set', 'NoOp', 'Verbose', 'Busy', 'Congestion', 'Ringing', 'Progress', 'SayDigits', 'SayNumber', 'ConfBridge', 'MeetMe', 'Read'];
   // ada di Asterisk sungguhan, tetapi belum didukung simulator
   const REAL_APPS = ['Queue', 'Macro', 'Gosub', 'Return', 'System', 'AGI', 'MixMonitor', 'Monitor', 'Record', 'Page', 'ChanSpy',
-    'Directory', 'Authenticate', 'DISA', 'SendDTMF', 'Transfer', 'ExecIf', 'While', 'EndWhile', 'MusicOnHold', 'StartMusicOnHold', 'SIPAddHeader'];
+    'Directory', 'Authenticate', 'DISA', 'SendDTMF', 'Transfer', 'ExecIf', 'While', 'EndWhile', 'MusicOnHold', 'StartMusicOnHold', 'SIPAddHeader', 'PJSIP_HEADER'];
   const PEER_KEYS = ['type', 'host', 'secret', 'context', 'callerid', 'allow', 'disallow', 'permit', 'deny', 'nat', 'qualify',
     'defaultuser', 'username', 'fromuser', 'fromdomain', 'insecure', 'dtmfmode', 'canreinvite', 'directmedia', 'mailbox', 'port',
     'transport', 'call-limit', 'language', 'accountcode', 'description', 'subscribecontext', 'trustrpid', 'sendrpid', 'encryption', 'md5secret', 'outboundproxy', 'remotesecret', 'busylevel'];
   const GEN_KEYS = ['context', 'allowguest', 'bindport', 'bindaddr', 'udpbindaddr', 'srvlookup', 'disallow', 'allow', 'language',
     'alwaysauthreject', 'nat', 'transport', 'externip', 'externaddr', 'localnet', 'register', 'useragent', 'dtmfmode', 'directmedia', 'canreinvite', 'qualify', 'tcpenable', 'videosupport', 'rtptimeout', 'defaultexpiry', 'maxexpiry', 'allowoverlap', 'realm'];
+  const PJ_KEYS = {
+    endpoint: ['type', 'context', 'disallow', 'allow', 'auth', 'outbound_auth', 'aors', 'callerid', 'direct_media', 'dtmf_mode', 'transport', 'permit', 'deny', 'acl',
+      'contact_permit', 'contact_deny', 'contact_acl', 'mailboxes', 'rtp_symmetric', 'force_rport', 'rewrite_contact', 'from_user', 'from_domain', 'language', 'identify_by',
+      'ice_support', 'media_encryption', 'trust_id_inbound', 'send_rpid', 'send_pai', 'tos_audio', 'cos_audio', 'accountcode', 'set_var', 'device_state_busy_at', 'allow_subscribe', 'webrtc', 'callerid_privacy', 'named_call_group', 'named_pickup_group'],
+    auth: ['type', 'auth_type', 'username', 'password', 'md5_cred', 'realm', 'nonce_lifetime'],
+    aor: ['type', 'max_contacts', 'contact', 'remove_existing', 'qualify_frequency', 'qualify_timeout', 'default_expiration', 'minimum_expiration', 'maximum_expiration', 'mailboxes', 'authenticate_qualify', 'support_path', 'outbound_proxy'],
+    transport: ['type', 'protocol', 'bind', 'external_media_address', 'external_signaling_address', 'local_net', 'cert_file', 'priv_key_file', 'ca_list_file', 'method', 'tos', 'cos', 'allow_reload', 'verify_client', 'verify_server'],
+    identify: ['type', 'endpoint', 'match', 'match_header', 'srv_lookups'],
+    registration: ['type', 'outbound_auth', 'server_uri', 'client_uri', 'contact_user', 'retry_interval', 'forbidden_retry_interval', 'expiration', 'transport', 'line', 'endpoint', 'max_retries', 'auth_rejection_permanent'],
+    acl: ['type', 'permit', 'deny', 'contact_permit', 'contact_deny'],
+    global: ['type', 'user_agent', 'endpoint_identifier_order', 'default_outbound_endpoint', 'max_forwards', 'keep_alive_interval', 'debug'],
+    system: ['type', 'timer_t1', 'timer_b', 'threadpool_initial_size', 'threadpool_max_size', 'disable_tcp_switch']
+  };
+  // petunjuk khusus untuk opsi sip.conf yang sering terbawa ke pjsip.conf
+  const PJ_HINT = {
+    secret: 'Di PJSIP, password ditulis di section type=auth sebagai password=..., lalu endpoint menunjuknya dengan auth=nama-auth.',
+    host: 'Di PJSIP tidak ada host=. Untuk softphone cukup buat section type=aor dengan max_contacts=1. Untuk trunk, tulis contact=sip:alamat-server di section type=aor.',
+    username: 'username= ditulis di section type=auth, bukan di endpoint.',
+    password: 'password= ditulis di section type=auth, bukan di endpoint.',
+    max_contacts: 'max_contacts= ditulis di section type=aor.',
+    nat: 'Di PJSIP, pengaturan NAT memakai rtp_symmetric=yes, force_rport=yes, dan rewrite_contact=yes pada endpoint.',
+    dtmfmode: 'Di PJSIP namanya dtmf_mode.',
+    directmedia: 'Di PJSIP namanya direct_media.',
+    canreinvite: 'Di PJSIP namanya direct_media.',
+    mailbox: 'Di PJSIP namanya mailboxes.',
+    qualify: 'Di PJSIP namanya qualify_frequency dan ditulis di section type=aor.',
+    insecure: 'Untuk trunk PJSIP, gunakan section type=identify dengan match=alamat-penyedia.',
+    fromuser: 'Di PJSIP namanya from_user.',
+    bindport: 'Port ditulis di section type=transport, misalnya bind=0.0.0.0:5060.'
+  };
   const EXT_GENERAL = ['static', 'writeprotect', 'autofallthrough', 'clearglobalvars', 'extenpatternmatchnew', 'userscontext', 'priorityjumping'];
 
   /* ------------------------------ util ------------------------------ */
@@ -39,6 +74,7 @@
     return best;
   }
   const pid = () => 10000 + Math.floor(Math.random() * 9000);
+  const callid = () => Math.random().toString(16).slice(2, 10) + '-' + Math.random().toString(16).slice(2, 6);
   function stripComment(line) {
     let out = '';
     for (let i = 0; i < line.length; i++) {
@@ -81,6 +117,10 @@
     return out;
   }
   const hex8 = n => n.toString(16).padStart(8, '0');
+  function parseCid(s, name) {
+    const cid = (s || '').match(/^\s*"?([^"<]*)"?\s*(?:<([^>]*)>)?/);
+    return { cidName: cid && cid[1].trim() ? cid[1].trim() : name, cidNum: cid && cid[2] ? cid[2].trim() : name };
+  }
 
   /* ------------------------------ pattern ------------------------------ */
   function tokenizePattern(p) {
@@ -160,9 +200,31 @@
     return 0;
   }
 
-  /* ------------------------------ parser ------------------------------ */
+  /* ------------------------------ parser akun: sip.conf ------------------------------ */
+  function applyCodecs(list, rules) {
+    rules.forEach(r => {
+      if (r.codec === 'all') { if (r.allow) CODECS.forEach(c => { if (!list.includes(c)) list.push(c); }); else list.length = 0; }
+      else if (r.allow) { if (!list.includes(r.codec)) list.push(r.codec); }
+      else { const i = list.indexOf(r.codec); if (i >= 0) list.splice(i, 1); }
+    });
+    return list;
+  }
+  function codecRule(key, val, file, ln, diags, into) {
+    val.split(/[,&]/).map(s => s.trim().toLowerCase()).filter(Boolean).forEach(c => {
+      if (c !== 'all' && !CODECS.includes(c)) {
+        const s = suggest(c, CODECS);
+        diags.push({ file, line: ln, sev: 'warning', msg: `Cannot ${key} unknown format '${c}'`, hint: `Nama codec tidak dikenal.${s ? ` Mungkin maksudnya "${s}"?` : ''} Contoh yang benar: ulaw, alaw, gsm, g729.` });
+      } else into.push({ allow: key === 'allow', codec: c });
+    });
+  }
+  function aclRule(key, val, file, ln, diags, into) {
+    const net = parseNet(val);
+    if (!net) { diags.push({ file, line: ln, sev: 'error', msg: `Invalid ACL '${val}'`, hint: 'Format: alamat/mask, misalnya permit=192.168.1.0/255.255.255.0 atau 192.168.1.0/24.' }); return; }
+    into.push({ permit: key === 'permit', net, text: val });
+  }
+
   function parseSip(text) {
-    const diags = [], peers = {}, order = [], templates = {};
+    const F = 'sip.conf', diags = [], peers = {}, order = [], templates = {};
     const general = { opts: {}, codecRules: [], line: 0 };
     let cur = null, curName = null;
     text.split(/\r?\n/).forEach((raw, idx) => {
@@ -172,87 +234,156 @@
       if (sec) {
         curName = sec[1].trim();
         const tpl = (sec[2] || '').split(',').map(s => s.trim()).filter(Boolean);
-        if (!curName) { diags.push({ file: 'sip.conf', line: ln, sev: 'error', msg: 'Nama bagian [ ] kosong', hint: 'Tulis nama akun di dalam kurung siku, misalnya [101].' }); cur = null; return; }
+        if (!curName) { diags.push({ file: F, line: ln, sev: 'error', msg: 'Nama bagian [ ] kosong', hint: 'Tulis nama akun di dalam kurung siku, misalnya [101].' }); cur = null; return; }
         if (curName.toLowerCase() === 'general') { cur = general; general.line = ln; return; }
         const isTpl = tpl.includes('!');
         cur = { name: curName, line: ln, opts: {}, optLine: {}, codecRules: [], acl: [], template: isTpl };
         tpl.filter(t => t !== '!').forEach(t => {
           const base = templates[t];
-          if (!base) { diags.push({ file: 'sip.conf', line: ln, sev: 'warning', msg: `Template '${t}' tidak ditemukan`, hint: 'Template harus ditulis lebih dulu dengan tanda (!), misalnya [akun](!).' }); return; }
+          if (!base) { diags.push({ file: F, line: ln, sev: 'warning', msg: `Template '${t}' tidak ditemukan`, hint: 'Template harus ditulis lebih dulu dengan tanda (!), misalnya [akun](!).' }); return; }
           Object.assign(cur.opts, base.opts); Object.assign(cur.optLine, base.optLine);
           cur.codecRules.push(...base.codecRules); cur.acl.push(...base.acl);
         });
         if (isTpl) templates[curName] = cur;
         else {
-          if (peers[curName]) diags.push({ file: 'sip.conf', line: ln, sev: 'warning', msg: `Akun [${curName}] ditulis dua kali`, hint: 'Nama akun harus unik. Bagian kedua menimpa yang pertama.' });
+          if (peers[curName]) diags.push({ file: F, line: ln, sev: 'warning', msg: `Akun [${curName}] ditulis dua kali`, hint: 'Nama akun harus unik. Bagian kedua menimpa yang pertama.' });
           else order.push(curName);
           peers[curName] = cur;
         }
         return;
       }
       const kv = line.match(/^([A-Za-z0-9_-]+)\s*=>?\s*(.*)$/);
-      if (!kv) { diags.push({ file: 'sip.conf', line: ln, sev: 'error', msg: `Baris tidak dikenali: '${line}'`, hint: 'Format baris pengaturan adalah nama=nilai, misalnya secret=rahasia101.' }); return; }
-      if (!cur) { diags.push({ file: 'sip.conf', line: ln, sev: 'warning', msg: 'Pengaturan di luar bagian mana pun', hint: 'Tulis [general] atau [nama-akun] di atas baris ini.' }); return; }
+      if (!kv) { diags.push({ file: F, line: ln, sev: 'error', msg: `Baris tidak dikenali: '${line}'`, hint: 'Format baris pengaturan adalah nama=nilai, misalnya secret=rahasia101.' }); return; }
+      if (!cur) { diags.push({ file: F, line: ln, sev: 'warning', msg: 'Pengaturan di luar bagian mana pun', hint: 'Tulis [general] atau [nama-akun] di atas baris ini.' }); return; }
       const key = kv[1].toLowerCase(), val = kv[2].trim();
-      if (key === 'allow' || key === 'disallow') {
-        val.split(/[,&]/).map(s => s.trim().toLowerCase()).filter(Boolean).forEach(c => {
-          if (c !== 'all' && !CODECS.includes(c)) {
-            const s = suggest(c, CODECS);
-            diags.push({ file: 'sip.conf', line: ln, sev: 'warning', msg: `Cannot ${key} unknown format '${c}'`, hint: `Nama codec tidak dikenal.${s ? ` Mungkin maksudnya "${s}"?` : ''} Contoh yang benar: ulaw, alaw, gsm, g729.` });
-          } else cur.codecRules.push({ allow: key === 'allow', codec: c });
-        });
-        return;
-      }
+      if (key === 'allow' || key === 'disallow') { codecRule(key, val, F, ln, diags, cur.codecRules); return; }
       if (key === 'permit' || key === 'deny') {
-        if (cur === general) { diags.push({ file: 'sip.conf', line: ln, sev: 'notice', msg: `${key} di [general] diabaikan simulator`, hint: 'Pasang permit/deny pada masing-masing akun.' }); return; }
-        const net = parseNet(val);
-        if (!net) { diags.push({ file: 'sip.conf', line: ln, sev: 'error', msg: `Invalid ACL '${val}'`, hint: 'Format: alamat/mask, misalnya permit=192.168.1.0/255.255.255.0 atau 192.168.1.0/24.' }); return; }
-        cur.acl.push({ permit: key === 'permit', net, text: val });
-        return;
+        if (cur === general) { diags.push({ file: F, line: ln, sev: 'notice', msg: `${key} di [general] diabaikan simulator`, hint: 'Pasang permit/deny pada masing-masing akun.' }); return; }
+        aclRule(key, val, F, ln, diags, cur.acl); return;
       }
       const list = cur === general ? GEN_KEYS : PEER_KEYS;
       if (!list.includes(key)) {
         const s = suggest(key, list);
-        diags.push({ file: 'sip.conf', line: ln, sev: 'warning', msg: `Unknown option '${key}' ${cur === general ? 'in [general]' : `for peer '${cur.name}'`}`, hint: s ? `Mungkin maksudnya "${s}"?` : 'Opsi ini tidak dikenal dan akan diabaikan.' });
+        diags.push({ file: F, line: ln, sev: 'warning', msg: `Unknown option '${key}' ${cur === general ? 'in [general]' : `for peer '${cur.name}'`}`, hint: s ? `Mungkin maksudnya "${s}"?` : 'Opsi ini tidak dikenal dan akan diabaikan.' });
       }
       cur.opts[key] = val;
       if (cur.optLine) cur.optLine[key] = ln;
     });
     const genCodecs = applyCodecs(DEFAULT_CODECS.slice(), general.codecRules);
     const genCtx = general.opts.context || 'default';
+    const accounts = {};
     order.forEach(name => {
       const p = peers[name];
-      p.type = (p.opts.type || '').toLowerCase();
-      p.host = (p.opts.host || '').toLowerCase();
-      p.secret = p.opts.secret || '';
-      p.context = p.opts.context || genCtx;
-      p.codecs = applyCodecs(genCodecs.slice(), p.codecRules);
-      const cid = (p.opts.callerid || '').match(/^\s*"?([^"<]*)"?\s*(?:<([^>]*)>)?/);
-      p.cidName = cid && cid[1].trim() ? cid[1].trim() : name;
-      p.cidNum = cid && cid[2] ? cid[2].trim() : name;
-      if (!p.type) diags.push({ file: 'sip.conf', line: p.line, sev: 'error', msg: `Peer '${name}' has no type`, hint: 'Tambahkan type=friend untuk softphone (bisa memanggil dan dipanggil), atau type=peer untuk trunk.' });
-      else if (!['friend', 'peer', 'user'].includes(p.type)) diags.push({ file: 'sip.conf', line: p.optLine.type, sev: 'error', msg: `Unknown type '${p.type}' for peer '${name}'`, hint: 'Nilai type yang benar: friend, peer, atau user.' });
-      if (!p.host && p.type !== 'user') diags.push({ file: 'sip.conf', line: p.line, sev: 'warning', msg: `Peer '${name}' has no host`, hint: 'Untuk softphone yang mendaftar sendiri, tulis host=dynamic. Untuk trunk, tulis alamat server penyedia.' });
-      if (p.host === 'dynamic' && !p.secret && !p.opts.md5secret) diags.push({ file: 'sip.conf', line: p.line, sev: 'warning', msg: `Peer '${name}' tanpa secret`, hint: 'Tanpa password, siapa pun di jaringan bisa memakai akun ini. Tambahkan secret=...' });
-      if (!p.codecs.length) diags.push({ file: 'sip.conf', line: p.line, sev: 'warning', msg: `Peer '${name}' tidak punya codec yang diizinkan`, hint: 'Setelah disallow=all, tambahkan minimal satu allow=..., misalnya allow=ulaw.' });
-      if (!p.opts.context && !general.opts.context) diags.push({ file: 'sip.conf', line: p.line, sev: 'notice', msg: `Peer '${name}' memakai context 'default'`, hint: 'Tulis context=... agar panggilan dari akun ini masuk ke context dialplan yang benar.' });
+      const type = (p.opts.type || '').toLowerCase(), host = (p.opts.host || '').toLowerCase();
+      const a = Object.assign({ name, line: p.line, optLine: p.optLine, acl: p.acl, type, host,
+        secret: p.opts.secret || p.opts.md5secret ? (p.opts.secret || '') : null,
+        context: p.opts.context || genCtx, codecs: applyCodecs(genCodecs.slice(), p.codecRules),
+        dynamic: host === 'dynamic', maxContacts: 1, canRegister: host === 'dynamic' && (type === 'friend' || type === 'peer'),
+        kind: type === 'user' ? 'user' : host === 'dynamic' ? 'phone' : host ? 'trunk' : 'none' }, parseCid(p.opts.callerid, name));
+      accounts[name] = a;
+      if (!type) diags.push({ file: F, line: p.line, sev: 'error', msg: `Peer '${name}' has no type`, hint: 'Tambahkan type=friend untuk softphone (bisa memanggil dan dipanggil), atau type=peer untuk trunk.' });
+      else if (!['friend', 'peer', 'user'].includes(type)) diags.push({ file: F, line: p.optLine.type, sev: 'error', msg: `Unknown type '${type}' for peer '${name}'`, hint: 'Nilai type yang benar: friend, peer, atau user.' });
+      if (!host && type !== 'user') diags.push({ file: F, line: p.line, sev: 'warning', msg: `Peer '${name}' has no host`, hint: 'Untuk softphone yang mendaftar sendiri, tulis host=dynamic. Untuk trunk, tulis alamat server penyedia.' });
+      if (host === 'dynamic' && a.secret === null) diags.push({ file: F, line: p.line, sev: 'warning', msg: `Peer '${name}' tanpa secret`, hint: 'Tanpa password, siapa pun di jaringan bisa memakai akun ini. Tambahkan secret=...' });
+      if (!a.codecs.length) diags.push({ file: F, line: p.line, sev: 'warning', msg: `Peer '${name}' tidak punya codec yang diizinkan`, hint: 'Setelah disallow=all, tambahkan minimal satu allow=..., misalnya allow=ulaw.' });
+      if (!p.opts.context && !general.opts.context) diags.push({ file: F, line: p.line, sev: 'notice', msg: `Peer '${name}' memakai context 'default'`, hint: 'Tulis context=... agar panggilan dari akun ini masuk ke context dialplan yang benar.' });
     });
-    return { general, genCtx, peers, order, diags, allowguest: /^(yes|true|1)$/i.test(general.opts.allowguest || '') };
-  }
-  function applyCodecs(list, rules) {
-    rules.forEach(r => {
-      if (r.codec === 'all') { if (r.allow) CODECS.forEach(c => { if (!list.includes(c)) list.push(c); }); else list.length = 0; }
-      else if (r.allow) { if (!list.includes(r.codec)) list.push(r.codec); }
-      else { const i = list.indexOf(r.codec); if (i >= 0) list.splice(i, 1); }
-    });
-    return list;
+    return { mode: 'sip', accounts, order, diags, transports: [{ name: 'udp', bind: general.opts.bindaddr || '0.0.0.0', port: general.opts.bindport || '5060' }] };
   }
 
+  /* ------------------------------ parser akun: pjsip.conf ------------------------------ */
+  function parsePjsip(text) {
+    const F = 'pjsip.conf', diags = [], secs = [], templates = {};
+    let cur = null;
+    text.split(/\r?\n/).forEach((raw, idx) => {
+      const ln = idx + 1, line = stripComment(raw);
+      if (!line) return;
+      const sec = line.match(/^\[([^\]]*)\]\s*(?:\(([^)]*)\))?\s*$/);
+      if (sec) {
+        const name = sec[1].trim();
+        const tpl = (sec[2] || '').split(',').map(s => s.trim()).filter(Boolean);
+        if (!name) { diags.push({ file: F, line: ln, sev: 'error', msg: 'Nama section [ ] kosong', hint: 'Tulis nama section, misalnya [101] atau [transport-udp].' }); cur = null; return; }
+        cur = { name, line: ln, opts: {}, optLine: {}, rules: [], acl: [], type: null, typeLine: 0, isTpl: tpl.includes('!') };
+        tpl.filter(t => t !== '!').forEach(t => {
+          const base = templates[t];
+          if (!base) { diags.push({ file: F, line: ln, sev: 'warning', msg: `Template '${t}' tidak ditemukan`, hint: 'Template ditulis lebih dulu dengan tanda (!), misalnya [endpoint-dasar](!).' }); return; }
+          Object.assign(cur.opts, base.opts); Object.assign(cur.optLine, base.optLine);
+          cur.rules.push(...base.rules); cur.acl.push(...base.acl);
+          if (base.type) { cur.type = base.type; cur.typeLine = base.typeLine; }
+        });
+        if (cur.isTpl) templates[name] = cur; else secs.push(cur);
+        return;
+      }
+      const kv = line.match(/^([A-Za-z0-9_-]+)\s*=>?\s*(.*)$/);
+      if (!kv) { diags.push({ file: F, line: ln, sev: 'error', msg: `Baris tidak dikenali: '${line}'`, hint: 'Format baris pengaturan adalah nama=nilai, misalnya password=rahasia101.' }); return; }
+      if (!cur) { diags.push({ file: F, line: ln, sev: 'warning', msg: 'Pengaturan di luar section mana pun', hint: 'Tulis [nama-section] di atas baris ini.' }); return; }
+      const key = kv[1].toLowerCase(), val = kv[2].trim();
+      if (key === 'type') { cur.type = val.toLowerCase(); cur.typeLine = ln; return; }
+      if (key === 'allow' || key === 'disallow') { codecRule(key, val, F, ln, diags, cur.rules); cur.optLine[key] = ln; return; }
+      if (key === 'permit' || key === 'deny') { aclRule(key, val, F, ln, diags, cur.acl); cur.optLine[key] = ln; return; }
+      cur.opts[key] = val; cur.optLine[key] = ln;
+    });
+    const by = { endpoint: {}, auth: {}, aor: {}, transport: {}, identify: {}, registration: {}, acl: {} };
+    const order = [];
+    secs.forEach(s => {
+      if (!s.type) { diags.push({ file: F, line: s.line, sev: 'error', msg: `Section '${s.name}' tidak punya type`, hint: 'Setiap section PJSIP butuh type=..., misalnya type=endpoint, type=auth, type=aor, atau type=transport.' }); return; }
+      const keys = PJ_KEYS[s.type];
+      if (!keys) { const sg = suggest(s.type, Object.keys(PJ_KEYS)); diags.push({ file: F, line: s.typeLine, sev: 'error', msg: `Unknown type '${s.type}' for section '${s.name}'`, hint: sg ? `Mungkin maksudnya "${sg}"?` : 'Type yang umum: endpoint, auth, aor, transport, identify.' }); return; }
+      Object.keys(s.opts).forEach(k => {
+        if (keys.includes(k)) return;
+        const sg = suggest(k, keys);
+        diags.push({ file: F, line: s.optLine[k], sev: 'error', msg: `Could not find option suitable for category '${s.name}' named '${k}' at line ${s.optLine[k]} of pjsip.conf`, hint: PJ_HINT[k] || (sg ? `Mungkin maksudnya "${sg}"?` : `Opsi ini tidak ada untuk type=${s.type}.`) });
+      });
+      if (['allow', 'disallow', 'permit', 'deny'].some(k => s.optLine[k]) && !keys.includes('allow') && s.rules.length) diags.push({ file: F, line: s.optLine.allow || s.optLine.disallow, sev: 'error', msg: `Could not find option suitable for category '${s.name}' named 'allow'`, hint: 'allow= dan disallow= ditulis di section type=endpoint.' });
+      if (by[s.type]) {
+        if (by[s.type][s.name]) diags.push({ file: F, line: s.line, sev: 'warning', msg: `Section [${s.name}] type=${s.type} ditulis dua kali`, hint: 'Satu nama boleh dipakai untuk type berbeda (endpoint, auth, aor), tetapi tidak dua kali untuk type yang sama.' });
+        by[s.type][s.name] = s;
+        if (s.type === 'endpoint' && !order.includes(s.name)) order.push(s.name);
+      }
+    });
+    const transports = Object.values(by.transport).map(t => {
+      const proto = (t.opts.protocol || 'udp').toLowerCase();
+      if (!['udp', 'tcp', 'tls', 'ws', 'wss'].includes(proto)) diags.push({ file: F, line: t.optLine.protocol, sev: 'error', msg: `Invalid protocol '${proto}' for transport '${t.name}'`, hint: 'Gunakan protocol=udp untuk softphone di lab.' });
+      if (!t.opts.bind) diags.push({ file: F, line: t.line, sev: 'warning', msg: `Transport '${t.name}' tanpa bind`, hint: 'Tulis bind=0.0.0.0:5060 agar Asterisk mendengarkan di semua alamat pada port 5060.' });
+      return { name: t.name, proto, bind: t.opts.bind || '0.0.0.0:5060' };
+    });
+    if (!transports.length) diags.push({ file: F, line: 1, sev: 'error', msg: 'No transport configured', hint: 'Tanpa section type=transport, Asterisk tidak mendengarkan port SIP sehingga semua REGISTER dan INVITE tidak dijawab. Tambahkan [transport-udp] dengan type=transport, protocol=udp, bind=0.0.0.0:5060.' });
+    const accounts = {};
+    order.forEach(name => {
+      const e = by.endpoint[name];
+      const authName = e.opts.auth || '', aorName = (e.opts.aors || '').split(',')[0].trim();
+      const auth = authName ? by.auth[authName] : null, aor = aorName ? by.aor[aorName] : null;
+      if (authName && !auth) diags.push({ file: F, line: e.optLine.auth, sev: 'error', msg: `Endpoint '${name}': auth '${authName}' does not exist`, hint: `Buat section [${authName}] dengan type=auth, username=..., dan password=...` });
+      if (aorName && !aor) diags.push({ file: F, line: e.optLine.aors, sev: 'error', msg: `Endpoint '${name}': AOR '${aorName}' does not exist`, hint: `Buat section [${aorName}] dengan type=aor dan max_contacts=1.` });
+      if (!aorName) diags.push({ file: F, line: e.line, sev: 'warning', msg: `Endpoint '${name}' tidak punya aors`, hint: 'Tanpa aors=, endpoint tidak bisa mendaftar maupun dihubungi. Tambahkan aors=nama-aor.' });
+      const contact = aor && aor.opts.contact ? aor.opts.contact : '';
+      const maxContacts = aor ? parseInt(aor.opts.max_contacts || '0', 10) || 0 : 0;
+      if (aor && !contact && maxContacts < 1) diags.push({ file: F, line: aor.line, sev: 'warning', msg: `AOR '${aor.name}' has max_contacts=0`, hint: 'Nilai bawaan max_contacts adalah 0, artinya AOR ini menolak semua REGISTER. Untuk softphone tulis max_contacts=1.' });
+      if (auth) {
+        if (!auth.opts.username) diags.push({ file: F, line: auth.line, sev: 'warning', msg: `Auth '${auth.name}' tanpa username`, hint: 'Tulis username=... yang sama dengan username di softphone.' });
+        if (auth.opts.auth_type && !['userpass', 'md5'].includes(auth.opts.auth_type.toLowerCase())) diags.push({ file: F, line: auth.optLine.auth_type, sev: 'warning', msg: `auth_type '${auth.opts.auth_type}' tidak dikenal`, hint: 'Untuk password biasa tulis auth_type=userpass.' });
+      }
+      if (!auth && !contact) diags.push({ file: F, line: e.line, sev: 'warning', msg: `Endpoint '${name}' tanpa auth`, hint: 'Tanpa auth=, siapa pun di jaringan bisa mendaftar sebagai akun ini. Buat section type=auth dan tulis auth=... di endpoint.' });
+      const acl = e.acl.slice();
+      if (e.opts.acl) e.opts.acl.split(',').map(s => s.trim()).forEach(n => { if (by.acl[n]) acl.push(...by.acl[n].acl); else diags.push({ file: F, line: e.optLine.acl, sev: 'warning', msg: `ACL '${n}' tidak ditemukan`, hint: 'Buat section dengan type=acl, atau tulis permit/deny langsung di endpoint.' }); });
+      const codecs = applyCodecs([], e.rules);
+      if (!codecs.length) diags.push({ file: F, line: e.line, sev: 'warning', msg: `Endpoint '${name}' tidak punya codec`, hint: 'Di PJSIP endpoint tidak punya codec bawaan. Tambahkan disallow=all lalu allow=ulaw (atau codec lain), kalau tidak semua panggilan ditolak 488.' });
+      if (!e.opts.context) diags.push({ file: F, line: e.line, sev: 'notice', msg: `Endpoint '${name}' memakai context 'default'`, hint: 'Tulis context=... agar panggilan dari akun ini masuk ke context dialplan yang benar.' });
+      const host = contact ? contact.replace(/^sips?:/i, '').replace(/^[^@]*@/, '').split(/[:;>]/)[0] : '';
+      accounts[name] = Object.assign({ name, line: e.line, optLine: e.optLine, acl, type: 'endpoint', host: contact ? host : 'dynamic',
+        secret: auth ? (auth.opts.password || '') : null, authUser: auth ? (auth.opts.username || '') : null, authName, aorName, aor, auth,
+        context: e.opts.context || 'default', codecs, dynamic: !contact, maxContacts, canRegister: !!aor && !contact,
+        kind: contact ? 'trunk' : 'phone' }, parseCid(e.opts.callerid, name));
+    });
+    Object.values(by.identify).forEach(i => { if (i.opts.endpoint && !by.endpoint[i.opts.endpoint]) diags.push({ file: F, line: i.optLine.endpoint, sev: 'warning', msg: `Identify '${i.name}' menunjuk endpoint '${i.opts.endpoint}' yang tidak ada`, hint: 'Samakan dengan nama section type=endpoint.' }); });
+    return { mode: 'pjsip', accounts, order, diags, transports, auths: by.auth, aors: by.aor };
+  }
+
+  /* ------------------------------ extensions.conf & voicemail.conf ------------------------------ */
   function parseExt(text) {
     const diags = [], contexts = {}, ctxOrder = [], general = { static: 'yes', writeprotect: 'no', autofallthrough: 'yes' }, globals = {};
     let sec = null, ctx = null, lastExt = null, lastPrio = 0;
-    const lines = text.split(/\r?\n/);
-    lines.forEach((raw, idx) => {
+    text.split(/\r?\n/).forEach((raw, idx) => {
       const ln = idx + 1, line = stripComment(raw);
       if (!line) return;
       const m = line.match(/^\[([^\]]*)\]\s*(\(!?\))?\s*$/);
@@ -277,7 +408,7 @@
       }
       if (low === 'globals') {
         const kv = line.match(/^([A-Za-z0-9_]+)\s*=>?\s*(.*)$/);
-        if (!kv) { diags.push({ file: 'extensions.conf', line: ln, sev: 'error', msg: `Baris tidak dikenali di [globals]: '${line}'`, hint: 'Format: NAMA=nilai, misalnya OPERATOR=SIP/101.' }); return; }
+        if (!kv) { diags.push({ file: 'extensions.conf', line: ln, sev: 'error', msg: `Baris tidak dikenali di [globals]: '${line}'`, hint: 'Format: NAMA=nilai, misalnya OPERATOR=PJSIP/101.' }); return; }
         globals[kv[1]] = kv[2].trim();
         return;
       }
@@ -315,14 +446,14 @@
         prio = lastPrio + 1;
       }
       const label = pm[2] || null;
-      if (!appRaw) { diags.push({ file: 'extensions.conf', line: ln, sev: 'error', msg: `No application specified for extension '${ext}' priority ${prio}`, hint: 'Setelah prioritas, tulis aplikasi yang dijalankan, misalnya Answer() atau Dial(SIP/101,20).' }); return; }
+      if (!appRaw) { diags.push({ file: 'extensions.conf', line: ln, sev: 'error', msg: `No application specified for extension '${ext}' priority ${prio}`, hint: 'Setelah prioritas, tulis aplikasi yang dijalankan, misalnya Answer() atau Dial(PJSIP/101,20).' }); return; }
       const am = appRaw.match(/^([A-Za-z][A-Za-z0-9_]*)\s*(?:\(([\s\S]*)\)?)?$/);
       if (!am) { diags.push({ file: 'extensions.conf', line: ln, sev: 'error', msg: `Aplikasi tidak bisa dibaca: '${appRaw}'`, hint: 'Format aplikasi: Nama(argumen), misalnya Playback(hello-world).' }); return; }
       const app = am[1];
       let args = '';
       if (appRaw.includes('(')) {
         const open = appRaw.indexOf('(');
-        if (!appRaw.trim().endsWith(')')) diags.push({ file: 'extensions.conf', line: ln, sev: 'warning', msg: `Kurung tutup ')' tidak ada pada ${app}`, hint: 'Lengkapi kurung, misalnya Dial(SIP/102,20).' });
+        if (!appRaw.trim().endsWith(')')) diags.push({ file: 'extensions.conf', line: ln, sev: 'warning', msg: `Kurung tutup ')' tidak ada pada ${app}`, hint: 'Lengkapi kurung, misalnya Dial(PJSIP/102,20).' });
         args = appRaw.slice(open + 1).replace(/\)\s*$/, '');
       }
       const appName = APPS.find(a => a.toLowerCase() === app.toLowerCase()) || REAL_APPS.find(a => a.toLowerCase() === app.toLowerCase()) || app;
@@ -371,17 +502,28 @@
   }
 
   /* ------------------------------ server ------------------------------ */
+  // files: { mode: 'pjsip' | 'sip', acc: isi pjsip.conf/sip.conf, ext, vm }
   function load(files) {
-    const sip = parseSip(files.sip || ''), ext = parseExt(files.ext || ''), vm = parseVm(files.vm || '');
-    const diags = [...sip.diags, ...ext.diags, ...vm.diags];
-    sip.order.forEach(n => {
-      const p = sip.peers[n];
-      if (p.type && p.type !== 'peer' && !ext.contexts[p.context]) {
+    const mode = files.mode === 'sip' ? 'sip' : 'pjsip';
+    const acc = mode === 'sip' ? parseSip(files.acc || '') : parsePjsip(files.acc || '');
+    const ext = parseExt(files.ext || ''), vm = parseVm(files.vm || '');
+    const diags = [...acc.diags, ...ext.diags, ...vm.diags];
+    const F = MODES[mode].file;
+    acc.order.forEach(n => {
+      const p = acc.accounts[n];
+      if (p.kind === 'phone' && !ext.contexts[p.context]) {
         const s = suggest(p.context, ext.ctxOrder);
-        diags.push({ file: 'sip.conf', line: p.optLine.context || p.line, sev: 'warning', msg: `Context '${p.context}' untuk akun ${n} tidak ada di extensions.conf`, hint: `Semua panggilan dari ${n} akan ditolak 404 Not Found.${s ? ` Mungkin maksudnya "${s}"?` : ''}` });
+        diags.push({ file: F, line: p.optLine.context || p.line, sev: 'warning', msg: `Context '${p.context}' untuk akun ${n} tidak ada di extensions.conf`, hint: `Semua panggilan dari ${n} akan ditolak 404 Not Found.${s ? ` Mungkin maksudnya "${s}"?` : ''}` });
       }
     });
-    return { sip, ext, vm, diags, vmCount: {}, chanSeq: 0, regs: {} };
+    // kanal Dial harus sesuai modul SIP yang dipakai server
+    ext.ctxOrder.forEach(c => ext.contexts[c].extOrder.forEach(e => Object.values(ext.contexts[c].exts[e].prios).forEach(P => {
+      if (P.app !== 'Dial') return;
+      const plain = P.args.replace(/PJSIP\//gi, '');
+      if (mode === 'pjsip' && /(^|[^A-Za-z])SIP\//i.test(plain)) diags.push({ file: 'extensions.conf', line: P.line, sev: 'warning', msg: `Dial memakai SIP/... padahal server memakai PJSIP`, hint: 'Asterisk 21 tidak punya chan_sip. Tulis PJSIP/101, dan untuk trunk PJSIP/nomor@nama-trunk.' });
+      if (mode === 'sip' && /PJSIP\//i.test(P.args)) diags.push({ file: 'extensions.conf', line: P.line, sev: 'warning', msg: `Dial memakai PJSIP/... padahal akun ada di sip.conf`, hint: 'Mode chan_sip: tulis SIP/101, dan untuk trunk SIP/nama-trunk/nomor.' });
+    })));
+    return { mode, tech: MODES[mode].tech, file: F, acc, ext, vm, diags, vmCount: {}, chanSeq: 0, regs: {} };
   }
 
   // Satu jalankan (register atau panggilan) menghasilkan daftar kejadian untuk animasi.
@@ -398,37 +540,75 @@
 
   function register(server, dev) {
     const R = new Run(server, { A: dev.label, S: 'Asterisk ' + SERVER_IP });
-    const uri = `'"${dev.user}" <sip:${dev.user}@${dev.server}>'`;
+    const PJ = server.mode === 'pjsip';
+    const from = `'"${dev.user}" <sip:${dev.user}@${dev.server}>'`;
+    const out = (ok, code, text) => { if (!ok) delete server.regs[dev.user]; return { ok, code, text, events: R.ev, cols: R.cols }; };
     R.sip('A', 'S', 'REGISTER', 'req', `sip:${dev.server} · user ${dev.user}`);
-    if (String(dev.server).trim() !== SERVER_IP) {
+    if (String(dev.server).trim() !== SERVER_IP || (PJ && !server.acc.transports.length)) {
       R.sip('A', 'S', 'REGISTER (ulang)', 'lost', 'tidak ada jawaban');
-      R.note(`Tidak ada server SIP di ${dev.server}. Softphone menampilkan "Request Timeout (408)". Periksa isian server/domain: alamat Asterisk adalah ${SERVER_IP}.`, 'bad');
-      delete server.regs[dev.user];
-      return { ok: false, code: 408, text: 'Request Timeout', events: R.ev, cols: R.cols };
+      R.note(String(dev.server).trim() !== SERVER_IP
+        ? `Tidak ada server SIP di ${dev.server}. Softphone menampilkan "Request Timeout (408)". Periksa isian server/domain: alamat Asterisk adalah ${SERVER_IP}.`
+        : 'pjsip.conf tidak punya section type=transport, jadi Asterisk tidak mendengarkan port 5060. Softphone menampilkan "Request Timeout (408)".', 'bad');
+      return out(false, 408, 'Request Timeout');
+    }
+    const p = server.acc.accounts[dev.user];
+    if (PJ) {
+      const failPj = (why, code, text, hint) => {
+        R.cli(`res_pjsip/pjsip_distributor.c: Request 'REGISTER' from ${from} failed for '${dev.ip}:5060' (callid: ${callid()}) - ${why}`, 'notice');
+        R.sip('S', 'A', `${code} ${text}`, 'err');
+        R.note(hint, 'bad');
+        return out(false, code, text);
+      };
+      if (!p) return failPj('No matching endpoint found', 401, 'Unauthorized', `Tidak ada endpoint [${dev.user}] di pjsip.conf. Periksa username di softphone atau buat section type=endpoint bernama ${dev.user}, lalu Muat ulang.`);
+      if (!aclAllows(p.acl, dev.ip)) return failPj('Not match Endpoint ACL', 403, 'Forbidden', `IP softphone ${dev.ip} ditolak aturan permit/deny endpoint ${dev.user}. Sesuaikan permit=..., atau pakai perangkat dari jaringan yang diizinkan.`);
+      if (p.secret !== null || (p.authName && !p.auth)) {
+        R.sip('S', 'A', '401 Unauthorized', 'prov', 'minta autentikasi (nonce)');
+        R.sip('A', 'S', 'REGISTER + Authorization', 'req', 'username & password di-hash');
+        if (p.authName && !p.auth) return failPj('Failed to authenticate', 401, 'Unauthorized', `Endpoint ${dev.user} menunjuk auth=${p.authName}, tetapi section type=auth bernama itu tidak ada.`);
+        if (p.authUser !== dev.user || p.secret !== dev.secret) return failPj('Failed to authenticate', 401, 'Unauthorized', p.authUser !== dev.user
+          ? `username di section auth (${p.authUser || 'kosong'}) tidak sama dengan username softphone (${dev.user}).`
+          : `Password di softphone tidak sama dengan password pada section type=auth milik ${dev.user} (huruf besar/kecil dibedakan).`);
+      }
+      if (!p.aor) {
+        R.cli(`res_pjsip_registrar.c: AOR '${p.aorName}' not found for endpoint '${dev.user}' (${dev.ip}:5060)`, 'warning');
+        R.sip('S', 'A', '404 Not Found', 'err');
+        R.note(`Endpoint ${dev.user} belum punya AOR. Tambahkan aors=${dev.user} di endpoint dan section [${dev.user}] dengan type=aor serta max_contacts=1.`, 'bad');
+        return out(false, 404, 'Not Found');
+      }
+      if (!p.canRegister || p.maxContacts < 1) {
+        R.cli(`res_pjsip_registrar.c: Registration attempt from endpoint '${dev.user}' (${dev.ip}:5060) to AOR '${p.aorName}' will fail as AOR has been configured to not allow registrations`, 'warning');
+        R.sip('S', 'A', '403 Forbidden', 'err');
+        R.note(p.canRegister ? `AOR ${p.aorName} belum mengizinkan registrasi. Tambahkan max_contacts=1 di section type=aor.` : `AOR ${p.aorName} memakai contact= tetap (trunk), jadi tidak menerima REGISTER.`, 'bad');
+        return out(false, 403, 'Forbidden');
+      }
+      R.sip('S', 'A', '200 OK', 'ok', 'terdaftar, expires 3600');
+      R.cli(`    -- Added contact 'sip:${dev.user}@${dev.ip}:5060' to AOR '${p.aorName}' with expiration of 3600 seconds`);
+      R.cli(`  == Endpoint ${dev.user} is now Reachable`);
+      R.note(`Endpoint ${dev.user} terdaftar. Kontaknya (${dev.ip}) disimpan di AOR ${p.aorName}, jadi sekarang ${dev.user} bisa dihubungi.`, 'ok');
+      server.regs[dev.user] = { ip: dev.ip, dev };
+      return out(true, 200, 'OK');
     }
     R.sip('S', 'A', '401 Unauthorized', 'prov', 'minta autentikasi (nonce)');
     R.sip('A', 'S', 'REGISTER + Authorization', 'req', 'username & password di-hash');
-    const p = server.sip.peers[dev.user];
     const fail = (why, hint) => {
-      R.cli(`chan_sip.c: Registration from ${uri} failed for '${dev.ip}:5060' - ${why}`, 'notice');
+      R.cli(`chan_sip.c: Registration from ${from} failed for '${dev.ip}:5060' - ${why}`, 'notice');
       R.sip('S', 'A', '403 Forbidden', 'err');
       R.note(hint, 'bad');
-      delete server.regs[dev.user];
-      return { ok: false, code: 403, text: 'Forbidden', events: R.ev, cols: R.cols };
+      return out(false, 403, 'Forbidden');
     };
-    if (!p || p.template) return fail('No matching peer found', `Akun [${dev.user}] tidak ada di sip.conf. Periksa username di softphone atau tambahkan akunnya, lalu Muat ulang.`);
+    if (!p) return fail('No matching peer found', `Akun [${dev.user}] tidak ada di sip.conf. Periksa username di softphone atau tambahkan akunnya, lalu Muat ulang.`);
     if (!p.type || p.type === 'user') return fail('Peer is not supposed to register', `Akun ${dev.user} harus type=friend agar bisa mendaftar dan dipanggil.`);
-    if (p.host !== 'dynamic') return fail('Peer is not supposed to register', `Akun ${dev.user} tidak memakai host=dynamic, jadi Asterisk tidak menerima REGISTER darinya. Untuk softphone, tulis host=dynamic.`);
+    if (!p.dynamic) return fail('Peer is not supposed to register', `Akun ${dev.user} tidak memakai host=dynamic, jadi Asterisk tidak menerima REGISTER darinya. Untuk softphone, tulis host=dynamic.`);
     if (!aclAllows(p.acl, dev.ip)) return fail('Device does not match ACL', `IP softphone ${dev.ip} ditolak aturan permit/deny akun ${dev.user}. Sesuaikan permit=..., atau pakai perangkat dari jaringan yang diizinkan.`);
     if ((p.secret || '') !== (dev.secret || '')) return fail('Wrong password', `Password di softphone tidak sama dengan secret akun ${dev.user} di sip.conf (huruf besar/kecil dibedakan).`);
     R.sip('S', 'A', '200 OK', 'ok', 'terdaftar, expires 3600');
     R.cli(`    -- Registered SIP '${dev.user}' at ${dev.ip}:5060`);
     R.note(`Akun ${dev.user} terdaftar. Asterisk sekarang tahu ${dev.user} bisa dihubungi di ${dev.ip}.`, 'ok');
     server.regs[dev.user] = { ip: dev.ip, dev };
-    return { ok: true, code: 200, text: 'OK', events: R.ev, cols: R.cols };
+    return out(true, 200, 'OK');
   }
 
-  function newChan(server, name) { server.chanSeq++; return `SIP/${name}-${hex8(server.chanSeq)}`; }
+  function newChan(server, name) { server.chanSeq++; return `${server.tech}/${name}-${hex8(server.chanSeq)}`; }
 
   function findExt(ext, ctxName, num, seen) {
     seen = seen || {};
@@ -519,6 +699,7 @@
   // opts.answer: 'answer' | 'busy' | 'noanswer' (perilaku telepon tujuan); opts.dtmf: digit yang ditekan saat menu.
   function call(server, dev, num, opts) {
     opts = opts || {};
+    const PJ = server.mode === 'pjsip';
     const R = new Run(server, { A: dev.label, S: 'Asterisk', B: null });
     num = String(num).trim();
     const reg = server.regs[dev.user];
@@ -528,18 +709,21 @@
       return out('notreg', { code: 0, text: 'Belum terdaftar' });
     }
     if (!num) { R.note('Nomor tujuan masih kosong.', 'bad'); return out('empty', { code: 0, text: 'Nomor kosong' }); }
-    const p = server.sip.peers[dev.user];
+    const p = server.acc.accounts[dev.user];
     R.sip('A', 'S', `INVITE sip:${num}@${SERVER_IP}`, 'req', 'SDP: ' + dev.codecs.join(', '));
-    R.sip('S', 'A', '407 Proxy Authentication Required', 'prov', 'minta autentikasi');
-    R.sip('A', 'S', 'ACK', 'req');
-    R.sip('A', 'S', 'INVITE + Proxy-Authorization', 'req');
     if (!p) {
-      R.sip('S', 'A', '403 Forbidden', 'err');
-      R.note(`Akun ${dev.user} sudah tidak ada di sip.conf (mungkin dihapus lalu dimuat ulang).`, 'bad');
-      return out('fail', { code: 403, text: 'Forbidden' });
+      R.sip('S', 'A', PJ ? '401 Unauthorized' : '403 Forbidden', 'err');
+      R.note(`Akun ${dev.user} sudah tidak ada di ${server.file} (mungkin dihapus lalu dimuat ulang).`, 'bad');
+      return out('fail', { code: PJ ? 401 : 403, text: PJ ? 'Unauthorized' : 'Forbidden' });
+    }
+    if (p.secret !== null) {
+      R.sip('S', 'A', PJ ? '401 Unauthorized' : '407 Proxy Authentication Required', 'prov', 'minta autentikasi');
+      R.sip('A', 'S', 'ACK', 'req');
+      R.sip('A', 'S', PJ ? 'INVITE + Authorization' : 'INVITE + Proxy-Authorization', 'req');
     }
     if (!aclAllows(p.acl, dev.ip)) {
-      R.cli(`chan_sip.c: Failed to authenticate device "${p.cidName}" <sip:${dev.user}@${SERVER_IP}> for INVITE, code = -1`, 'notice');
+      if (PJ) R.cli(`res_pjsip/pjsip_distributor.c: Request 'INVITE' from '"${p.cidName}" <sip:${dev.user}@${SERVER_IP}>' failed for '${dev.ip}:5060' (callid: ${callid()}) - Not match Endpoint ACL`, 'notice');
+      else R.cli(`chan_sip.c: Failed to authenticate device "${p.cidName}" <sip:${dev.user}@${SERVER_IP}> for INVITE, code = -1`, 'notice');
       R.sip('S', 'A', '403 Forbidden', 'err');
       R.note(`IP ${dev.ip} ditolak aturan permit/deny akun ${dev.user}.`, 'bad');
       return out('fail', { code: 403, text: 'Forbidden' });
@@ -547,28 +731,30 @@
     const common = dev.codecs.filter(c => p.codecs.includes(c));
     if (!common.length) {
       R.sip('S', 'A', '100 Trying', 'prov');
-      R.cli('chan_sip.c: No compatible codecs, not accepting this offer!', 'notice');
+      if (PJ) R.cli(`res_pjsip_sdp_rtp.c: No joint capabilities for 'audio' media stream between our configuration(${p.codecs.join('|') || 'nothing'}) and incoming SDP(${dev.codecs.join('|')})`, 'notice');
+      else R.cli('chan_sip.c: No compatible codecs, not accepting this offer!', 'notice');
       R.sip('S', 'A', '488 Not Acceptable Here', 'err', 'codec tidak cocok');
       R.sip('A', 'S', 'ACK', 'req');
-      R.note(`Codec softphone (${dev.codecs.join(', ')}) tidak ada yang diizinkan akun ${dev.user} (${p.codecs.join(', ') || 'kosong'}). Samakan pengaturan allow= di sip.conf dengan codec softphone.`, 'bad');
+      R.note(`Codec softphone (${dev.codecs.join(', ')}) tidak ada yang diizinkan akun ${dev.user} (${p.codecs.join(', ') || 'kosong'}). Samakan allow= di ${server.file} dengan codec softphone.`, 'bad');
       return out('fail', { code: 488, text: 'Not Acceptable Here', reason: 'codec' });
     }
     const codec = common[0];
     const ctxName = p.context;
     const found = findExt(server.ext, ctxName, num);
     if (!found) {
-      R.cli(`chan_sip.c: Call from '${dev.user}' (${dev.ip}:5060) to extension '${num}' rejected because extension not found in context '${ctxName}'.`, 'notice');
+      R.cli(PJ ? `res_pjsip_session.c: Call from '${dev.user}' (UDP:${dev.ip}:5060) to extension '${num}' rejected because extension not found in context '${ctxName}'.`
+        : `chan_sip.c: Call from '${dev.user}' (${dev.ip}:5060) to extension '${num}' rejected because extension not found in context '${ctxName}'.`, 'notice');
       R.sip('S', 'A', '404 Not Found', 'err');
       R.sip('A', 'S', 'ACK', 'req');
       R.note(server.ext.contexts[ctxName]
         ? `Nomor ${num} tidak ada di context [${ctxName}] (tempat akun ${dev.user} memanggil). Tambahkan extension atau pattern yang cocok, lalu Muat ulang.`
-        : `Context [${ctxName}] milik akun ${dev.user} tidak ada di extensions.conf. Samakan nama context di sip.conf dan extensions.conf.`, 'bad');
+        : `Context [${ctxName}] milik akun ${dev.user} tidak ada di extensions.conf. Samakan nama context di ${server.file} dan extensions.conf.`, 'bad');
       return out('fail', { code: 404, text: 'Not Found', reason: 'noext' });
     }
     R.sip('S', 'A', '100 Trying', 'prov');
-    R.cli(`  == Using SIP RTP CoS mark 5`);
+    if (!PJ) R.cli(`  == Using SIP RTP CoS mark 5`);
     const ch = { name: newChan(server, dev.user), uid: String(Date.now()).slice(-10) + '.' + server.chanSeq, exten: num, context: found.ctx, prio: 1,
-      vars: {}, cidName: p.cidName, cidNum: p.cidNum, answered: false, codec, bridged: null, cause: 16, dtmf: String(opts.dtmf || '').replace(/[^0-9*#]/g, ''), log: {} };
+      vars: {}, cidName: p.cidName, cidNum: p.cidNum, answered: false, codec, cause: 16, dtmf: String(opts.dtmf || '').replace(/[^0-9*#]/g, '') };
     const res = { vm: null, played: [], dialstatus: '', answeredBy: null, echo: false, conf: null };
     const answer = () => {
       if (ch.answered) return;
@@ -612,9 +798,9 @@
       if (timeoutSec === null) return 'next';
       R.cli(`    -- Timeout on ${ch.name}, continuing...`);
       const t = server.ext.contexts[cur.ctx] && server.ext.contexts[cur.ctx].exts.t;
-      if (timeoutSec !== null && t) { jump({ ctx: cur.ctx, E: t, prio: 1, exten: 't' }); return 'jump'; }
-      if (timeoutSec !== null) { R.note('Tidak ada digit yang ditekan dan tidak ada extension t (timeout), panggilan diputus.'); return 'hangup'; }
-      return 'next';
+      if (t) { jump({ ctx: cur.ctx, E: t, prio: 1, exten: 't' }); return 'jump'; }
+      R.note('Tidak ada digit yang ditekan dan tidak ada extension t (timeout), panggilan diputus.');
+      return 'hangup';
     };
 
     while (!ended && steps++ < 120) {
@@ -631,7 +817,6 @@
       R.cli(`    -- Executing [${ch.exten}@${cur.ctx}:${cur.prio}] ${P.app}("${ch.name}", "${args}") in new stack`);
       const A = P.app;
       const a = splitArgs(args).map(x => x.trim());
-      let next = 'next';
       if (!APPS.includes(A)) {
         if (REAL_APPS.includes(A)) { R.note(`${A}() dilewati (belum didukung simulator).`); }
         else {
@@ -684,9 +869,9 @@
         R.note(`Penelepon masuk ruang konferensi ${res.conf} dan menunggu peserta lain.`, 'ok');
         hangupCaller(); spawnExit(); ended = true; endHow = 'conf'; break;
       } else if (A === 'Busy') {
-        ch.cause = 17; R.sip('S', 'A', '486 Busy Here', 'err'); R.sip('A', 'S', 'ACK', 'req'); ended = true; endHow = 'busy'; res.sentFinal = true; break;
+        ch.cause = 17; R.sip('S', 'A', '486 Busy Here', 'err'); R.sip('A', 'S', 'ACK', 'req'); ended = true; endHow = 'busy'; break;
       } else if (A === 'Congestion') {
-        ch.cause = 34; R.sip('S', 'A', '503 Service Unavailable', 'err'); R.sip('A', 'S', 'ACK', 'req'); ended = true; endHow = 'congestion'; res.sentFinal = true; break;
+        ch.cause = 34; R.sip('S', 'A', '503 Service Unavailable', 'err'); R.sip('A', 'S', 'ACK', 'req'); ended = true; endHow = 'congestion'; break;
       } else if (A === 'Hangup') {
         if (a[0] && /^\d+$/.test(a[0])) ch.cause = +a[0];
         spawnExit(); ended = true; endHow = 'hangup'; break;
@@ -741,10 +926,10 @@
           }
         }
       } else if (A === 'Dial') {
-        const r = doDial(server, R, ch, a, opts, res, answer);
+        const r = doDial(server, R, ch, a, opts, res);
         if (r === 'bridged') { spawnExit(); ended = true; endHow = 'bridged'; break; }
       }
-      if (next === 'next') cur.prio++;
+      cur.prio++;
     }
     if (steps >= 120) { R.note('Dialplan berputar terus (lebih dari 120 langkah). Periksa Goto yang saling menunjuk.', 'bad'); }
     if (endHow && !['bridged', 'echo', 'conf', 'vm', 'vmmain', 'busy', 'congestion'].includes(endHow)) hangupCaller();
@@ -760,62 +945,65 @@
       dialstatus: res.dialstatus, answeredBy: res.answeredBy, vm: res.vm, codec, channel: ch.name, played: res.played, echo: res.echo, conf: res.conf, endHow });
   }
 
-  function doDial(server, R, ch, a, opts, res, answerCaller) {
+  function doDial(server, R, ch, a, opts, res) {
+    const PJ = server.mode === 'pjsip', TECH = server.tech;
     const targets = (a[0] || '').split('&').map(s => s.trim()).filter(Boolean);
     const timeout = a[1] ? +a[1] : 0;
-    if (!targets.length) { R.cli('app_dial.c: Dial requires an argument (technology/resource)', 'warning'); res.dialstatus = 'CHANUNAVAIL'; ch.vars.DIALSTATUS = 'CHANUNAVAIL'; return 'fail'; }
+    const fail = (cause) => { R.cli(`  == Everyone is busy/congested at this time (${targets.length}:0/0/${targets.length})`); res.dialstatus = ch.vars.DIALSTATUS = 'CHANUNAVAIL'; ch.cause = cause || 20; return 'fail'; };
+    if (!targets.length) { R.cli('app_dial.c: Dial requires an argument (technology/resource)', 'warning'); return fail(); }
     const ok = [];
     targets.forEach(t => {
-      const m = t.match(/^(SIP|PJSIP|IAX2|DAHDI|Local)\/([^/]+)(?:\/(.*))?$/i);
-      if (!m) { R.cli(`app_dial.c: Dial argument takes format (technology/resource)`, 'warning'); R.note(`Target "${t}" salah format. Contoh: SIP/102 atau SIP/trunk-pstn/${'${EXTEN:1}'}.`, 'bad'); return; }
-      const tech = m[1].toUpperCase(), name = m[2], numOut = m[3];
-      if (tech !== 'SIP') {
+      const m = t.match(/^(SIP|PJSIP|IAX2|DAHDI|Local)\/(.+)$/i);
+      if (!m) { R.cli(`app_dial.c: Dial argument takes format (technology/resource)`, 'warning'); R.note(`Target "${t}" salah format. Contoh: ${TECH}/102.`, 'bad'); return; }
+      const tech = m[1].toUpperCase();
+      if (tech !== TECH) {
         R.cli(`app_dial.c: Unable to create channel of type '${m[1]}' (cause 66 - Channel not implemented)`, 'warning');
-        R.note(tech === 'PJSIP' ? 'Simulator ini memakai chan_sip, jadi tulis SIP/... (PJSIP/... dipakai di Asterisk 21 ke atas dengan pjsip.conf).' : `Teknologi ${m[1]} tidak tersedia di simulator.`, 'bad');
+        R.note(tech === 'SIP' && PJ ? 'Asterisk 21 tidak punya chan_sip, jadi kanal SIP/... tidak ada. Tulis PJSIP/102, dan untuk trunk PJSIP/nomor@nama-trunk.'
+          : tech === 'PJSIP' && !PJ ? 'Mode chan_sip: akun ditulis di sip.conf, jadi kanalnya SIP/102 (trunk: SIP/nama-trunk/nomor).'
+            : `Teknologi ${m[1]} tidak tersedia di simulator.`, 'bad');
         return;
       }
-      const p = server.sip.peers[name];
-      if (!p || p.template) {
-        R.cli(`chan_sip.c: Unable to find peer '${name}'`, 'notice');
-        R.cli(`app_dial.c: Unable to create channel of type 'SIP' (cause 3 - No route to destination)`, 'warning');
-        R.note(`Akun SIP "${name}" tidak ada di sip.conf.${suggest(name, server.sip.order) ? ` Mungkin maksudnya ${suggest(name, server.sip.order)}?` : ''}`, 'bad');
+      let name, numOut;
+      if (PJ) { const at = m[2].split('@'); if (at.length > 1) { numOut = at[0]; name = at[1]; } else name = at[0].split('/')[0]; }
+      else { const sl = m[2].split('/'); name = sl[0]; numOut = sl[1]; }
+      const p = server.acc.accounts[name];
+      if (!p) {
+        if (PJ) R.cli(`chan_pjsip.c: Unable to create PJSIP channel with endpoint '${name}' as it does not exist`, 'error');
+        else R.cli(`chan_sip.c: Unable to find peer '${name}'`, 'notice');
+        R.cli(`app_dial.c: Unable to create channel of type '${TECH}' (cause 3 - No route to destination)`, 'warning');
+        R.note(`Akun "${name}" tidak ada di ${server.file}.${suggest(name, server.acc.order) ? ` Mungkin maksudnya ${suggest(name, server.acc.order)}?` : ''}`, 'bad');
         return;
       }
-      if (p.host === 'dynamic') {
+      if (p.kind === 'phone') {
         const rg = server.regs[name];
         if (!rg) {
-          R.cli(`app_dial.c: Unable to create channel of type 'SIP' (cause 20 - Subscriber absent)`, 'warning');
+          R.cli(`app_dial.c: Unable to create channel of type '${TECH}' (cause 20 - Subscriber absent)`, 'warning');
           R.note(`Akun ${name} belum terdaftar (softphone-nya mati atau belum login), jadi tidak bisa dihubungi.`, 'bad');
           return;
         }
         const dcodecs = rg.dev.codecs.filter(c => p.codecs.includes(c));
-        if (!dcodecs.length) { R.cli(`chan_sip.c: No compatible codecs for peer '${name}'`, 'notice'); R.note(`Codec softphone ${name} tidak cocok dengan allow= akunnya.`, 'bad'); return; }
+        if (!dcodecs.length) { R.cli(`${PJ ? 'res_pjsip_sdp_rtp.c' : 'chan_sip.c'}: No compatible codecs for '${name}'`, 'notice'); R.note(`Codec softphone ${name} tidak cocok dengan allow= akunnya.`, 'bad'); return; }
         const bc = dcodecs.includes(ch.codec) ? ch.codec : dcodecs[0];
         if (bc !== ch.codec && !(TRANSCODE.includes(bc) && TRANSCODE.includes(ch.codec))) {
-          R.cli(`channel.c: No path to translate from ${ch.name} to SIP/${name}`, 'warning');
+          R.cli(`channel.c: No path to translate from ${ch.name} to ${TECH}/${name}`, 'warning');
           R.note(`Codec ${ch.codec} dan ${bc} tidak bisa diterjemahkan (g729 butuh lisensi). Samakan codec kedua akun.`, 'bad');
           return;
         }
-        ok.push({ name, label: rg.dev.label + ' (' + name + ')', codec: bc, trunk: false, peer: p, dev: rg.dev });
-      } else if (p.host) {
-        if (!numOut && p.type === 'peer') R.note(`Dial ke trunk ${name} tanpa nomor tujuan. Biasanya ditulis SIP/${name}/\${EXTEN}.`, 'bad');
-        ok.push({ name, label: 'Penyedia SIP ' + p.host, codec: p.codecs.includes(ch.codec) ? ch.codec : p.codecs[0], trunk: true, numOut: numOut || '', peer: p });
+        ok.push({ name, label: rg.dev.label + ' (' + name + ')', codec: bc, trunk: false, dev: rg.dev });
+      } else if (p.kind === 'trunk') {
+        if (!numOut) R.note(PJ ? `Dial ke trunk ${name} tanpa nomor tujuan. Tulis PJSIP/\${EXTEN}@${name}.` : `Dial ke trunk ${name} tanpa nomor tujuan. Tulis SIP/${name}/\${EXTEN}.`, 'bad');
+        ok.push({ name, label: 'Penyedia SIP ' + p.host, codec: p.codecs.includes(ch.codec) ? ch.codec : p.codecs[0], trunk: true, numOut: numOut || '', host: p.host });
       } else {
-        R.cli(`app_dial.c: Unable to create channel of type 'SIP' (cause 3 - No route to destination)`, 'warning');
-        R.note(`Akun ${name} tidak punya host, jadi Asterisk tidak tahu ke mana harus menghubungi.`, 'bad');
+        R.cli(`app_dial.c: Unable to create channel of type '${TECH}' (cause 3 - No route to destination)`, 'warning');
+        R.note(PJ ? `Endpoint ${name} tidak punya AOR, jadi Asterisk tidak tahu ke mana harus menghubungi.` : `Akun ${name} tidak punya host, jadi Asterisk tidak tahu ke mana harus menghubungi.`, 'bad');
       }
     });
-    if (!ok.length) {
-      R.cli(`  == Everyone is busy/congested at this time (${targets.length}:0/0/${targets.length})`);
-      res.dialstatus = ch.vars.DIALSTATUS = 'CHANUNAVAIL'; ch.cause = 20;
-      return 'fail';
-    }
+    if (!ok.length) return fail(20);
     R.cols.B = ok.length === 1 ? ok[0].label : ok.map(o => o.name).join(' & ');
     ok.forEach(o => {
-      const chB = newChan(server, o.name);
-      o.chan = chB;
-      R.sip('S', 'B', `INVITE sip:${o.trunk ? (o.numOut || '?') + '@' + o.peer.host : o.name + '@' + o.dev.ip}`, 'req', 'SDP: ' + o.codec);
-      R.cli(`    -- Called SIP/${o.name}${o.trunk && o.numOut ? '/' + o.numOut : ''}`);
+      o.chan = newChan(server, o.name);
+      R.sip('S', 'B', `INVITE sip:${o.trunk ? (o.numOut || '?') + '@' + o.host : o.name + '@' + o.dev.ip}`, 'req', 'SDP: ' + o.codec);
+      R.cli(`    -- Called ${TECH}/${PJ && o.trunk && o.numOut ? o.numOut + '@' + o.name : o.name + (!PJ && o.trunk && o.numOut ? '/' + o.numOut : '')}`);
       R.sip('B', 'S', '100 Trying', 'prov');
     });
     const beh = opts.answer || 'answer';
@@ -836,7 +1024,6 @@
         ok.forEach(() => { R.sip('S', 'B', 'CANCEL', 'req'); R.sip('B', 'S', '200 OK', 'ok'); R.sip('B', 'S', '487 Request Terminated', 'err'); R.sip('S', 'B', 'ACK', 'req'); });
         R.sip('S', 'A', '487 Request Terminated', 'err'); R.sip('A', 'S', 'ACK', 'req');
         res.dialstatus = ch.vars.DIALSTATUS = 'CANCEL';
-        res.sentFinal = true;
         return 'bridged';
       }
       R.cli(`    -- Nobody picked up in ${timeout * 1000} ms`);
@@ -867,39 +1054,95 @@
   }
 
   /* ------------------------------ CLI ------------------------------ */
-  function cli(server, cmd) {
-    const c = cmd.trim().replace(/\s+/g, ' ');
-    const lc = c.toLowerCase();
-    const pad = (s, n) => String(s).padEnd(n);
-    if (!c) return '';
-    if (lc === 'help' || lc === '?') return [
-      'Perintah yang tersedia di simulator:',
-      '  sip show peers          daftar akun SIP dan statusnya',
-      '  sip show peer <nama>    rincian satu akun',
-      '  dialplan show [context] isi dialplan',
-      '  voicemail show users    daftar kotak suara',
-      '  core show channels      panggilan yang sedang aktif',
-      '  sip reload / dialplan reload / core reload'].join('\n');
-    if (lc === 'sip show peers') {
-      const rows = server.sip.order.filter(n => !server.sip.peers[n].template).map(n => {
-        const p = server.sip.peers[n], rg = server.regs[n];
-        const host = rg ? rg.ip : p.host === 'dynamic' ? '(Unspecified)' : (p.host || '(Unspecified)');
-        return pad(n + (rg ? '/' + n : ''), 26) + pad(host, 18) + pad(p.host === 'dynamic' ? 'D' : '', 4) + pad(p.acl.length ? 'A' : '', 4) + pad(rg ? 5060 : 0, 7) + (p.host === 'dynamic' ? (rg ? 'OK (Unmonitored)' : 'UNKNOWN') : 'Unmonitored');
+  const pad = (s, n) => String(s).padEnd(n);
+  const hash = s => { let h = 7; for (const c of s) h = (h * 31 + c.charCodeAt(0)) >>> 0; return h.toString(16).padStart(8, '0').slice(0, 10); };
+  function cliPjsip(server, lc, c) {
+    const A = server.acc, acc = A.order.map(n => A.accounts[n]);
+    const contact = p => server.regs[p.name] ? `sip:${p.name}@${server.regs[p.name].ip}:5060` : p.kind === 'trunk' ? (p.aor.opts.contact || '') : '';
+    if (lc === 'pjsip show endpoints') {
+      const rows = [];
+      acc.forEach(p => {
+        const ct = contact(p);
+        rows.push(` Endpoint:  ${pad(p.name + (p.cidName !== p.name ? '/' + p.cidNum : '/' + p.name), 53)}${pad(ct ? 'Not in use' : 'Unavailable', 14)}0 of inf`);
+        if (p.auth) rows.push(`     InAuth:  ${p.auth.name}/${p.authUser}`);
+        if (p.aor) rows.push(`        Aor:  ${pad(p.aor.name, 49)}${p.maxContacts}`);
+        if (ct) rows.push(`      Contact:  ${pad(p.aorName + '/' + ct, 43)}${hash(ct)} ${p.kind === 'trunk' ? 'Unknown' : 'Avail  '}         nan`);
+        rows.push('');
       });
-      const on = rows.filter((_, i) => server.regs[server.sip.order[i]]).length;
-      return [pad('Name/username', 26) + pad('Host', 18) + pad('Dyn', 4) + pad('ACL', 4) + pad('Port', 7) + 'Status', ...rows,
-        `${rows.length} sip peers [Monitored: 0 online, 0 offline Unmonitored: ${Object.keys(server.regs).length} online, ${rows.length - Object.keys(server.regs).length} offline]`].join('\n');
+      return [' Endpoint:  <Endpoint/CID.....................................>  <State.....>  <Channels.>', '    I/OAuth:  <AuthId/UserName...........................................................>',
+        '        Aor:  <Aor............................................>  <MaxContact>', '      Contact:  <Aor/ContactUri..........................> <Hash....> <Status> <RTT(ms)..>',
+        '==========================================================================================', '', ...rows, acc.length ? `Objects found: ${acc.length}` : 'No objects found.'].join('\n');
     }
-    let m = lc.match(/^sip show peer (\S+)$/);
+    let m = lc.match(/^pjsip show endpoint (\S+)$/);
     if (m) {
-      const name = c.split(' ')[3], p = server.sip.peers[name];
+      const name = c.split(' ')[3], p = A.accounts[name];
+      if (!p) return `Unable to find object ${name}.`;
+      const ct = contact(p);
+      return [` Endpoint:  ${p.name}`, '', ` ParameterName                      : ParameterValue`, ' =============================================================================================',
+        ` aors                               : ${p.aorName || ''}`, ` auth                               : ${p.authName || ''}`, ` allow                              : (${p.codecs.join('|') || 'nothing'})`,
+        ` callerid                           : "${p.cidName}" <${p.cidNum}>`, ` context                            : ${p.context}`, ` deny                               : ${p.acl.filter(r => !r.permit).map(r => r.text).join(', ')}`,
+        ` permit                             : ${p.acl.filter(r => r.permit).map(r => r.text).join(', ')}`, '', ` Contact:  ${ct || '(tidak ada, endpoint belum terdaftar)'}`].join('\n');
+    }
+    if (lc === 'pjsip show contacts') {
+      const rows = acc.filter(p => contact(p)).map(p => `  Contact:  ${pad(p.aorName + '/' + contact(p), 43)}${hash(contact(p))} ${p.kind === 'trunk' ? 'Unknown' : 'Avail  '}         nan`);
+      return ['  Contact:  <Aor/ContactUri..........................> <Hash....> <Status> <RTT(ms)..>', '==========================================================================================', '', ...rows, '', rows.length ? `Objects found: ${rows.length}` : 'No objects found.'].join('\n');
+    }
+    if (lc === 'pjsip show aors') {
+      const rows = Object.values(A.aors).map(a => `      Aor:  ${pad(a.name, 49)}${parseInt(a.opts.max_contacts || '0', 10) || 0}`);
+      return ['      Aor:  <Aor..............................................>  <MaxContact>', '==========================================================================================', '', ...rows, '', rows.length ? `Objects found: ${rows.length}` : 'No objects found.'].join('\n');
+    }
+    if (lc === 'pjsip show auths') {
+      const rows = Object.values(A.auths).map(a => `       Auth:  ${a.name}/${a.opts.username || ''}`);
+      return ['       Auth:  <AuthId/UserName.............................................................>', '==========================================================================================', '', ...rows, '', rows.length ? `Objects found: ${rows.length}` : 'No objects found.'].join('\n');
+    }
+    if (lc === 'pjsip show transports') {
+      const rows = A.transports.map(t => `Transport:  ${pad(t.name, 22)}${pad(t.proto, 6)}0      0  ${t.bind}`);
+      return ['Transport:  <TransportId........>  <Type>  <cos>  <tos>  <BindAddress....................>', '==========================================================================================', '', ...rows, '', rows.length ? `Objects found: ${rows.length}` : 'No objects found.'].join('\n');
+    }
+    if (lc === 'pjsip reload' || lc === 'module reload res_pjsip.so') return '__RELOAD__';
+    if (/^sip (show|reload)/.test(lc)) return `No such command '${c}' (type 'core show help sip' for other possible commands)\nAsterisk 21 tidak punya chan_sip. Pakai pjsip show endpoints atau pjsip show contacts.`;
+    return null;
+  }
+  function cliSip(server, lc, c) {
+    const A = server.acc;
+    if (lc === 'sip show peers') {
+      const names = A.order;
+      const rows = names.map(n => {
+        const p = A.accounts[n], rg = server.regs[n];
+        const host = rg ? rg.ip : p.dynamic ? '(Unspecified)' : (p.host || '(Unspecified)');
+        return pad(n + (rg ? '/' + n : ''), 26) + pad(host, 18) + pad(p.dynamic ? 'D' : '', 4) + pad(p.acl.length ? 'A' : '', 4) + pad(rg ? 5060 : 0, 7) + (p.dynamic ? (rg ? 'OK (Unmonitored)' : 'UNKNOWN') : 'Unmonitored');
+      });
+      const on = names.filter(n => server.regs[n]).length;
+      return [pad('Name/username', 26) + pad('Host', 18) + pad('Dyn', 4) + pad('ACL', 4) + pad('Port', 7) + 'Status', ...rows,
+        `${rows.length} sip peers [Monitored: 0 online, 0 offline Unmonitored: ${on} online, ${rows.length - on} offline]`].join('\n');
+    }
+    const m = lc.match(/^sip show peer (\S+)$/);
+    if (m) {
+      const name = c.split(' ')[3], p = A.accounts[name];
       if (!p) return `Peer ${name} not found.`;
       const rg = server.regs[name];
       return [`  * Name       : ${name}`, `  Secret       : ${p.secret ? '<Set>' : '<Not set>'}`, `  Context      : ${p.context}`, `  Callerid     : "${p.cidName}" <${p.cidNum}>`,
-        `  Type         : ${p.type || '(tidak diisi)'}`, `  Dynamic      : ${p.host === 'dynamic' ? 'Yes' : 'No'}`, `  ACL          : ${p.acl.length ? 'Yes (' + p.acl.map(r => (r.permit ? 'permit ' : 'deny ') + r.text).join(', ') + ')' : 'No'}`,
-        `  Addr->IP     : ${rg ? rg.ip + ':5060' : '(null)'}`, `  Codecs       : (${p.codecs.join('|') || 'nothing'})`, `  Status       : ${rg ? 'OK' : p.host === 'dynamic' ? 'UNKNOWN' : 'Unmonitored'}`].join('\n');
+        `  Type         : ${p.type || '(tidak diisi)'}`, `  Dynamic      : ${p.dynamic ? 'Yes' : 'No'}`, `  ACL          : ${p.acl.length ? 'Yes (' + p.acl.map(r => (r.permit ? 'permit ' : 'deny ') + r.text).join(', ') + ')' : 'No'}`,
+        `  Addr->IP     : ${rg ? rg.ip + ':5060' : '(null)'}`, `  Codecs       : (${p.codecs.join('|') || 'nothing'})`, `  Status       : ${rg ? 'OK' : p.dynamic ? 'UNKNOWN' : 'Unmonitored'}`].join('\n');
     }
-    m = c.match(/^dialplan show(?: (\S+))?$/i);
+    if (lc === 'sip reload') return '__RELOAD__';
+    if (/^pjsip show/.test(lc)) return 'No objects found.\n(Mode chan_sip: akun ditulis di sip.conf, jadi tidak ada endpoint PJSIP. Pakai sip show peers.)';
+    return null;
+  }
+  function cli(server, cmd) {
+    const c = cmd.trim().replace(/\s+/g, ' ');
+    const lc = c.toLowerCase();
+    if (!c) return '';
+    const PJ = server.mode === 'pjsip';
+    if (lc === 'help' || lc === '?') return [
+      'Perintah yang tersedia di simulator:',
+      ...(PJ ? ['  pjsip show endpoints       daftar endpoint dan statusnya', '  pjsip show endpoint <nama> rincian satu endpoint', '  pjsip show contacts        softphone yang sedang terdaftar', '  pjsip show aors / auths / transports', '  pjsip reload']
+        : ['  sip show peers          daftar akun SIP dan statusnya', '  sip show peer <nama>    rincian satu akun', '  sip reload']),
+      '  dialplan show [context]   isi dialplan', '  dialplan reload', '  voicemail show users      daftar kotak suara', '  core show channels        panggilan yang sedang aktif',
+      '  core show version         versi Asterisk', '  module show like chan_sip cek apakah modul chan_sip ada', '  core reload'].join('\n');
+    const own = PJ ? cliPjsip(server, lc, c) : cliSip(server, lc, c);
+    if (own !== null) return own;
+    const m = c.match(/^dialplan show(?: (\S+))?$/i);
     if (m) {
       const want = m[1] ? m[1].replace(/^@/, '') : null;
       const list = want ? [want] : server.ext.ctxOrder;
@@ -929,12 +1172,15 @@
       return [pad('Context', 11) + pad('Mbox', 8) + pad('User', 20) + 'NewMsg', ...rows, `${rows.length} voicemail users configured.`].join('\n');
     }
     if (lc === 'core show channels') return 'Channel              Location             State   Application(Data)\n0 active channels\n0 active calls\n(Simulator menjalankan satu panggilan sekaligus; lihat Diagram SIP untuk panggilan terakhir.)';
-    if (lc === 'sip reload' || lc === 'dialplan reload' || lc === 'core reload' || lc === 'reload' || lc === 'module reload') return '__RELOAD__';
-    if (lc === 'core show version') return 'Asterisk (simulator pembelajaran) built for web, mengikuti perilaku chan_sip';
-    if (/^(pjsip )/.test(lc)) return 'No such command \'' + c + '\' (simulator ini memakai chan_sip; coba sip show peers)';
-    const s = suggest(lc, ['sip show peers', 'dialplan show', 'core show channels', 'sip reload', 'dialplan reload', 'voicemail show users', 'help']);
+    if (lc === 'dialplan reload' || lc === 'core reload' || lc === 'reload' || lc === 'module reload') return '__RELOAD__';
+    if (lc === 'core show version') return PJ ? 'Asterisk 21.x (simulator pembelajaran) · SIP memakai PJSIP (pjsip.conf)' : 'Asterisk 18.x (simulator pembelajaran) · SIP memakai chan_sip (sip.conf), modul berstatus deprecated';
+    if (/^module show like chan_sip/.test(lc)) return PJ ? 'Module                         Description                              Use Count  Status      Support Level\n0 modules loaded\n(chan_sip sudah dihapus sejak Asterisk 21. Gunakan PJSIP.)'
+      : 'Module                         Description                              Use Count  Status      Support Level\nchan_sip.so                    Session Initiation Protocol (SIP)        0          Running     deprecated\n1 modules loaded';
+    const known = PJ ? ['pjsip show endpoints', 'pjsip show contacts', 'pjsip show aors', 'dialplan show', 'core show channels', 'pjsip reload', 'dialplan reload', 'voicemail show users', 'help']
+      : ['sip show peers', 'dialplan show', 'core show channels', 'sip reload', 'dialplan reload', 'voicemail show users', 'help'];
+    const s = suggest(lc, known);
     return `No such command '${c}' (type 'core show help ${c.split(' ')[0]}' for other possible commands)` + (s ? `\nMungkin maksudnya: ${s}` : '\nKetik help untuk daftar perintah.');
   }
 
-  window.AST = { SERVER_IP, CODECS, load, register, call, cli, matchPattern, tokenizePattern, parseSip, parseExt, parseVm, subst, evalExpr };
+  window.AST = { SERVER_IP, MODES, CODECS, load, register, call, cli, matchPattern, tokenizePattern, parseSip, parsePjsip, parseExt, parseVm, subst, evalExpr };
 })();

@@ -9,7 +9,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700;12..96,800&family=JetBrains+Mono:wght@400;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" media="print" onload="this.media='all'">
-<link rel="stylesheet" href="assets/style.css?v=1">
+<link rel="stylesheet" href="assets/style.css?v=2">
 </head>
 <body>
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
@@ -74,6 +74,7 @@
     <nav class="nav-group" aria-label="Evaluasi">
       <div class="nav-label">Evaluasi &amp; bantuan</div>
       <a class="nav-link" href="#asesmen"><span class="nav-ico"><svg><use href="#i-check"/></svg></span>Asesmen &amp; kuis</a>
+      <a class="nav-link" href="#kumpul"><span class="nav-ico"><svg><use href="#i-up"/></svg></span>Kumpulkan hasil</a>
       <a class="nav-link" href="#referensi"><span class="nav-ico"><svg><use href="#i-ref"/></svg></span>Glosarium &amp; cheat sheet</a>
     </nav>
   </aside>
@@ -105,7 +106,7 @@
       <div class="hero-demo">
         <div class="hero-send">
           <label class="field">Huruf yang dikirim<input type="text" id="hero-char" value="H" maxlength="1" autocomplete="off" aria-describedby="hero-bits"></label>
-          <div class="hero-bits"><span class="small muted">Kode ASCII (8 bit)</span><b class="mono" id="hero-bits">01001000</b></div>
+          <div class="hero-bits"><span class="small muted">Kode ASCII (7 bit, disimpan 1 byte)</span><b class="mono" id="hero-bits">01001000</b></div>
         </div>
         <svg class="media3" id="hero-media" viewBox="0 0 360 214" role="img" aria-label="Bit yang sama dikirim melalui kabel tembaga, gelombang radio, dan serat optik">
           <text class="m3-lab" x="6" y="14">Kabel tembaga · tegangan naik-turun</text>
@@ -120,7 +121,7 @@
           <g id="hero-fo"></g>
           <line id="hero-cursor" class="m3-cursor" x1="6" y1="20" x2="6" y2="212"/>
         </svg>
-        <p class="small muted">Satu huruf dikirim sebagai 8 bit. Kabel tembaga membawanya sebagai pulsa tegangan, Wi-Fi sebagai perubahan gelombang radio (di sini digambarkan sebagai modulasi amplitudo), dan serat optik sebagai cahaya yang menyala-padam. Ganti hurufnya untuk melihat polanya berubah.</p>
+        <p class="small muted">ASCII standar memakai 7 bit (kode 0–127). Komputer menyimpannya dalam 1 byte (8 bit) dengan menambahkan 0 di depan, jadi satu huruf dikirim sebagai 8 bit. Kabel tembaga membawanya sebagai pulsa tegangan, Wi-Fi sebagai perubahan gelombang radio (di sini digambarkan sebagai modulasi amplitudo), dan serat optik sebagai cahaya yang menyala-padam. Ganti hurufnya untuk melihat polanya berubah.</p>
       </div>
     </div>
 
@@ -136,7 +137,7 @@
       <div class="grid">
         <div class="card"><h3>Baca, lalu langsung coba</h3><p class="muted small">Hampir setiap subbab punya simulasi: sinyal digital/analog, hierarki telepon, CDMA, pola pancar antena, jitter buffer, sampai pantulan cahaya di serat optik.</p></div>
         <div class="card"><h3>Lab kabel RJ45</h3><p class="muted small">Susun 8 warna kabel sesuai T568A/T568B, crimp, lalu uji dengan LAN tester virtual. Kesalahan seperti <i>split pair</i> ikut terdeteksi.</p></div>
-        <div class="card"><h3>Simulator VoIP Asterisk</h3><p class="muted small">Tulis <code>sip.conf</code> dan <code>extensions.conf</code>, daftarkan softphone, lalu lakukan panggilan. Log CLI dan diagram pesan SIP muncul seperti di server sungguhan.</p></div>
+        <div class="card"><h3>Simulator VoIP Asterisk</h3><p class="muted small">Tulis <code>pjsip.conf</code> dan <code>extensions.conf</code>, daftarkan softphone, lalu lakukan panggilan. Log CLI dan diagram pesan SIP muncul seperti di server sungguhan.</p></div>
         <div class="card"><h3>Kalkulator &amp; kuis</h3><p class="muted small">Subnet IPv4, bandwidth VoIP, <i>link budget</i> FTTH, kuis 36 soal, studi kasus perbaikan konfigurasi, dan rubrik praktik untuk guru.</p></div>
       </div>
     </section>
@@ -171,7 +172,7 @@
           <tr><th>Program keahlian</th><td>Teknik Jaringan Komputer dan Telekomunikasi (TJKT)</td></tr>
           <tr><th>Kelas / Fase</th><td>XI / Fase F (Kurikulum Merdeka)</td></tr>
           <tr><th>Mata pelajaran</th><td>Teknologi Jaringan Kabel dan Nirkabel (mata pelajaran konsentrasi keahlian)</td></tr>
-          <tr><th>Alokasi waktu</th><td>20 pertemuan (usulan): 18 pertemuan materi dan praktik, 2 pertemuan asesmen sumatif. Sesuaikan dengan alokasi JP di sekolah.</td></tr>
+          <tr><th>Alokasi waktu</th><td>20 pertemuan (usulan): 18 pertemuan materi dan praktik, 2 pertemuan asesmen sumatif. Bawaan 4 JP × 45 menit per pertemuan (80 JP); jumlah JP dapat diubah di <a href="#peta">Peta 20 pertemuan</a> sesuai alokasi sekolah.</td></tr>
           <tr><th>Prasyarat</th><td>Dasar-dasar TJKT kelas X: perangkat jaringan, pengalamatan IP, dan K3 kerja</td></tr>
           <tr><th>Sarana utama</th><td>Smartphone atau laptop dengan browser; untuk praktik fisik: kabel UTP, konektor RJ45, tang crimping, LAN tester, access point/wireless router, PC/VM Linux untuk Asterisk</td></tr>
           <tr><th>Model pembelajaran</th><td>Project Based Learning dan Problem Based Learning, dengan pola amati → coba di simulasi → praktik di perangkat → refleksi</td></tr>
@@ -181,43 +182,50 @@
 
     <section class="block">
       <h2>Capaian pembelajaran</h2>
-      <p>Pada akhir fase, peserta didik mampu memahami dan menerapkan teknologi jaringan kabel dan nirkabel, termasuk media transmisi tembaga dan serat optik, perangkat dan standar jaringan nirkabel, keamanan jaringan nirkabel, serta layanan suara berbasis IP (VoIP), sesuai standar industri.</p>
+      <p>Pada akhir fase, peserta didik mampu memahami dan menerapkan teknologi jaringan kabel dan nirkabel sesuai standar industri. Untuk mata pelajaran ini, capaian tersebut dirinci menjadi lima elemen:</p>
+      <ol class="list" type="A">
+        <li><b>Media transmisi kabel tembaga</b>: komunikasi data, jaringan telepon dan akses tembaga, kabel koaksial dan twisted pair.</li>
+        <li><b>Teknologi jaringan nirkabel</b>: elemen, protokol, teknik akses, tipe, dan standar.</li>
+        <li><b>Instalasi, keamanan, dan perawatan jaringan nirkabel</b>.</li>
+        <li><b>Layanan suara berbasis IP</b>: kualitas VoIP, softswitch, PBX, dan SIP pada Asterisk.</li>
+        <li><b>Jaringan serat optik</b>: prinsip, komponen, pengukuran, dan FTTH.</li>
+      </ol>
       <div class="callout"><b class="t">Sumber dan status rumusan CP</b>
         <p>Rumusan di atas adalah <b>ringkasan pengembang</b> untuk ruang lingkup mata pelajaran ini, bukan kutipan langsung dokumen resmi.</p>
-        <p>Dokumen acuan: Capaian Pembelajaran Program Keahlian Teknik Jaringan Komputer dan Telekomunikasi Fase F (SMK/MAK) dalam Keputusan Kepala BSKAP Kemendikbudristek Nomor 032/H/KR/2024 tentang Capaian Pembelajaran pada PAUD, Jenjang Pendidikan Dasar, dan Jenjang Pendidikan Menengah pada Kurikulum Merdeka.</p>
-        <p class="small muted">Rumusan CP dapat diperbarui. Sebelum dipakai, cocokkan dengan dokumen CP yang berlaku di sekolah (lihat <a href="https://kurikulum.kemdikbud.go.id/" target="_blank" rel="noopener">kurikulum.kemdikbud.go.id</a>), lalu sesuaikan TP bila perlu.</p>
+        <p>Dokumen acuan: Capaian Pembelajaran Program Keahlian Teknik Jaringan Komputer dan Telekomunikasi Fase F (SMK/MAK) dalam <b>Keputusan Kepala BSKAP Kemendikdasmen Nomor 046/H/KR/2025</b> tentang Capaian Pembelajaran pada Pendidikan Anak Usia Dini, Jenjang Pendidikan Dasar, dan Jenjang Pendidikan Menengah, yang menggantikan Nomor 032/H/KR/2024. Perubahan CP tahun 2026 hanya menyangkut Pendidikan Agama dan Budi Pekerti, sehingga mata pelajaran ini tetap mengacu pada keputusan tahun 2025.</p>
+        <p class="small muted">Sebelum dipakai, cocokkan rumusan elemen dengan naskah CP resmi yang berlaku di sekolah (lihat <a href="https://kurikulum.kemdikbud.go.id/" target="_blank" rel="noopener">kurikulum.kemdikbud.go.id</a>), lalu sesuaikan TP bila perlu.</p>
       </div>
     </section>
 
     <section class="block">
       <h2>Tujuan pembelajaran</h2>
       <ol class="list">
-        <li>Menjelaskan komponen komunikasi data, jenis sinyal, dan proses transmisi data.</li>
-        <li>Menganalisis jaringan telepon analog: hierarki sentral, PSTN, jaringan akses lokal, dan teknologi xDSL.</li>
-        <li>Membedakan kabel koaksial dan twisted pair, serta membuat kabel UTP <i>straight</i> dan <i>crossover</i> sesuai T568A/T568B.</li>
-        <li>Menjelaskan elemen, protokol, teknik akses, tipe, dan standar jaringan nirkabel.</li>
-        <li>Menginstalasi, mengonfigurasi, mengamankan, dan merawat perangkat nirkabel (access point, wireless router, bridge, repeater).</li>
-        <li>Menganalisis layanan VoIP: mekanisme paket, parameter kualitas (latency, delay, jitter, packet loss), codec, dan softswitch.</li>
-        <li>Mengonfigurasi server VoIP berbasis Asterisk: akun SIP, dialplan, dan extension, lalu menguji panggilan.</li>
-        <li>Menjelaskan teknologi serat optik dan menghitung kelayakan jaringan FTTH sederhana (<i>link budget</i>).</li>
+        <li>Menjelaskan komponen komunikasi data, jenis sinyal, dan proses transmisi data. <span class="tag">elemen A</span></li>
+        <li>Menganalisis jaringan telepon analog: hierarki sentral, PSTN, jaringan akses lokal, dan teknologi xDSL. <span class="tag">elemen A</span></li>
+        <li>Membedakan kabel koaksial dan twisted pair, serta membuat kabel UTP <i>straight</i> dan <i>crossover</i> sesuai T568A/T568B. <span class="tag">elemen A</span></li>
+        <li>Menjelaskan elemen, protokol, teknik akses, tipe, dan standar jaringan nirkabel. <span class="tag">elemen B</span></li>
+        <li>Menginstalasi, mengonfigurasi, mengamankan, dan merawat perangkat nirkabel (access point, wireless router, bridge, repeater). <span class="tag">elemen C</span></li>
+        <li>Menganalisis layanan VoIP: mekanisme paket, parameter kualitas (latency, delay satu arah, RTT, jitter, packet loss), codec, dan softswitch. <span class="tag">elemen D</span></li>
+        <li>Mengonfigurasi server VoIP Asterisk dengan PJSIP (endpoint, auth, aor), dialplan, dan extension, lalu menguji panggilan. <span class="tag">elemen D</span></li>
+        <li>Menjelaskan teknologi serat optik, melakukan pembersihan, penyambungan, dan pengukuran redaman, serta menghitung kelayakan jaringan FTTH (<i>link budget</i>). <span class="tag">elemen E</span></li>
       </ol>
     </section>
 
     <section class="block">
-      <h2>Hubungan TP, pertemuan, dan asesmen</h2>
-      <p class="small muted">Rincian tujuan, kegiatan, bukti kerja, kriteria keberhasilan, dan tindak lanjut setiap pertemuan ada di <a href="#peta">Peta 20 pertemuan</a>.</p>
+      <h2>Keselarasan CP, TP, kegiatan, dan asesmen</h2>
+      <p class="small muted">Rincian tujuan, JP, pembagian waktu, langkah, bukti kerja, dan kriteria setiap pertemuan ada di <a href="#peta">Peta 20 pertemuan</a>. Semua hasil siswa bisa direkap di <a href="#kumpul">Kumpulkan hasil</a>.</p>
       <div class="tbl-wrap">
         <table class="tbl">
-          <thead><tr><th>TP</th><th>Pertemuan</th><th>Bukti kerja</th><th>Asesmen di web ini</th></tr></thead>
+          <thead><tr><th>Elemen</th><th>TP</th><th>Pertemuan</th><th>Kegiatan inti</th><th>Bukti kerja</th><th>Asesmen</th></tr></thead>
           <tbody>
-            <tr><td>1</td><td>1</td><td>Diagram komunikasi data, gambar sinyal</td><td>Kuis Bab 1 no. 2, 4</td></tr>
-            <tr><td>2</td><td>2</td><td>Peta jalur telepon dari STO ke rumah</td><td>Kuis Bab 1 no. 3, 5</td></tr>
-            <tr><td>3</td><td>3</td><td>Kabel straight &amp; crossover yang lolos uji</td><td>Kuis Bab 1 no. 1, 6; Lab kabel RJ45; rubrik crimping</td></tr>
-            <tr><td>4</td><td>4–6</td><td>Tabel perbandingan standar, analisis skenario</td><td>Kuis Bab 2</td></tr>
-            <tr><td>5</td><td>7–9</td><td>Konfigurasi router/AP, laporan site survey</td><td>Kuis Bab 3; studi kasus Wi-Fi; rubrik konfigurasi AP</td></tr>
-            <tr><td>6</td><td>11–13</td><td>Perhitungan bandwidth &amp; analisis QoS</td><td>Kuis Bab 4; kalkulator VoIP</td></tr>
-            <tr><td>7</td><td>14–16</td><td>File konfigurasi Asterisk, uji panggilan</td><td>Kuis Bab 5; Perbaiki konfigurasi; rubrik instalasi VoIP</td></tr>
-            <tr><td>8</td><td>17–19</td><td>Perhitungan link budget FTTH</td><td>Kuis Bab 6; kalkulator serat optik; rubrik FTTH</td></tr>
+            <tr><td>A</td><td>1</td><td>1</td><td>Widget lima elemen, Lab sinyal, serial/paralel</td><td>Diagram komunikasi data; kode ASCII dan gambar sinyalnya</td><td>Kuis Bab 1 no. 2, 4</td></tr>
+            <tr><td>A</td><td>2</td><td>2</td><td>Simulasi hierarki, jalur JARLOKAT, spektrum ADSL, observasi lapangan</td><td>Peta jalur kabel STO sampai rumah</td><td>Kuis Bab 1 no. 3, 5</td></tr>
+            <tr><td>A</td><td>3</td><td>3</td><td>Lab kabel RJ45, crimping fisik, uji LAN tester</td><td>Kabel straight dan crossover yang lolos uji</td><td>Kuis Bab 1 no. 1, 6; rekap Lab RJ45; rubrik Crimping</td></tr>
+            <tr><td>B</td><td>4</td><td>4–6</td><td>OSI dan enkapsulasi, percobaan CDMA, latihan tipe dan standar</td><td>Tabel OSI–TCP/IP, perbandingan standar</td><td>Kuis Bab 2</td></tr>
+            <tr><td>C</td><td>5</td><td>7–9</td><td>Simulasi antena, konfigurasi router, site survey</td><td>Konfigurasi router, laporan site survey</td><td>Kuis Bab 3; Studi kasus 1–4; rubrik Konfigurasi Wi-Fi</td></tr>
+            <tr><td>D</td><td>6</td><td>11–13</td><td>Isi paket VoIP, jitter buffer, ukur RTT dengan ping, kalkulator MOS</td><td>Perhitungan bandwidth, analisis RTT dan delay satu arah</td><td>Kuis Bab 4; kalkulator VoIP</td></tr>
+            <tr><td>D</td><td>7</td><td>13–16</td><td>Simulator VoIP (PJSIP), konfigurasi Asterisk di lab</td><td>pjsip.conf, extensions.conf, log uji panggilan</td><td>Kuis Bab 5; Studi kasus 5–7; Perbaiki konfigurasi; rubrik Instalasi VoIP</td></tr>
+            <tr><td>E</td><td>8</td><td>17–19</td><td>Simulasi optik, LKPD 1–4 serat optik, kalkulator link budget</td><td>Tabel LKPD, perhitungan link budget, rancangan FTTH</td><td>Kuis Bab 6; LKPD; rubrik Praktik serat optik dan Perancangan FTTH</td></tr>
           </tbody>
         </table>
       </div>
@@ -290,7 +298,7 @@
           </tbody>
         </table>
       </div>
-      <div class="callout"><b class="t">Versi Asterisk</b><p>Materi Bab 4–5 memakai file <code>sip.conf</code> (modul <code>chan_sip</code>), seperti di slide. Modul ini dihapus sejak Asterisk 21. Di Asterisk baru, akun SIP ditulis di <code>pjsip.conf</code> dan nama kanal di dialplan menjadi <code>PJSIP/101</code>. Konsep context, extension, dan dialplan tidak berubah. Contoh padanannya ada di <a href="#referensi">Glosarium &amp; cheat sheet</a>.</p></div>
+      <div class="callout"><b class="t">Versi Asterisk</b><p>Praktik utama memakai <b>PJSIP</b> (<code>pjsip.conf</code>, kanal <code>PJSIP/101</code>). PJSIP tersedia sejak Asterisk 12 dan menjadi satu-satunya modul SIP di Asterisk 21 ke atas, sehingga langkahnya berlaku untuk server lab versi berapa pun yang masih didukung. Cek versi dengan <code>asterisk -V</code>.</p><p>Slide memakai <code>sip.conf</code> (modul <code>chan_sip</code>). Modul itu usang sejak Asterisk 17 dan dihapus di Asterisk 21. Langkahnya tetap disediakan terpisah di <a href="#s-5-4">Bab 5 · 5.4</a> untuk sekolah yang masih memakai server lama, dan padanan kedua file ada di <a href="#referensi">Glosarium &amp; cheat sheet</a>.</p></div>
     </section>
 
     <section class="block" id="s-offline">
@@ -314,7 +322,16 @@
       <h1>Peta 20 pertemuan</h1>
       <p class="lead">Setiap bab dibagi tiga pertemuan: konsep, konsep lanjutan, lalu praktik. Centang pertemuan yang sudah selesai; kemajuannya tampil di menu.</p>
     </div>
-    <div class="callout tip"><b class="t">Pola satu pertemuan</b><p>Apersepsi dan tujuan → penjelasan dengan simulasi di web ini → latihan atau praktik berpasangan → tiket keluar (kuis singkat atau bukti kerja) → refleksi.</p></div>
+    <div class="panel jp-panel">
+      <h3>Alokasi waktu</h3>
+      <div class="jp-row">
+        <label class="field">JP per pertemuan<input type="number" id="jp-per" min="1" max="12" value="4" inputmode="numeric"></label>
+        <label class="field">Menit per JP<select id="jp-min"><option value="45">45 menit</option><option value="40">40 menit</option><option value="35">35 menit</option><option value="30">30 menit</option></select></label>
+        <div class="stack jp-sum"><b id="jp-total"></b><span class="small muted" id="jp-note"></span></div>
+      </div>
+      <p class="small muted">Isi sesuai struktur kurikulum sekolah (misalnya JP mata pelajaran per minggu dibagi jumlah pertemuan per minggu). Setiap pertemuan menampilkan pembagian waktu dan langkah bernomor; buka "Rincian pertemuan".</p>
+    </div>
+    <div class="callout tip"><b class="t">Pola satu pertemuan</b><p>Teori + simulasi: pendahuluan 10% → konsep 25% → eksplorasi simulasi 35% → latihan & tiket keluar 20% → refleksi 10%. Praktik: pendahuluan & K3 10% → demonstrasi 15% → praktik 55% → uji & bukti kerja 10% → penutup 10%.</p></div>
     <div class="meet-list" id="meet-list"></div>
     <p class="small muted">Rencana ini usulan pengembang. Urutan dan jumlah pertemuan boleh disesuaikan dengan kalender sekolah dan ketersediaan alat.</p>
   </div>
@@ -576,7 +593,7 @@
       <h2>Kegiatan siswa</h2>
       <ul class="checklist">
         <li><label><input type="checkbox" data-save="k1a"><span>Pertemuan 1: gambar diagram komunikasi data saat mengirim chat, beri label kelima elemennya.</span></label></li>
-        <li><label><input type="checkbox" data-save="k1b"><span>Pertemuan 1: gambar sinyal digital untuk huruf awal namamu (8 bit ASCII) di buku, cocokkan dengan Lab sinyal.</span></label></li>
+        <li><label><input type="checkbox" data-save="k1b"><span>Pertemuan 1: tulis kode ASCII huruf awal namamu (7 bit, ditulis dalam 1 byte = 8 bit) lalu gambar sinyal digitalnya di buku, cocokkan dengan Lab sinyal.</span></label></li>
         <li><label><input type="checkbox" data-save="k1c"><span>Pertemuan 2: amati tiang/kotak telepon di sekitar rumah atau sekolah (RK, DP, KTB), foto lalu beri keterangan.</span></label></li>
         <li><label><input type="checkbox" data-save="k1d"><span>Pertemuan 3: lulus latihan straight dan crossover di Lab kabel RJ45, lalu buat kabel fisik dan uji dengan LAN tester.</span></label></li>
       </ul>
@@ -911,7 +928,7 @@
           <thead><tr><th>Gejala</th><th>Kemungkinan penyebab</th><th>Langkah perbaikan</th></tr></thead>
           <tbody>
             <tr><td>Klien terhubung Wi-Fi tetapi mendapat IP 169.254.x.x</td><td>DHCP server mati atau pool habis</td><td>Aktifkan DHCP server, perlebar pool, periksa masa sewa (<i>lease</i>)</td></tr>
-            <tr><td>Muncul pesan konflik alamat IP</td><td>Ada IP statis di dalam pool DHCP, atau DHCP mati sehingga pengguna mengisi IP manual</td><td>Periksa DHCP server dulu, keluarkan IP statis dari pool, gunakan reservasi DHCP</td></tr>
+            <tr><td>Muncul pesan konflik alamat IP</td><td>Dua perangkat memakai IP yang sama: biasanya IP statis (printer, CCTV) berada di dalam rentang pool DHCP, ada dua DHCP server di satu jaringan, atau pengguna mengisi IP manual yang sudah dipakai</td><td>Cari perangkat yang bentrok (daftar klien DHCP, tabel ARP dengan <code>arp -a</code>, atau ping alamat itu), keluarkan IP statis dari pool atau buat reservasi DHCP, matikan DHCP server kedua</td></tr>
             <tr><td>Sinyal penuh tetapi lambat</td><td>Kanal padat (interferensi), terlalu banyak klien</td><td>Pindah kanal hasil site survey, gunakan 5 GHz, tambah AP</td></tr>
             <tr><td>Sinyal hilang di ruangan tertentu</td><td>Jarak dan dinding</td><td>Pindahkan AP ke tengah, tambah repeater atau AP mesh</td></tr>
             <tr><td>Terhubung Wi-Fi tetapi tidak bisa internet</td><td>WAN putus, NAT mati, DNS salah</td><td>Cek status WAN, aktifkan NAT, periksa DNS</td></tr>
@@ -934,7 +951,7 @@
       <details class="reveal"><summary>Mengapa WPA2-PSK disarankan dibanding WEP?</summary><div><p>Karena algoritma enkripsinya: WPA2 memakai AES-CCMP yang kuat, sedangkan WEP memakai RC4 dengan kunci statis dan CRC-32 yang mudah dibobol.</p></div></details>
       <details class="reveal"><summary>Apa fungsi utama bridge pada jaringan?</summary><div><p>Menghubungkan dua segmen LAN sehingga bekerja seperti satu jaringan (satu subnet). Wireless bridge menghubungkan segmen itu lewat gelombang radio.</p></div></details>
       <details class="reveal"><summary>Pada mode wireless station, apakah perangkat memancarkan SSID?</summary><div><p>Tidak. Perangkat hanya menerima/terhubung ke AP lain sebagai klien, biasanya untuk koneksi point-to-point atau point-to-multipoint jarak jauh.</p></div></details>
-      <details class="reveal"><summary>Klien mengeluh konflik IP di Wi-Fi kantor. Apa yang pertama diperiksa?</summary><div><p>DHCP server: apakah aktif, apakah pool-nya cukup, dan apakah ada perangkat ber-IP statis yang alamatnya berada di dalam pool.</p></div></details>
+      <details class="reveal"><summary>Klien mengeluh konflik IP di Wi-Fi kantor. Apa yang pertama diperiksa?</summary><div><p>Perangkat mana saja yang memakai alamat IP yang sama. Lihat daftar klien DHCP dan tabel ARP, lalu periksa apakah ada perangkat ber-IP statis yang alamatnya berada di dalam rentang pool DHCP, atau ada DHCP server kedua di jaringan.</p></div></details>
     </section>
 
     <nav class="pager"><a href="#bab2"><small>Sebelumnya</small>Bab 2 · Jaringan nirkabel</a><a class="next" href="#bab4"><small>Berikutnya</small>Bab 4 · Instalasi VoIP</a></nav>
@@ -1001,6 +1018,14 @@
         <div class="card"><h3>Variable delay (berubah)</h3><ul class="list small"><li><b>Queueing delay</b>: antrean sebelum paket ditransmisikan.</li><li><b>Jitter buffer delay</b>: waktu tambahan yang sengaja diberikan untuk menstabilkan variasi kedatangan paket.</li></ul></div>
       </div>
       <p><b>Jitter</b> adalah variasi waktu kedatangan antarpaket di penerima. <b>Packet loss</b> terjadi ketika sebagian paket hilang, misalnya karena penumpukan data (<i>traffic overload</i>) sehingga paket terpaksa dibuang. Patokan umum (ITU-T G.114 dan praktik industri): delay satu arah ≤ 150 ms, jitter &lt; 30 ms, packet loss &lt; 1%.</p>
+      <div class="callout warn"><b class="t">Delay satu arah tidak sama dengan hasil ping</b>
+        <p><code>ping</code> menampilkan <b>RTT</b> (<i>round-trip time</i>): waktu paket pergi ke tujuan <b>dan kembali</b>. Batas 150 ms dari ITU-T G.114 berlaku untuk <b>delay satu arah</b> dari mulut pembicara ke telinga pendengar.</p>
+        <ul class="list small">
+          <li>Perkiraan kasar: delay jaringan satu arah ≈ RTT ÷ 2, <b>hanya</b> jika jalur pergi dan pulang sama (simetris). Pada banyak jaringan, jalurnya tidak simetris.</li>
+          <li>Delay mulut ke telinga = delay jaringan satu arah + delay codec dan paketisasi (misalnya 20–30 ms) + jitter buffer (misalnya 40 ms). Contoh: RTT 120 ms → jaringan ±60 ms → total ±60 + 25 + 40 = 125 ms.</li>
+          <li>Variasi RTT di antara beberapa ping memberi gambaran kasar jitter. Pengukuran jitter yang sebenarnya diambil dari laporan RTCP atau statistik panggilan di softphone/Asterisk.</li>
+        </ul>
+      </div>
       <div class="widget" id="w-jitter">
         <div class="widget-title">Jitter buffer: menunggu sebentar agar suara mulus <span class="tag mask">simulasi</span></div>
         <svg class="jit" id="jt-svg" viewBox="0 0 360 150" role="img" aria-label="Waktu kirim, waktu tiba, dan waktu putar paket"></svg>
@@ -1075,12 +1100,14 @@
         <table class="tbl">
           <thead><tr><th>File</th><th>Isi</th></tr></thead>
           <tbody>
-            <tr><td><code>sip.conf</code> / <code>pjsip.conf</code></td><td>Akun SIP (extension), password, codec, context</td></tr>
+            <tr><td><code>pjsip.conf</code></td><td>Akun SIP: transport, endpoint (aturan panggilan, codec, context), auth (password), aor (alamat softphone)</td></tr>
             <tr><td><code>extensions.conf</code></td><td>Dialplan: apa yang terjadi saat sebuah nomor dihubungi</td></tr>
             <tr><td><code>voicemail.conf</code></td><td>Kotak suara dan PIN-nya</td></tr>
+            <tr><td><code>sip.conf</code> (lama)</td><td>Akun SIP untuk modul <code>chan_sip</code>. Usang sejak Asterisk 17 dan dihapus di Asterisk 21; hanya ditemui di server lama</td></tr>
           </tbody>
         </table>
       </div>
+      <div class="callout"><b class="t">Mengapa PJSIP?</b><p>Slide memakai <code>sip.conf</code>. Modul tersebut (<code>chan_sip</code>) sudah dihapus dari Asterisk 21, jadi praktik di web ini memakai <b>PJSIP</b> (<code>pjsip.conf</code>, kanal <code>PJSIP/101</code>) yang tersedia sejak Asterisk 12 dan menjadi bawaan semua versi yang masih didukung. Langkah untuk server lama tetap disediakan terpisah di Bab 5.</p></div>
       <div class="btn-row"><a class="btn btn-primary small" href="#voip"><svg><use href="#i-call"/></svg>Buka Simulator VoIP Asterisk</a></div>
     </section>
 
@@ -1088,7 +1115,7 @@
       <h2>Kegiatan siswa</h2>
       <ul class="checklist">
         <li><label><input type="checkbox" data-save="k4a"><span>Pertemuan 11: hitung bandwidth 10 panggilan G.711 dan G.729 di Kalkulator VoIP, bandingkan hasilnya.</span></label></li>
-        <li><label><input type="checkbox" data-save="k4b"><span>Pertemuan 12: ukur ping dan jitter ke server (misalnya dengan aplikasi tes kecepatan), tentukan apakah layak untuk VoIP.</span></label></li>
+        <li><label><input type="checkbox" data-save="k4b"><span>Pertemuan 12: ukur RTT dengan <code>ping</code> 20 kali ke server, catat rata-rata dan variasinya, perkirakan delay satu arah, lalu tentukan apakah layak untuk VoIP.</span></label></li>
         <li><label><input type="checkbox" data-save="k4c"><span>Pertemuan 13: pasang Asterisk di PC/VM lab (atau jalankan Simulator VoIP), daftarkan 2 softphone dan lakukan panggilan.</span></label></li>
       </ul>
     </section>
@@ -1174,10 +1201,10 @@ autofallthrough=yes
 
 [globals]
 ; variabel global, bisa dipakai di semua context
-OPERATOR=SIP/101
+OPERATOR=PJSIP/101
 
 [internal]
-exten => 101,1,Dial(SIP/101,20)
+exten => 101,1,Dial(PJSIP/101,20)
 exten => 101,2,Hangup()
 
 exten => 500,1,Answer()
@@ -1221,7 +1248,7 @@ exten => 500,1,Answer()
       <div class="snippet" data-file="extensions.conf" data-code="[internal]
 ; semua extension 101-199 memakai satu baris pattern
 exten => _1XX,1,NoOp(Panggilan ke ${EXTEN})
- same => n,Dial(SIP/${EXTEN},20)
+ same => n,Dial(PJSIP/${EXTEN},20)
  same => n,VoiceMail(${EXTEN}@default)
  same => n,Hangup()
 
@@ -1257,15 +1284,57 @@ exten => 600,1,Answer()
           </tbody>
         </table>
       </div>
-      <h3>Tahapan membangun jaringan berbasis SIP</h3>
-      <ol class="list">
-        <li>Pasang server Asterisk dan pastikan alamat IP-nya tetap (statis).</li>
-        <li>Buat akun SIP untuk setiap extension di <code>sip.conf</code> (atau <code>pjsip.conf</code>).</li>
-        <li>Tulis dialplan di <code>extensions.conf</code>.</li>
-        <li>Muat ulang konfigurasi: <code>sip reload</code> dan <code>dialplan reload</code> di CLI Asterisk.</li>
-        <li>Daftarkan softphone dengan username, password, dan IP server; cek dengan <code>sip show peers</code>.</li>
-        <li>Uji panggilan antar-extension dan baca log CLI bila gagal.</li>
-      </ol>
+      <h3>Langkah praktik membangun jaringan SIP</h3>
+      <p>Langkah utama memakai <b>PJSIP</b> (<code>pjsip.conf</code>), yang wajib di Asterisk 21 ke atas dan sudah tersedia di Asterisk 16, 18, dan 20. Cek dulu versi server di lab:</p>
+      <div class="snippet" data-file="terminal Linux / CLI Asterisk" data-norun="1" data-code="asterisk -V                        ; dari terminal: menampilkan versi
+asterisk -rvvv                     ; masuk ke CLI Asterisk
+core show version                  ; di CLI: versi Asterisk
+module show like chan_sip          ; 0 modules loaded = chan_sip tidak ada"></div>
+      <div class="practice">
+        <h3>Asterisk 21 ke atas (PJSIP) · jalur utama</h3>
+        <ol class="list">
+          <li>Pasang Asterisk dan beri server IP statis (di contoh: 192.168.1.5).</li>
+          <li>Buka <code>/etc/asterisk/pjsip.conf</code>. Buat satu section <code>type=transport</code> (protocol=udp, bind=0.0.0.0:5060).</li>
+          <li>Untuk setiap extension, buat tiga section bernama sama: <code>type=endpoint</code> (context, allow, auth, aors), <code>type=auth</code> (username, password), dan <code>type=aor</code> (max_contacts=1).</li>
+          <li>Tulis dialplan di <code>extensions.conf</code> dengan kanal <code>PJSIP/101</code>; trunk ditulis <code>PJSIP/nomor@nama-trunk</code>.</li>
+          <li>Di CLI jalankan <code>module reload res_pjsip.so</code> (atau <code>pjsip reload</code>) dan <code>dialplan reload</code>.</li>
+          <li>Daftarkan softphone (username, password, server 192.168.1.5), lalu periksa dengan <code>pjsip show endpoints</code> dan <code>pjsip show contacts</code>.</li>
+          <li>Uji panggilan antar-extension, ke 500 (pengumuman), dan ke 600 (echo). Bila gagal, baca log CLI.</li>
+        </ol>
+      </div>
+      <div class="snippet" data-file="pjsip.conf" data-code="[transport-udp]
+type=transport
+protocol=udp
+bind=0.0.0.0:5060
+
+[101]
+type=endpoint
+context=internal
+disallow=all
+allow=ulaw,alaw,gsm
+auth=101
+aors=101
+callerid=&quot;Andi&quot; <101>
+
+[101]
+type=auth
+auth_type=userpass
+username=101
+password=rahasia101
+
+[101]
+type=aor
+max_contacts=1"></div>
+      <details class="reveal"><summary>Server lama: Asterisk 20 ke bawah yang masih memuat chan_sip</summary><div>
+        <p class="small">Pakai langkah ini hanya bila <code>module show like chan_sip</code> menampilkan <code>chan_sip.so</code> dan sekolah memang masih memakai server lama. Modul ini berstatus usang (deprecated) sejak Asterisk 17.</p>
+        <ol class="list small">
+          <li>Buat akun di <code>/etc/asterisk/sip.conf</code>: satu bagian per extension berisi <code>type=friend</code>, <code>host=dynamic</code>, <code>secret=…</code>, <code>context=internal</code>.</li>
+          <li>Di dialplan, kanalnya <code>SIP/101</code>; trunk ditulis <code>SIP/nama-trunk/nomor</code>.</li>
+          <li>Muat ulang dengan <code>sip reload</code> dan <code>dialplan reload</code>.</li>
+          <li>Periksa registrasi dengan <code>sip show peers</code>.</li>
+          <li>Uji panggilan seperti jalur utama. Di simulator, pilih mode <b>Asterisk ≤ 20 · chan_sip</b>.</li>
+        </ol>
+      </div></details>
       <div class="btn-row"><a class="btn btn-primary small" href="#voip"><svg><use href="#i-call"/></svg>Praktikkan di Simulator VoIP</a></div>
     </section>
 
@@ -1291,13 +1360,14 @@ exten => 600,1,Answer()
       <ul class="checklist">
         <li><label><input type="checkbox" data-save="k5a"><span>Pertemuan 14: rancang denah extension untuk sekolah (TU, BK, kepala sekolah, ruang guru) dan tentukan nomornya.</span></label></li>
         <li><label><input type="checkbox" data-save="k5b"><span>Pertemuan 15: tulis dialplan dengan pattern <code>_1XX</code>, voicemail, dan tes gema; uji di Simulator VoIP sampai semua panggilan berhasil.</span></label></li>
-        <li><label><input type="checkbox" data-save="k5c"><span>Pertemuan 16: terapkan konfigurasi yang sama di Asterisk lab, rekam layar <code>sip show peers</code> dan log panggilan.</span></label></li>
+        <li><label><input type="checkbox" data-save="k5c"><span>Pertemuan 16: terapkan konfigurasi yang sama di Asterisk lab, rekam layar <code>pjsip show endpoints</code>, <code>pjsip show contacts</code>, dan log panggilan.</span></label></li>
       </ul>
     </section>
 
     <section class="block">
       <h2>Latihan pemahaman</h2>
-      <details class="reveal"><summary>Server Asterisk hanya boleh menerima koneksi SIP dari IP tertentu. File apa yang diubah?</summary><div><p><code>sip.conf</code>, dengan opsi <code>deny=</code> dan <code>permit=</code> pada akun (peer). Di Asterisk baru, pembatasan ini diatur di <code>pjsip.conf</code> (ACL).</p></div></details>
+      <details class="reveal"><summary>Server Asterisk hanya boleh menerima koneksi SIP dari IP tertentu. File apa yang diubah?</summary><div><p><code>pjsip.conf</code>, dengan opsi <code>deny=</code> dan <code>permit=</code> pada section <code>type=endpoint</code> (atau section <code>type=acl</code>). Pada server lama chan_sip, opsi yang sama ditulis di akun dalam <code>sip.conf</code>.</p></div></details>
+      <details class="reveal"><summary>Softphone ditolak 403 dan log berbunyi "AOR has been configured to not allow registrations". Apa yang kurang?</summary><div><p>Section <code>type=aor</code> milik akun itu belum berisi <code>max_contacts=1</code>. Nilai bawaannya 0, artinya AOR menolak semua REGISTER.</p></div></details>
       <details class="reveal"><summary>Softphone berhasil register, tetapi gagal menelepon ke nomor luar. Apa yang diperiksa?</summary><div><p>Konfigurasi trunk keluar (outbound): apakah akun trunk ke penyedia ada dan aktif, dan apakah dialplan punya aturan (misalnya <code>_0X.</code>) yang mengarahkan nomor luar ke trunk tersebut.</p></div></details>
       <details class="reveal"><summary>Apa arti <code>exten => 101,2,Hangup()</code>?</summary><div><p>Untuk extension 101, langkah (prioritas) kedua adalah menutup panggilan.</p></div></details>
       <details class="reveal"><summary>Pattern <code>_NXX</code> cocok dengan nomor apa saja?</summary><div><p>Nomor tiga digit yang digit pertamanya 2–9 dan dua digit berikutnya 0–9, yaitu 200 sampai 999.</p></div></details>
@@ -1453,12 +1523,82 @@ exten => 600,1,Answer()
       </div>
     </section>
 
+    <section class="block" id="s-6-8">
+      <h2><span class="num">6.8</span>Praktik serat optik (LKPD)</h2>
+      <p>Empat lembar kerja untuk pertemuan 18 dan 19. Isi tabel langsung di sini: perhitungan dan status dibuat otomatis, hasilnya tersimpan di browser dan ikut terekap di <a href="#kumpul">Kumpulkan hasil</a>. Bila alat terbatas, tekan <b>Pakai contoh data</b> lalu analisis datanya.</p>
+      <div class="callout warn"><b class="t">K3 serat optik (berlaku untuk semua LKPD)</b>
+        <ul class="list small">
+          <li>Jangan pernah menatap ujung konektor, port light source, atau VFL. Cahaya laser 1.310/1.550 nm tidak terlihat tetapi bisa merusak retina. Periksa dengan OPM atau fiber scope, bukan dengan mata.</li>
+          <li>Pakai kacamata pelindung saat memotong serat. Potongan serat sangat tajam dan nyaris tak terlihat: kumpulkan dengan pinset ke wadah bertutup, alasi meja dengan alas gelap, jangan makan atau minum di meja kerja, cuci tangan setelah praktik.</li>
+          <li>Isopropil alkohol mudah terbakar: jauhkan dari api dan pemanas, pakai secukupnya, ruangan berventilasi.</li>
+          <li>Jangan membuka tutup fusion splicer saat busur listrik menyala; biarkan heater sleeve dingin sebelum disentuh.</li>
+        </ul>
+      </div>
+
+      <details class="lkpd" open><summary><b>LKPD 1</b> Pembersihan dan inspeksi konektor</summary><div class="lkpd-body">
+        <p><b>Tujuan:</b> membersihkan konektor serat optik dengan metode yang benar dan membuktikannya dengan inspeksi.</p>
+        <p><b>Alat dan bahan:</b> 4 patch cord (SC/UPC, SC/APC, LC/UPC), fiber scope/mikroskop inspeksi, pembersih klik (one-click cleaner) atau kaset pembersih, tisu bebas serat, isopropil alkohol ≥ 99%, stik pembersih adaptor, tutup debu.</p>
+        <ol class="list small">
+          <li>Pastikan patch cord tidak tersambung ke sumber cahaya aktif. Pasang kacamata.</li>
+          <li>Lepas tutup debu, inspeksi ujung konektor dengan fiber scope. Catat kondisinya.</li>
+          <li>Bersihkan dengan metode kering (pembersih klik atau kaset) satu kali usapan searah.</li>
+          <li>Inspeksi ulang. Bila masih kotor, pakai metode basah-kering: usap dengan tisu yang dibasahi sedikit alkohol, lalu segera usap di bagian tisu yang kering.</li>
+          <li>Inspeksi lagi, maksimal 3 kali pembersihan. Bila ada goresan di inti, tandai konektor untuk diganti.</li>
+          <li>Bersihkan juga lubang adaptor dengan stik pembersih sebelum konektor dicolok, lalu pasang tutup debu.</li>
+        </ol>
+        <div class="tbl-wrap"><table class="tbl lk-tbl" id="lk1"></table></div>
+        <p class="small"><b>Kriteria keberhasilan:</b> semua konektor diinspeksi sebelum dan sesudah dibersihkan; pada inspeksi akhir tidak ada kotoran di zona inti dan cladding (acuan IEC 61300-3-35); konektor bergores di inti ditandai ganti; tutup debu terpasang kembali.</p>
+      </div></details>
+
+      <details class="lkpd"><summary><b>LKPD 2</b> Penyambungan serat (fusion splicing)</summary><div class="lkpd-body">
+        <p><b>Tujuan:</b> menyambung dua serat dengan rugi sambungan sekecil mungkin.</p>
+        <p><b>Alat dan bahan:</b> fusion splicer, cleaver, stripper serat, tisu bebas serat dan alkohol, pelindung sambungan (sleeve), pigtail/kabel serat, wadah pecahan serat. Bila tidak ada splicer, praktik memakai sambungan mekanis atau fast connector (rugi umumnya ±0,3–0,5 dB) atau analisis contoh data.</p>
+        <ol class="list small">
+          <li>Masukkan sleeve pelindung ke salah satu serat.</li>
+          <li>Kupas coating ±3–4 cm dengan stripper.</li>
+          <li>Bersihkan serat telanjang dengan tisu beralkohol, sekali usap searah.</li>
+          <li>Potong dengan cleaver sesuai panjang yang diminta splicer (±10–16 mm). Buang sisa potongan ke wadah.</li>
+          <li>Pasang kedua serat di splicer. Periksa sudut potong di layar; bila lebih dari 1°, potong ulang.</li>
+          <li>Jalankan penyambungan dan catat estimasi rugi dari splicer.</li>
+          <li>Setelah uji tarik otomatis, geser sleeve ke titik sambungan dan panaskan di heater.</li>
+          <li>Ukur rugi sambungan dengan OPM (LKPD 3) atau OTDR bila ada, lalu catat.</li>
+        </ol>
+        <div class="tbl-wrap"><table class="tbl lk-tbl" id="lk2"></table></div>
+        <p class="small"><b>Kriteria keberhasilan:</b> sudut potong ≤ 1° di kedua serat; rugi sambungan ≤ 0,1 dB (target bengkel) dan tidak lebih dari 0,3 dB (batas TIA-568); sleeve terpasang dan dipanaskan; tidak ada pecahan serat tercecer.</p>
+      </div></details>
+
+      <details class="lkpd"><summary><b>LKPD 3</b> Pengukuran redaman dengan OPM dan light source</summary><div class="lkpd-body">
+        <p><b>Tujuan:</b> mengukur redaman link pada 1.310 dan 1.550 nm lalu membandingkannya dengan batas yang diizinkan.</p>
+        <p><b>Alat dan bahan:</b> light source 1.310/1.550 nm, optical power meter (OPM), 2 patch cord referensi, adaptor, link yang diuji (patch cord, kabel gulung, atau jalur di lab).</p>
+        <ol class="list small">
+          <li>Bersihkan semua konektor (LKPD 1). Nyalakan light source dan OPM, tunggu ±5 menit hingga stabil.</li>
+          <li>Pilih panjang gelombang yang sama di keduanya, mulai dari 1.310 nm.</li>
+          <li><b>Referensi:</b> sambungkan light source → patch cord referensi → OPM. Catat daya P<sub>ref</sub> (dBm) atau tekan tombol REF.</li>
+          <li>Sisipkan link yang diuji di antara patch cord referensi memakai adaptor. Catat daya terima P<sub>terima</sub>.</li>
+          <li>Redaman = P<sub>ref</sub> − P<sub>terima</sub> (dB). Ulangi untuk 1.550 nm.</li>
+          <li>Bandingkan dengan batas: panjang × redaman kabel + jumlah pasangan konektor × 0,75 dB + jumlah sambungan × 0,3 dB.</li>
+        </ol>
+        <div class="lk-ref" id="lk3-ref"></div>
+        <div class="tbl-wrap"><table class="tbl lk-tbl" id="lk3"></table></div>
+        <p class="small"><b>Kriteria keberhasilan:</b> referensi diambil sebelum mengukur; setiap link diukur pada dua panjang gelombang; redaman dan batas dihitung benar; kesimpulan Lulus/Gagal sesuai batas; link yang gagal dianalisis penyebabnya (lihat kolom Analisis).</p>
+      </div></details>
+
+      <details class="lkpd"><summary><b>LKPD 4</b> Analisis gangguan</summary><div class="lkpd-body">
+        <p><b>Tujuan:</b> menentukan penyebab dan lokasi gangguan dari data pengukuran, lalu menyusun langkah perbaikan.</p>
+        <p class="small">Tulis analisismu di setiap kotak (penyebab, lokasi, langkah perbaikan, cara membuktikan sudah beres), baru buka pembahasan.</p>
+        <div class="stack" id="lk4"></div>
+        <p class="small"><b>Kriteria keberhasilan:</b> penyebab dan lokasi gangguan ditentukan dari data, bukan tebakan; langkah perbaikan tepat dan aman; menyebut pengukuran ulang sebagai bukti.</p>
+      </div></details>
+      <div class="btn-row"><button class="btn btn-ghost small" type="button" id="lk-sample">Pakai contoh data (alat terbatas)</button><button class="btn btn-ghost small" type="button" id="lk-clear">Kosongkan tabel LKPD</button></div>
+    </section>
+
+
     <section class="block">
       <h2>Kegiatan siswa</h2>
       <ul class="checklist">
         <li><label><input type="checkbox" data-save="k6a"><span>Pertemuan 17: hitung sudut kritis untuk n₁ = 1,48 dan n₂ = 1,46, cocokkan dengan simulasi.</span></label></li>
-        <li><label><input type="checkbox" data-save="k6b"><span>Pertemuan 18: identifikasi patch cord di lab (singlemode/multimode, jenis konektor SC/LC, UPC/APC dari warnanya).</span></label></li>
-        <li><label><input type="checkbox" data-save="k6c"><span>Pertemuan 19: rancang jalur FTTH untuk satu perumahan dan buktikan link budget-nya layak di Kalkulator.</span></label></li>
+        <li><label><input type="checkbox" data-save="k6b"><span>Pertemuan 18: identifikasi patch cord di lab (singlemode/multimode, konektor SC/LC, UPC/APC dari warnanya), lalu kerjakan <a href="#s-6-8">LKPD 1</a> pembersihan &amp; inspeksi dan <a href="#s-6-8">LKPD 2</a> penyambungan.</span></label></li>
+        <li><label><input type="checkbox" data-save="k6c"><span>Pertemuan 19: kerjakan <a href="#s-6-8">LKPD 3</a> pengukuran OPM dan <a href="#s-6-8">LKPD 4</a> analisis gangguan, lalu rancang jalur FTTH satu perumahan dan buktikan link budget-nya layak di Kalkulator.</span></label></li>
       </ul>
     </section>
 
@@ -1539,14 +1679,19 @@ exten => 600,1,Answer()
       <div class="eyebrow">Alat praktik</div>
       <h1>Simulator VoIP Asterisk</h1>
       <p class="lead">Tulis konfigurasi Asterisk, tekan <b>Muat ulang</b>, daftarkan softphone, lalu lakukan panggilan. Log CLI dan diagram pesan SIP menunjukkan apa yang terjadi di server.</p>
+      <div class="mode-box">
+        <div class="field">Versi Asterisk yang disimulasikan<div class="seg" id="vp-mode" role="tablist" aria-label="Versi Asterisk"><button type="button" data-m="pjsip">Asterisk 21+ · PJSIP (utama)</button><button type="button" data-m="sip">Asterisk ≤ 20 · chan_sip (lama)</button></div></div>
+        <p class="small" id="vp-mode-note"></p>
+      </div>
       <details class="reveal"><summary>Fitur dan batasan simulator</summary><div>
-        <p class="small">Simulator ini meniru perilaku Asterisk dengan <code>chan_sip</code> untuk keperluan belajar, bukan server sungguhan. Yang didukung:</p>
+        <p class="small">Simulator ini meniru perilaku Asterisk untuk keperluan belajar, bukan server sungguhan. Yang didukung:</p>
         <ul class="list small">
-          <li><code>sip.conf</code>: <code>type</code>, <code>host</code>, <code>secret</code>, <code>context</code>, <code>callerid</code>, <code>allow</code>/<code>disallow</code>, <code>permit</code>/<code>deny</code>; bagian [general] untuk nilai bawaan.</li>
+          <li><code>pjsip.conf</code> (jalur utama): section <code>type=transport</code>, <code>type=endpoint</code> (<code>context</code>, <code>allow</code>/<code>disallow</code>, <code>auth</code>, <code>aors</code>, <code>callerid</code>, <code>permit</code>/<code>deny</code>, <code>outbound_auth</code>), <code>type=auth</code> (<code>username</code>, <code>password</code>), <code>type=aor</code> (<code>max_contacts</code>, <code>contact</code>), <code>type=identify</code>, serta template <code>[nama](!)</code>.</li>
+          <li><code>sip.conf</code> (jalur lama, chan_sip): <code>type</code>, <code>host</code>, <code>secret</code>, <code>context</code>, <code>callerid</code>, <code>allow</code>/<code>disallow</code>, <code>permit</code>/<code>deny</code>; bagian [general] untuk nilai bawaan.</li>
           <li><code>extensions.conf</code>: [general], [globals], context, <code>exten =&gt;</code>, <code>same =&gt;</code>, prioritas <code>n</code> dan label <code>n(nama)</code>, pattern <code>_XZN[]</code> <code>.</code> <code>!</code>, extension khusus <code>i</code> dan <code>h</code>, <code>include =&gt;</code>, variabel <code>${EXTEN}</code>, <code>${EXTEN:1}</code>, <code>${CALLERID(num)}</code>, <code>${DIALSTATUS}</code>.</li>
           <li>Aplikasi: Answer, Dial, Hangup, Playback, Background, Wait, Echo, VoiceMail, VoiceMailMain, Goto, GotoIf, Set, NoOp, Busy, Congestion, Ringing, SayDigits, ConfBridge.</li>
           <li><code>voicemail.conf</code>: kotak suara <code>nomor =&gt; PIN,nama</code>.</li>
-          <li>Perintah CLI: <code>sip show peers</code>, <code>dialplan show</code>, <code>core show channels</code>, <code>sip reload</code>, <code>dialplan reload</code>, <code>help</code>.</li>
+          <li>Perintah CLI: <code>pjsip show endpoints</code>, <code>pjsip show endpoint 101</code>, <code>pjsip show contacts</code>, <code>pjsip show aors</code>, <code>pjsip reload</code> (mode lama: <code>sip show peers</code>, <code>sip reload</code>), <code>dialplan show</code>, <code>core show version</code>, <code>module show like chan_sip</code>, <code>help</code>.</li>
         </ul>
         <p class="small">Tidak ada suara sungguhan; RTP digambarkan sebagai garis aliran media. Codec <code>ulaw</code>, <code>alaw</code>, <code>gsm</code> bisa saling diterjemahkan (transcoding), sedangkan <code>g729</code> harus sama di kedua sisi.</p>
       </div></details>
@@ -1562,7 +1707,7 @@ exten => 600,1,Answer()
         </div>
         <div class="editor">
           <div class="editor-head">
-            <div class="seg" id="vp-files" role="tablist" aria-label="File konfigurasi"><button type="button" class="on" data-f="sip">sip.conf</button><button type="button" data-f="ext">extensions.conf</button><button type="button" data-f="vm">voicemail.conf</button></div>
+            <div class="seg" id="vp-files" role="tablist" aria-label="File konfigurasi"><button type="button" class="on" data-f="acc">pjsip.conf</button><button type="button" data-f="ext">extensions.conf</button><button type="button" data-f="vm">voicemail.conf</button></div>
             <span class="grow"></span>
             <button class="btn btn-ghost small" type="button" id="vp-save"><svg><use href="#i-down"/></svg>Unduh</button>
             <button class="btn btn-ghost small" type="button" id="vp-open"><svg><use href="#i-up"/></svg>Buka file</button>
@@ -1598,7 +1743,7 @@ exten => 600,1,Answer()
           <div class="term" id="vp-cli" hidden>
             <div class="term-head"><span class="dot run"></span><span class="status">asterisk*CLI&gt;</span><button type="button" id="vp-cli-clear">Bersihkan</button></div>
             <pre class="term-out" id="vp-cli-out"></pre>
-            <form class="cli-in" id="vp-cli-form"><span>CLI&gt;</span><input type="text" id="vp-cli-in" placeholder="sip show peers" autocomplete="off" autocapitalize="off" spellcheck="false" aria-label="Perintah CLI Asterisk"><button type="submit">Kirim</button></form>
+            <form class="cli-in" id="vp-cli-form"><span>CLI&gt;</span><input type="text" id="vp-cli-in" placeholder="pjsip show endpoints" autocomplete="off" autocapitalize="off" spellcheck="false" aria-label="Perintah CLI Asterisk"><button type="submit">Kirim</button></form>
           </div>
         </div>
       </div>
@@ -1628,7 +1773,7 @@ exten => 600,1,Answer()
         <div class="tbl-wrap"><table class="tbl kv mono" id="ip-out"></table></div>
         <div class="bits" id="ip-bits"></div>
       </div>
-      <p class="small muted">Alamat network adalah alamat pertama (semua bit host 0) dan broadcast adalah alamat terakhir (semua bit host 1). Keduanya tidak boleh dipakai perangkat. Gateway biasanya alamat host pertama atau terakhir.</p>
+      <p class="small muted">Untuk prefix /30 atau lebih pendek, alamat network (semua bit host 0) dan broadcast (semua bit host 1) tidak dipakai perangkat, sehingga jumlah host = 2<sup>n</sup> − 2. Ada dua pengecualian: /31 untuk sambungan point-to-point memakai kedua alamatnya sebagai endpoint tanpa directed broadcast (RFC 3021), dan /32 menunjuk tepat satu host. Gateway biasanya alamat host pertama atau terakhir. Kalkulator juga mengenali alamat khusus seperti link-local (169.254.x.x), loopback, multicast, CGNAT, dan alamat dokumentasi.</p>
     </section>
 
     <section class="block tab-panel" id="k-voip" role="tabpanel">
@@ -1644,11 +1789,11 @@ exten => 600,1,Answer()
       </div>
       <div class="panel">
         <h3>Perkiraan kualitas (E-model sederhana)</h3>
-        <div class="range-row"><span class="small">Delay satu arah</span><input type="range" id="kv-d" min="20" max="500" step="10" value="120"><output id="kv-d-o">120 ms</output></div>
+        <div class="range-row"><span class="small" title="Bukan hasil ping. Ping = RTT (pergi-pulang).">Delay satu arah</span><input type="range" id="kv-d" min="20" max="500" step="10" value="120"><output id="kv-d-o">120 ms</output></div>
         <div class="range-row"><span class="small">Jitter</span><input type="range" id="kv-j" min="0" max="100" value="20"><output id="kv-j-o">20 ms</output></div>
         <div class="range-row"><span class="small">Packet loss</span><input type="range" id="kv-l" min="0" max="20" step="0.5" value="1"><output id="kv-l-o">1%</output></div>
         <div class="mos" id="kv-mos"></div>
-        <p class="small muted">Perkiraan memakai pendekatan E-model ITU-T G.107 yang disederhanakan (jitter dihitung sebagai tambahan delay jitter buffer). Hasilnya untuk membandingkan, bukan pengukuran resmi.</p>
+        <p class="small muted">Isi <b>delay satu arah</b> mulut ke telinga, bukan hasil ping. Ping menampilkan RTT (pergi-pulang); delay jaringan satu arah kira-kira RTT ÷ 2 bila jalurnya simetris, lalu tambahkan delay codec dan jitter buffer. Perkiraan memakai pendekatan E-model ITU-T G.107 yang disederhanakan (jitter dihitung sebagai tambahan delay jitter buffer). Hasilnya untuk membandingkan, bukan pengukuran resmi.</p>
       </div>
     </section>
 
@@ -1707,10 +1852,11 @@ exten => 600,1,Answer()
       <h2>Ringkasan asesmen</h2>
       <div class="grid">
         <a class="card tab-card" href="#s-kuis"><h3>Kuis</h3><p class="small muted">36 soal pilihan ganda Bab 1–6, termasuk soal sumatif dari slide, langsung dicek.</p></a>
-        <a class="card tab-card" href="#s-kasus"><h3>Studi kasus</h3><p class="small muted">6 kasus gangguan nyata. Pilih langkah pemeriksaan pertama dan baca alasannya.</p></a>
+        <a class="card tab-card" href="#s-kasus"><h3>Studi kasus</h3><p class="small muted">7 kasus gangguan nyata. Pilih langkah pemeriksaan pertama dan baca alasannya.</p></a>
         <a class="card tab-card" href="#s-debug"><h3>Perbaiki konfigurasi</h3><p class="small muted">4 konfigurasi Asterisk bermasalah untuk diperbaiki dan diuji otomatis.</p></a>
         <a class="card tab-card" href="#s-sumatif"><h3>Sumatif</h3><p class="small muted">Contoh soal uraian dan tugas praktik semester 1 dan 2.</p></a>
-        <a class="card tab-card" href="#s-rubrik"><h3>Rubrik praktik</h3><p class="small muted">Kalkulator nilai praktik untuk guru: crimping, Wi-Fi, VoIP, FTTH.</p></a>
+        <a class="card tab-card" href="#s-rubrik"><h3>Rubrik praktik</h3><p class="small muted">Kalkulator nilai praktik untuk guru: crimping, Wi-Fi, VoIP (PJSIP), serat optik, FTTH.</p></a>
+        <a class="card tab-card" href="#kumpul"><h3>Kumpulkan hasil</h3><p class="small muted">Rekap semua hasil siswa, unduh laporan, atau salin ringkasan untuk dikirim ke guru.</p></a>
       </div>
       <h3>Asesmen diagnostik (pertemuan 1)</h3>
       <ul class="list">
@@ -1759,11 +1905,11 @@ exten => 600,1,Answer()
       <p><b>Praktik:</b> membuat kabel straight dan crossover yang lolos uji LAN tester, lalu mengonfigurasi wireless router (SSID, WPA2-PSK, DHCP) dan menghubungkan dua klien. Nilai dengan rubrik "Crimping kabel UTP" dan "Konfigurasi Wi-Fi".</p>
       <h3>Semester 2 (pertemuan 20): Bab 4–6</h3>
       <details class="reveal"><summary>1. Hitung bandwidth satu panggilan G.711 dengan interval 20 ms di Ethernet.</summary><div><p>Payload 160 byte + RTP 12 + UDP 8 + IP 20 + Ethernet 18 = 218 byte. 50 paket per detik × 218 × 8 = 87,2 kbps per arah.</p></div></details>
-      <details class="reveal"><summary>2. Jelaskan arti setiap bagian dari <code>exten => _1XX,1,Dial(SIP/${EXTEN},20)</code>.</summary><div><p><code>_1XX</code>: pattern nomor 100–199. <code>1</code>: prioritas pertama. <code>Dial</code>: menghubungi kanal. <code>SIP/${EXTEN}</code>: akun SIP dengan nama sama seperti nomor yang ditekan. <code>20</code>: berdering maksimal 20 detik.</p></div></details>
+      <details class="reveal"><summary>2. Jelaskan arti setiap bagian dari <code>exten => _1XX,1,Dial(PJSIP/${EXTEN},20)</code>.</summary><div><p><code>_1XX</code>: pattern nomor 100–199. <code>1</code>: prioritas pertama. <code>Dial</code>: menghubungi kanal. <code>PJSIP/${EXTEN}</code>: endpoint PJSIP dengan nama sama seperti nomor yang ditekan (di server lama chan_sip ditulis <code>SIP/${EXTEN}</code>). <code>20</code>: berdering maksimal 20 detik.</p></div></details>
       <details class="reveal"><summary>3. Urutkan pesan SIP pada panggilan yang diangkat lalu ditutup.</summary><div><p>INVITE → 100 Trying → 180 Ringing → 200 OK → ACK → (RTP suara) → BYE → 200 OK.</p></div></details>
       <details class="reveal"><summary>4. Hitung sudut kritis untuk n₁ = 1,48 dan n₂ = 1,46.</summary><div><p>sin θc = 1,46 / 1,48 = 0,9865 → θc ≈ 80,6°.</p></div></details>
       <details class="reveal"><summary>5. Daya OLT +3 dBm, kabel 5 km (0,35 dB/km), splitter 1:4 (7,2 dB) dan 1:8 (10,5 dB), 4 konektor (0,25 dB), 6 splice (0,1 dB). Apakah layak untuk ONT bersensitivitas −27 dBm dengan margin 3 dB?</summary><div><p>Rugi total = 1,75 + 7,2 + 10,5 + 1 + 0,6 = 21,05 dB. Daya terima = 3 − 21,05 = −18,05 dBm. Batas = −27 + 3 = −24 dBm. −18,05 lebih kuat dari −24, jadi layak dengan sisa ±6 dB.</p></div></details>
-      <p><b>Praktik:</b> memasang Asterisk, membuat 3 extension, dialplan dengan voicemail dan tes gema, lalu menguji panggilan antar-softphone. Nilai dengan rubrik "Instalasi server VoIP".</p>
+      <p><b>Praktik:</b> memasang Asterisk, membuat 3 akun di <code>pjsip.conf</code> (endpoint, auth, aor), dialplan dengan voicemail dan tes gema, lalu menguji panggilan antar-softphone dan menunjukkan <code>pjsip show contacts</code>. Alternatif: pengukuran redaman dengan OPM (LKPD 3). Nilai dengan rubrik "Instalasi server VoIP (PJSIP)" atau "Praktik serat optik".</p>
     </section>
 
     <section class="block tab-panel" id="s-rubrik" role="tabpanel">
@@ -1776,6 +1922,32 @@ exten => 600,1,Answer()
         <div class="rubric-total"><span class="small muted">Nilai akhir</span><b class="tnum" id="rub-total">–</b><span class="small muted" id="rub-detail"></span></div>
       </div>
     </section>
+  </div>
+</section>
+
+<!-- ============================== KUMPULKAN HASIL ============================== -->
+<section class="view" id="v-kumpul" data-title="Kumpulkan hasil" hidden>
+  <div class="wrap">
+    <div class="chap-head">
+      <div class="eyebrow">Evaluasi</div>
+      <h1>Kumpulkan hasil belajar</h1>
+      <p class="lead">Semua yang kamu kerjakan di web ini terekap di sini: pertemuan, kegiatan, kuis, studi kasus, perbaiki konfigurasi, lab RJ45, simulasi router, simulator VoIP, dan LKPD serat optik. Isi identitas, lalu unduh laporan atau salin ringkasannya untuk dikirim ke guru.</p>
+    </div>
+    <div class="panel">
+      <div class="hdr-ctl">
+        <label class="field">Nama lengkap<input type="text" id="kp-nama" autocomplete="name"></label>
+        <label class="field">Kelas<input type="text" id="kp-kelas" placeholder="misal: XI TJKT 1" autocomplete="off"></label>
+        <label class="field">No. absen<input type="text" id="kp-absen" inputmode="numeric" autocomplete="off"></label>
+      </div>
+      <div class="btn-row">
+        <button class="btn btn-primary" type="button" id="kp-download"><svg><use href="#i-down"/></svg>Unduh laporan (.html)</button>
+        <button class="btn btn-ghost" type="button" id="kp-copy"><svg><use href="#i-copy"/></svg>Salin ringkasan</button>
+        <button class="btn btn-ghost small" type="button" id="kp-voip"><svg><use href="#i-down"/></svg>Unduh konfigurasi VoIP (.txt)</button>
+      </div>
+      <p class="small muted">Laporan .html bisa dibuka di browser mana pun dan dicetak atau disimpan sebagai PDF. Ringkasan teks cocok ditempel di WhatsApp atau komentar Google Classroom. Kirim sesuai cara yang ditentukan guru; web ini tidak mengirim data ke mana pun.</p>
+    </div>
+    <section class="block"><h2>Rekap</h2><div class="kp-grid" id="kp-rekap"></div></section>
+    <section class="block"><h2>Rincian</h2><div class="stack" id="kp-detail"></div></section>
   </div>
 </section>
 
@@ -1797,16 +1969,9 @@ exten => 600,1,Answer()
       <div class="panel" style="padding:0" id="cheat-cli"></div>
     </section>
     <section class="block">
-      <h2>Padanan sip.conf dan pjsip.conf</h2>
+      <h2>Padanan pjsip.conf dan sip.conf</h2>
       <div class="compare">
-        <div class="snippet" data-file="sip.conf (chan_sip)" data-norun="1" data-code="[101]
-type=friend
-host=dynamic
-secret=rahasia101
-context=internal
-disallow=all
-allow=ulaw"></div>
-        <div class="snippet" data-file="pjsip.conf (Asterisk 21+)" data-norun="1" data-code="[101]
+        <div class="snippet" data-file="pjsip.conf (utama, Asterisk 21+)" data-norun="1" data-code="[101]
 type=endpoint
 context=internal
 disallow=all
@@ -1823,8 +1988,27 @@ password=rahasia101
 [101]
 type=aor
 max_contacts=1"></div>
+        <div class="snippet" data-file="sip.conf (lama, chan_sip)" data-norun="1" data-code="[101]
+type=friend
+host=dynamic
+secret=rahasia101
+context=internal
+disallow=all
+allow=ulaw"></div>
       </div>
-      <p class="small muted">Di dialplan, ganti <code>SIP/101</code> menjadi <code>PJSIP/101</code>. Perintah <code>sip show peers</code> menjadi <code>pjsip show endpoints</code>.</p>
+      <div class="tbl-wrap">
+        <table class="tbl">
+          <thead><tr><th>Keperluan</th><th>PJSIP (utama)</th><th>chan_sip (lama)</th></tr></thead>
+          <tbody>
+            <tr><td>Password</td><td><code>password=</code> di section <code>type=auth</code></td><td><code>secret=</code></td></tr>
+            <tr><td>Softphone boleh REGISTER</td><td><code>max_contacts=1</code> di section <code>type=aor</code></td><td><code>host=dynamic</code></td></tr>
+            <tr><td>Alamat trunk</td><td><code>contact=sip:alamat</code> di <code>type=aor</code></td><td><code>host=alamat</code></td></tr>
+            <tr><td>Kanal di dialplan</td><td><code>PJSIP/101</code>, trunk <code>PJSIP/nomor@trunk</code></td><td><code>SIP/101</code>, trunk <code>SIP/trunk/nomor</code></td></tr>
+            <tr><td>Cek akun</td><td><code>pjsip show endpoints</code>, <code>pjsip show contacts</code></td><td><code>sip show peers</code></td></tr>
+            <tr><td>Muat ulang</td><td><code>module reload res_pjsip.so</code></td><td><code>sip reload</code></td></tr>
+          </tbody>
+        </table>
+      </div>
     </section>
     <section class="block">
       <h2>Angka penting</h2>
@@ -1859,7 +2043,7 @@ max_contacts=1"></div>
   </nav>
 </div>
 
-<script src="assets/asterisk.js?v=1"></script>
-<script src="assets/app.js?v=1"></script>
+<script src="assets/asterisk.js?v=2"></script>
+<script src="assets/app.js?v=2"></script>
 </body>
 </html>

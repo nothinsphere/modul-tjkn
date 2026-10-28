@@ -874,3 +874,42 @@ textarea.cfg.dbg { border: 1px solid var(--line); border-radius: var(--r-m); bac
 .tool-col, .editor { grid-template-columns: minmax(0, 1fr); }
 textarea.cfg { min-width: 0; }
 #vp-files { flex-wrap: wrap; }
+.bitgrp i.b0 { font-style: normal; color: var(--ink-3); opacity: .7; }
+/* alokasi waktu di peta pertemuan */
+.jp-row { display: grid; gap: 12px; grid-template-columns: repeat(auto-fit, minmax(min(100%, 150px), 1fr)); align-items: end; }
+.jp-row .field input, .jp-row .field select { width: 100%; }
+.jp-sum b { font-family: var(--font-display); font-size: 1.15rem; }
+.meet-more .timebar { margin-top: 8px; }
+.meet-more .timebar span { white-space: normal; overflow: visible; line-height: 1.2; }
+ol.steps { padding-left: 1.2em; gap: 3px; }
+.practice { border: 1px solid var(--line); border-radius: var(--r-l); background: var(--card); padding: 14px 16px; display: grid; gap: 8px; }
+.mode-box { display: grid; gap: 6px; padding: 10px 12px; border: 1px solid var(--line); border-radius: var(--r-m); background: var(--card); }
+/* LKPD serat optik */
+details.lkpd { border: 1px solid var(--line); border-radius: var(--r-l); background: var(--card); }
+details.lkpd > summary { cursor: pointer; padding: 12px 16px; font-family: var(--font-display); font-weight: 700; font-size: 1.05rem; display: flex; gap: 10px; align-items: baseline; }
+details.lkpd > summary b { color: var(--copper); font-family: var(--font-mono); font-size: .9rem; }
+.lkpd-body { padding: 0 16px 16px; display: grid; gap: 10px; }
+.lk-tbl td, .lk-tbl th { vertical-align: middle; }
+.lk-tbl input, .lk-tbl select { min-height: 34px; padding: 4px 6px; font-size: var(--fs-s); width: 100%; min-width: 4.5rem; }
+.lk-tbl input.lk-name { min-width: 7rem; }
+.lk-tbl td:last-child.small { min-width: 14rem; }
+.lk-case { gap: 6px; }
+.lk-case textarea { width: 100%; font-size: var(--fs-s); }
+.lk-ref .hdr-ctl input { width: 100%; }
+/* kumpulkan hasil */
+.kp-grid { display: grid; gap: 8px; grid-template-columns: repeat(auto-fit, minmax(min(100%, 170px), 1fr)); }
+.kp-card { background: var(--card); border: 1px solid var(--line); border-radius: var(--r-m); padding: 10px 12px; display: grid; gap: 2px; }
+.kp-card span { font-size: var(--fs-xs); font-weight: 700; color: var(--ink-3); text-transform: uppercase; letter-spacing: .05em; }
+.kp-card b { font-family: var(--font-display); font-size: 1.4rem; }
+.kp-card small { color: var(--ink-2); font-size: var(--fs-xs); }
+#kp-detail table { border-collapse: collapse; width: 100%; font-size: var(--fs-s); background: var(--card); }
+#kp-detail th, #kp-detail td { border: 1px solid var(--line); padding: 6px 8px; text-align: left; vertical-align: top; }
+#kp-detail th { background: var(--sunk); }
+#kp-detail { overflow-x: auto; }
+.meet-list, .meet-group { grid-template-columns: minmax(0, 1fr); }
+.meet-more .timebar div { padding: 6px 5px; }
+.meet-more .timebar span { font-size: .66rem; overflow-wrap: anywhere; hyphens: auto; }
+.tlegend { list-style: none; margin: 6px 0 0; padding: 0; display: flex; flex-wrap: wrap; gap: 4px 14px; font-size: var(--fs-xs); color: var(--ink-2); }
+.tlegend li { display: flex; gap: 6px; align-items: center; }
+.tlegend i { width: 10px; height: 10px; border-radius: 3px; border: 1px solid var(--line); }
+.tlegend b { font-family: var(--font-mono); }

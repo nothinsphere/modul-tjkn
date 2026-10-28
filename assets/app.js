@@ -142,128 +142,161 @@
 
   /* ============================== Kemajuan & peta pertemuan ============================== */
   const MEET = [
-    { no: 1, bab: 1, tp: [1], alat: 'HP', topik: 'Komunikasi data, jenis sinyal, dan proses transmisi',
+    { no: 1, bab: 1, tp: [1], pola: 'teori', alat: 'HP', topik: 'Komunikasi data, jenis sinyal, dan proses transmisi',
       tujuan: 'Menjelaskan lima elemen komunikasi data, membedakan sinyal digital dan analog, serta jenis transmisi data.',
       kegiatan: 'Asesmen diagnostik; widget lima elemen (coba putus media dan ganti protokol); Lab sinyal; animasi serial vs paralel.',
+      langkah: ['Asesmen diagnostik singkat dan penyampaian tujuan.', 'Diskusi: apa yang terjadi saat kita mengirim chat? Bandingkan dengan widget lima elemen.', 'Berpasangan mencoba "Media putus" dan "Protokol berbeda", lalu menuliskan perbedaannya.', 'Mencari kode ASCII huruf awal nama, menuliskannya dalam 1 byte, lalu menggambar sinyal digitalnya.', 'Mencocokkan gambar dengan Lab sinyal; mengamati serial vs paralel.', 'Tiket keluar: Kuis Bab 1 no. 2 dan 4.'],
       bukti: 'Diagram komunikasi data saat mengirim chat dan gambar sinyal digital huruf awal nama.',
-      kriteria: 'Kelima elemen berlabel tepat; 8 bit ASCII benar dan digambar sebagai pulsa tinggi/rendah.',
+      kriteria: 'Kelima elemen berlabel tepat; kode ASCII 7 bit benar dan ditulis dalam 1 byte (8 bit dengan 0 di depan), digambar sebagai pulsa tinggi/rendah.',
       lanjut: 'Mencocokkan gambar dengan Lab sinyal bersama pasangan; mengerjakan Kuis Bab 1 no. 2 dan 4.' },
-    { no: 2, bab: 1, tp: [2], alat: 'HP', topik: 'Jaringan telepon analog: hierarki, PSTN, JARLOKAT, xDSL',
+    { no: 2, bab: 1, tp: [2], pola: 'teori', alat: 'HP', topik: 'Jaringan telepon analog: hierarki, PSTN, JARLOKAT, xDSL',
       tujuan: 'Menelusuri jalur panggilan di hierarki sentral dan jalur kabel dari STO ke rumah, serta menjelaskan cara kerja xDSL.',
       kegiatan: 'Simulasi jalur panggilan; widget STO sampai pesawat telepon; spektrum ADSL dengan dan tanpa splitter; observasi tiang/kotak telepon.',
+      langkah: ['Apersepsi: siapa yang masih memakai telepon rumah atau internet kabel telepon?', 'Menelusuri empat skenario di simulasi jalur panggilan dan mencatat sentral yang dilewati.', 'Mengetuk setiap perangkat di widget JARLOKAT dan membuat peta jalur kabel.', 'Membandingkan spektrum ADSL dengan dan tanpa splitter.', 'Tugas lapangan: memotret tiang/kotak telepon di sekitar rumah.', 'Tiket keluar: Kuis Bab 1 no. 3 dan 5.'],
       bukti: 'Peta jalur kabel telepon (MDF → RK → DP → KTB → roset) dan foto perangkat di lapangan dengan keterangan.',
       kriteria: 'Urutan perangkat dan ruas kabel benar; dapat menjelaskan mengapa suara dan ADSL tidak saling mengganggu.',
       lanjut: 'Mengulang widget jalur kabel sambil menyebut fungsi tiap perangkat; Kuis Bab 1 no. 3 dan 5.' },
-    { no: 3, bab: 1, tp: [3], alat: 'Lab RJ45, kabel UTP, RJ45, tang crimping, LAN tester', topik: 'Kabel koaksial, twisted pair, praktik crimping',
+    { no: 3, bab: 1, tp: [3], pola: 'praktik', alat: 'Lab RJ45, kabel UTP, RJ45, tang crimping, LAN tester', topik: 'Kabel koaksial, twisted pair, praktik crimping',
       tujuan: 'Membedakan kabel koaksial, UTP, dan STP, lalu membuat kabel straight dan crossover sesuai standar.',
       kegiatan: 'Widget bongkar koaksial dan pilinan; pembaca kode kabel; latihan Lab kabel RJ45 sampai lulus; praktik crimping fisik bergiliran.',
+      langkah: ['Penjelasan K3: tang dan pisau pengupas, potongan kabel dibuang ke wadah.', 'Guru mendemonstrasikan pengupasan, penyusunan warna, pemotongan, dan crimping.', 'Siswa lulus latihan straight dan crossover di Lab kabel RJ45.', 'Membuat kabel straight T568B–T568B, lalu menguji dengan LAN tester.', 'Membuat kabel crossover T568A–T568B, lalu menguji.', 'Memperbaiki ujung yang gagal; mencatat pola lampu tester.', 'Merapikan alat dan refleksi.'],
       bukti: 'Kabel straight dan crossover yang lolos uji LAN tester.',
       kriteria: 'Semua lampu tester menyala sesuai pola (1-1…8-8 atau 1-3, 2-6, 3-1, 6-2); tidak ada split pair; jaket ikut terjepit.',
       lanjut: 'Latihan ulang di Lab kabel RJ45 sebelum mencoba lagi dengan konektor baru; pendampingan teman sebaya.' },
-    { no: 4, bab: 2, tp: [4], alat: 'HP', topik: 'Elemen jaringan nirkabel, OSI/TCP-IP, multiple access',
+    { no: 4, bab: 2, tp: [4], pola: 'teori', alat: 'HP', topik: 'Elemen jaringan nirkabel, OSI/TCP-IP, multiple access',
       tujuan: 'Menjelaskan elemen jaringan nirkabel, memetakan lapisan OSI ke TCP/IP, dan membedakan FDMA, TDMA, CDMA.',
       kegiatan: 'Widget elemen jaringan; tabel OSI interaktif dan enkapsulasi; percobaan CDMA dua pengguna.',
+      langkah: ['Apersepsi: perangkat apa saja yang dilewati saat HP membuka web lewat Wi-Fi?', 'Menjelaskan CPE, access network, dan core network dengan widget elemen.', 'Memetakan lapisan OSI ke TCP/IP dan menjalankan animasi enkapsulasi.', 'Membandingkan FDMA, TDMA, CDMA di widget berbagi spektrum.', 'Berpasangan mencoba empat kombinasi bit CDMA dan menuliskan hasil decode-nya.', 'Tiket keluar: Kuis Bab 2 no. 3 dan 4.'],
       bukti: 'Tabel lapisan OSI–TCP/IP dengan contoh protokol saat membuka web.',
       kriteria: 'Pemetaan lapisan benar; dapat menjelaskan mengapa CDMA tahan interferensi antarpengguna.',
       lanjut: 'Mengulang percobaan CDMA dengan kombinasi bit lain; Kuis Bab 2 no. 3 dan 4.' },
-    { no: 5, bab: 2, tp: [4], alat: 'HP', topik: 'Tipe jaringan nirkabel, teknik komunikasi, topologi',
+    { no: 5, bab: 2, tp: [4], pola: 'teori', alat: 'HP', topik: 'Tipe jaringan nirkabel, teknik komunikasi, topologi',
       tujuan: 'Mengklasifikasikan jaringan nirkabel berdasarkan jangkauan dan koneksi, serta menjelaskan teknik komunikasinya.',
       kegiatan: 'Latihan Tebak tipenya; widget mode koneksi; widget AMC.',
+      langkah: ['Mengingat ulang materi pertemuan 4.', 'Menjelaskan WPAN, WLAN, WMAN, WWAN; mengerjakan latihan Tebak tipenya.', 'Membandingkan mode ad hoc, infrastructure, dan hybrid.', 'Menggeser SNR di widget AMC dan mencatat modulasi yang dipilih.', 'Mendata 5 perangkat nirkabel di rumah beserta tipe dan standarnya.', 'Refleksi dan tiket keluar.'],
       bukti: 'Daftar 5 perangkat nirkabel di rumah beserta tipe dan standarnya.',
       kriteria: 'Minimal 4 dari 5 klasifikasi tepat dengan alasan.',
       lanjut: 'Mengerjakan ulang Tebak tipenya; diskusi kelompok kecil.' },
-    { no: 6, bab: 2, tp: [4], alat: 'HP', topik: 'Standar jaringan nirkabel, indoor dan outdoor',
+    { no: 6, bab: 2, tp: [4], pola: 'teori', alat: 'HP', topik: 'Standar jaringan nirkabel, indoor dan outdoor',
       tujuan: 'Membandingkan standar IEEE 802.11, Bluetooth, ZigBee, NFC, dan WiMAX untuk kebutuhan tertentu.',
       kegiatan: 'Tabel standar; latihan Pilih standar yang tepat; studi kasus smart home.',
+      langkah: ['Apersepsi: mengapa HP punya Wi-Fi, Bluetooth, dan NFC sekaligus?', 'Membaca tabel standar dan generasi IEEE 802.11.', 'Mengerjakan latihan Pilih standar yang tepat.', 'Berkelompok merancang smart home dan memilih standar setiap perangkat.', 'Presentasi singkat antarkelompok.', 'Tiket keluar: Kuis Bab 2 no. 1, 2, 5, 6.'],
       bukti: 'Perbandingan Bluetooth, ZigBee, dan NFC untuk satu kasus dengan alasan.',
       kriteria: 'Pilihan standar sesuai jangkauan, kecepatan, dan konsumsi daya kasusnya.',
       lanjut: 'Kuis Bab 2 no. 1, 2, 5, 6.' },
-    { no: 7, bab: 3, tp: [5], alat: 'HP', topik: 'Pola pancar antena dan access point',
+    { no: 7, bab: 3, tp: [5], pola: 'teori', alat: 'HP', topik: 'Pola pancar antena dan access point',
       tujuan: 'Memilih jenis antena sesuai area dan membaca topologi jaringan access point beserta alamat IP-nya.',
       kegiatan: 'Simulasi pola pancar dan cakupan; topologi AP dan perhitungan subnet 172.16.0.126/25.',
+      langkah: ['Apersepsi: mengapa Wi-Fi sekolah kuat di satu ruang tetapi lemah di ruang lain?', 'Mencoba antena omni, sektoral, dan grid; mencatat jumlah titik tercakup.', 'Menentukan antena untuk kelas, lapangan, dan antargedung.', 'Membaca topologi AP dan menghitung subnet 172.16.0.126/25 di kalkulator.', 'Membandingkan AP tipe firmware dan sistem operasi.', 'Tiket keluar dan refleksi.'],
       bukti: 'Pilihan antena untuk kelas, lapangan, dan antargedung beserta alasan.',
       kriteria: 'Ketiga pilihan tepat (omni, sektoral, directional) dengan alasan jangkauan dan arah.',
       lanjut: 'Mengulang simulasi antena dengan memindahkan arah sampai semua klien tercakup.' },
-    { no: 8, bab: 3, tp: [5], alat: 'Simulasi router, AP/router lab', topik: 'Konfigurasi wireless router, bridge, station, repeater',
+    { no: 8, bab: 3, tp: [5], pola: 'praktik', alat: 'Simulasi router, AP/router lab', topik: 'Konfigurasi wireless router, bridge, station, repeater',
       tujuan: 'Mengonfigurasi WAN, WLAN, DHCP, dan NAT pada wireless router, serta memilih mode perangkat yang tepat.',
       kegiatan: 'Simulasi konfigurasi wireless router; widget mode perangkat; simulasi repeater; konfigurasi router fisik.',
+      langkah: ['K3: memasang perangkat dengan adaptor yang sesuai; catat konfigurasi awal.', 'Menyelesaikan Simulasi konfigurasi wireless router tanpa pesan merah.', 'Reset router lab, masuk halaman admin, ganti password admin.', 'Mengatur WAN, SSID, WPA2/WPA3, IP LAN, dan pool DHCP (IP statis di luar pool).', 'Menghubungkan 2 klien, memeriksa IP yang didapat dan akses internet.', 'Mencoba mode repeater/bridge bila perangkat mendukung; tangkapan layar hasil.', 'Backup konfigurasi dan refleksi.'],
       bukti: 'Tangkapan layar simulasi tanpa peringatan merah dan konfigurasi router lab yang bisa dipakai 2 klien.',
       kriteria: 'Klien mendapat IP dari DHCP, bisa internet, keamanan WPA2/WPA3 dengan password ≥ 8 karakter.',
       lanjut: 'Membaca pesan pemeriksaan satu per satu dan memperbaikinya; pendampingan guru saat konfigurasi fisik.' },
-    { no: 9, bab: 3, tp: [5], alat: 'HP dengan Wi-Fi analyzer', topik: 'Keamanan Wi-Fi, perawatan, site survey',
+    { no: 9, bab: 3, tp: [5], pola: 'praktik', alat: 'HP dengan Wi-Fi analyzer', topik: 'Keamanan Wi-Fi, perawatan, site survey',
       tujuan: 'Membandingkan metode keamanan Wi-Fi dan menyusun rekomendasi perawatan dari hasil site survey.',
       kegiatan: 'Tabel WEP–WPA3; pengukur kekuatan password; studi kasus Wi-Fi; site survey Wi-Fi sekolah.',
+      langkah: ['Membandingkan WEP, WPA, WPA2, WPA3; menguji kekuatan password.', 'Menentukan 5 titik ukur di sekolah dan membagi tugas kelompok.', 'Site survey: mencatat SSID, kanal, dan dBm di setiap titik.', 'Mengolah data: kanal padat, titik lemah, penyebabnya.', 'Mengerjakan Studi kasus no. 1–4.', 'Menyusun rekomendasi perbaikan dan perawatan.'],
       bukti: 'Laporan site survey (kanal, dBm di 5 titik) dan rekomendasi perbaikan.',
       kriteria: 'Data lengkap; rekomendasi sesuai data (pindah kanal, tambah AP/repeater, ganti keamanan).',
       lanjut: 'Mengerjakan Studi kasus no. 3 dan 4; Kuis Bab 3.' },
-    { no: 10, bab: 0, tp: [1, 2, 3, 4, 5], alat: 'Kertas, alat crimping, router lab', topik: 'Asesmen sumatif semester 1 (tertulis + praktik)',
+    { no: 10, bab: 0, tp: [1, 2, 3, 4, 5], pola: 'asesmen', alat: 'Kertas, alat crimping, router lab', topik: 'Asesmen sumatif semester 1 (tertulis + praktik)',
       tujuan: 'Mengukur ketercapaian TP 1 sampai 5.',
       kegiatan: 'Tes tertulis (contoh di tab Sumatif) dan praktik crimping serta konfigurasi Wi-Fi.',
+      langkah: ['Pengarahan tata tertib dan pembagian giliran praktik.', 'Tes tertulis.', 'Uji praktik bergiliran: crimping straight dan crossover.', 'Uji praktik: konfigurasi Wi-Fi dan pengujian 2 klien.', 'Penilaian dengan rubrik, umpan balik singkat.'],
       bukti: 'Lembar jawaban, kabel hasil praktik, konfigurasi router.',
       kriteria: 'Mencapai KKTP sekolah pada tes tertulis dan rubrik praktik.',
       lanjut: 'Remedial per TP memakai kuis dan simulasi terkait; pengayaan: desain Wi-Fi untuk satu lantai sekolah.' },
-    { no: 11, bab: 4, tp: [6], alat: 'HP', topik: 'Layanan VoIP dan format paket',
+    { no: 11, bab: 4, tp: [6], pola: 'teori', alat: 'HP', topik: 'Layanan VoIP dan format paket',
       tujuan: 'Menjelaskan perjalanan suara di VoIP, keuntungan dan kekurangannya, serta isi header paket.',
       kegiatan: 'Animasi perjalanan suara; latihan keuntungan/kekurangan; widget isi paket VoIP.',
+      langkah: ['Apersepsi: bandingkan telepon biasa dan panggilan lewat aplikasi chat.', 'Mengikuti animasi perjalanan suara tahap demi tahap.', 'Mengerjakan latihan keuntungan atau kekurangan.', 'Mengamati isi paket VoIP untuk beberapa codec.', 'Menghitung bandwidth 10 panggilan G.711 dan G.729.', 'Tiket keluar: Kuis Bab 4 no. 3.'],
       bukti: 'Perhitungan bandwidth 10 panggilan G.711 dan G.729.',
       kriteria: 'Bandwidth benar (±87,2 dan ±31,2 kbps per panggilan di Ethernet) dan dapat menjelaskan mengapa berbeda.',
       lanjut: 'Menghitung ulang langkah demi langkah dengan kalkulator; Kuis Bab 4 no. 3.' },
-    { no: 12, bab: 4, tp: [6], alat: 'HP', topik: 'Kualitas VoIP (latency, delay, jitter, packet loss) dan codec',
-      tujuan: 'Menganalisis pengaruh delay, jitter, dan packet loss terhadap kualitas suara, serta memilih codec.',
-      kegiatan: 'Simulasi jitter buffer; kalkulator MOS; mengukur ping dan jitter ke server.',
-      bukti: 'Hasil pengukuran jaringan dan kesimpulan layak/tidak untuk VoIP.',
-      kriteria: 'Kesimpulan sesuai batas (delay ≤ 150 ms, jitter < 30 ms, loss < 1%).',
-      lanjut: 'Mengubah satu nilai saja di simulasi lalu mengamati efeknya; Kuis Bab 4 no. 1.' },
-    { no: 13, bab: 4, tp: [6, 7], alat: 'Simulator VoIP, PC/VM Asterisk', topik: 'Softswitch dan pengenalan Asterisk',
-      tujuan: 'Menjelaskan komponen dan cara kerja softswitch, lalu mengenal file konfigurasi Asterisk.',
-      kegiatan: 'Topologi softswitch interaktif; mencoba contoh dasar di Simulator VoIP; instalasi Asterisk di lab.',
+    { no: 12, bab: 4, tp: [6], pola: 'teori', alat: 'HP, laptop dengan ping', topik: 'Kualitas VoIP (latency, delay satu arah, RTT, jitter, packet loss) dan codec',
+      tujuan: 'Menganalisis pengaruh delay, jitter, dan packet loss terhadap kualitas suara, membedakan RTT dengan delay satu arah, serta memilih codec.',
+      kegiatan: 'Simulasi jitter buffer; mengukur RTT dengan ping; memperkirakan delay satu arah; kalkulator MOS.',
+      langkah: ['Menjelaskan latency, delay, jitter, dan packet loss.', 'Mengubah satu nilai saja di simulasi jitter buffer lalu mencatat efeknya.', 'Menjalankan ping 20 kali ke server sekolah/internet dan mencatat RTT rata-rata serta variasinya.', 'Memperkirakan delay satu arah (RTT ÷ 2 bila simetris) lalu menambah delay codec dan jitter buffer.', 'Memasukkan delay satu arah ke kalkulator MOS dan menyimpulkan kelayakan.', 'Tiket keluar: Kuis Bab 4 no. 1 dan 5.'],
+      bukti: 'Tabel RTT hasil ping, perkiraan delay satu arah, dan kesimpulan layak/tidak untuk VoIP.',
+      kriteria: 'Tidak menyamakan RTT dengan delay satu arah; kesimpulan sesuai batas (delay satu arah ≤ 150 ms, jitter < 30 ms, loss < 1%).',
+      lanjut: 'Mengulang perhitungan dengan contoh RTT dari guru; Kuis Bab 4 no. 1.' },
+    { no: 13, bab: 4, tp: [6, 7], pola: 'praktik', alat: 'Simulator VoIP, PC/VM Asterisk', topik: 'Softswitch dan pengenalan Asterisk (PJSIP)',
+      tujuan: 'Menjelaskan komponen dan cara kerja softswitch, lalu mengenal file konfigurasi Asterisk dengan PJSIP.',
+      kegiatan: 'Topologi softswitch interaktif; mencoba contoh dasar di Simulator VoIP mode PJSIP; instalasi Asterisk di lab.',
+      langkah: ['Menjelaskan komponen softswitch dan alur IP–IP serta IP–PSTN.', 'Membuka Simulator VoIP (mode Asterisk 21+ · PJSIP), membaca pjsip.conf contoh Dasar.', 'Mendaftarkan dua softphone dan melakukan panggilan; membaca diagram SIP.', 'Di lab: memasang Asterisk, mengecek versi dengan asterisk -V.', 'Menyalin pjsip.conf dan extensions.conf contoh ke server, lalu memuat ulang.', 'Memeriksa pjsip show endpoints; refleksi.'],
       bukti: 'Dua softphone terdaftar dan berhasil saling menelepon (simulator atau server lab).',
-      kriteria: 'sip show peers menunjukkan kedua akun OK; panggilan tersambung.',
+      kriteria: 'pjsip show endpoints/contacts menunjukkan kedua akun Avail; panggilan tersambung.',
       lanjut: 'Membaca catatan di Log CLI saat registrasi gagal dan memperbaikinya.' },
-    { no: 14, bab: 5, tp: [7], alat: 'HP', topik: 'PBX, PABX, dan sistem hunting',
+    { no: 14, bab: 5, tp: [7], pola: 'teori', alat: 'HP', topik: 'PBX, PABX, dan sistem hunting',
       tujuan: 'Menjelaskan PBX, PABX, arsitektur PBX, dan membedakan jenis sistem hunting.',
       kegiatan: 'Simulasi panggilan masuk ke PT X; simulasi hunting 4 saluran; merancang denah extension sekolah.',
+      langkah: ['Apersepsi: bagaimana menelepon bagian tertentu di kantor besar?', 'Mencoba simulasi panggilan masuk ke PT X dengan IVR.', 'Membandingkan regular, circular, UCD, dan ANNC di simulasi hunting.', 'Berkelompok merancang denah extension sekolah.', 'Presentasi singkat dan umpan balik.', 'Tiket keluar.'],
       bukti: 'Denah extension sekolah dengan nomor dan context.',
       kriteria: 'Setiap ruangan punya extension unik; operator dan nomor darurat ditentukan.',
       lanjut: 'Mengulang simulasi hunting dan menjelaskan perbedaan regular dan circular.' },
-    { no: 15, bab: 5, tp: [7], alat: 'Simulator VoIP', topik: 'Dialplan dan extension Asterisk',
+    { no: 15, bab: 5, tp: [7], pola: 'praktik', alat: 'Simulator VoIP', topik: 'Dialplan dan extension Asterisk',
       tujuan: 'Menulis dialplan dengan context, extension literal dan pattern, voicemail, serta tes gema.',
       kegiatan: 'Penguji pattern; contoh dialplan dicoba di simulator; Perbaiki konfigurasi no. 1 dan 2.',
+      langkah: ['Membahas struktur extensions.conf: [general], [globals], context.', 'Mencoba penguji pattern dengan _1XX, _NXX, dan _9X.', 'Menulis dialplan sendiri: pattern _1XX dengan Dial(PJSIP/${EXTEN},20), voicemail, dan 600 Echo.', 'Menguji di Simulator VoIP sampai daftar diagnostik bersih.', 'Mengerjakan Perbaiki konfigurasi no. 1 dan 2.', 'Mengunduh extensions.conf sebagai bukti kerja.'],
       bukti: 'File extensions.conf hasil sendiri (Unduh) dengan pattern _1XX, voicemail, dan 600 Echo.',
       kriteria: 'Semua panggilan uji berhasil; tidak ada peringatan di daftar diagnostik.',
       lanjut: 'Memulai dari contoh "Dasar" lalu mengubah satu bagian setiap kali.' },
-    { no: 16, bab: 5, tp: [7], alat: 'Simulator VoIP, server lab', topik: 'Protokol SIP dan H.323, uji panggilan',
+    { no: 16, bab: 5, tp: [7], pola: 'praktik', alat: 'Simulator VoIP, server lab', topik: 'Protokol SIP dan H.323, uji panggilan di server',
       tujuan: 'Menjelaskan fungsi dan elemen SIP, membaca alur pesan SIP, dan menguji panggilan di server.',
       kegiatan: 'Animasi pesan SIP; membandingkan SIP dan H.323; Perbaiki konfigurasi no. 3 dan 4; uji di Asterisk lab.',
-      bukti: 'Tangkapan layar sip show peers dan log panggilan berhasil.',
-      kriteria: 'Dapat menjelaskan arti 401, 404, 486, dan 488 dari log sendiri.',
-      lanjut: 'Kuis Bab 5; Studi kasus no. 5 dan 6.' },
-    { no: 17, bab: 6, tp: [8], alat: 'HP', topik: 'Broadband, sejarah, struktur dan prinsip serat optik',
+      langkah: ['Memutar animasi registrasi, panggilan diangkat, dan sibuk.', 'Membandingkan SIP dan H.323.', 'Mengerjakan Perbaiki konfigurasi no. 3 dan 4.', 'Di lab: membuat 3 endpoint di pjsip.conf, dialplan dengan voicemail.', 'Menguji panggilan antar-softphone; merekam pjsip show endpoints, pjsip show contacts, dan log.', 'Mengerjakan Studi kasus no. 5–7.'],
+      bukti: 'Tangkapan layar pjsip show endpoints, pjsip show contacts, dan log panggilan berhasil.',
+      kriteria: 'Dapat menjelaskan arti 401, 403, 404, 486, dan 488 dari log sendiri.',
+      lanjut: 'Kuis Bab 5; Studi kasus no. 5–7.' },
+    { no: 17, bab: 6, tp: [8], pola: 'teori', alat: 'HP', topik: 'Broadband, sejarah, struktur dan prinsip serat optik',
       tujuan: 'Menjelaskan elemen broadband, perkembangan serat optik, indeks bias, dan pemantulan total.',
       kegiatan: 'Timeline; simulasi pemantulan total; menghitung sudut kritis; widget WDM.',
+      langkah: ['Apersepsi: mengapa internet rumah kini memakai serat optik?', 'Membaca timeline perkembangan serat optik.', 'Mengubah sudut dan indeks bias di simulasi pemantulan total.', 'Menghitung sudut kritis n₁ = 1,48 dan n₂ = 1,46 lalu mencocokkan dengan simulasi.', 'Menghitung net data rate WDM.', 'Tiket keluar: Kuis Bab 6 no. 4.'],
       bukti: 'Perhitungan sudut kritis n₁ = 1,48 dan n₂ = 1,46.',
       kriteria: 'Hasil ±80,6° dan dapat menjelaskan kapan cahaya keluar dari inti.',
       lanjut: 'Mengubah n₂ di simulasi dan mengamati sudut kritis; Kuis Bab 6 no. 4.' },
-    { no: 18, bab: 6, tp: [8], alat: 'HP, patch cord lab', topik: 'Kabel serat optik: komponen, window, karakteristik, jenis',
-      tujuan: 'Mengidentifikasi komponen kabel, window panjang gelombang, karakteristik, serta membedakan multimode dan singlemode.',
-      kegiatan: 'Penampang kabel; kurva redaman; animasi multimode vs singlemode; identifikasi patch cord lab.',
-      bukti: 'Tabel identifikasi patch cord (jenis serat, konektor, UPC/APC).',
-      kriteria: 'Identifikasi benar untuk semua patch cord yang tersedia.',
-      lanjut: 'Kuis Bab 6 no. 1, 2, 3.' },
-    { no: 19, bab: 6, tp: [8], alat: 'Kalkulator serat optik', topik: 'FTTH dan link budget',
-      tujuan: 'Menjelaskan jalur dan perangkat FTTH, lalu menghitung link budget.',
-      kegiatan: 'Widget jalur FTTH; kalkulator link budget; merancang FTTH satu perumahan.',
-      bukti: 'Rancangan jalur FTTH dan perhitungan link budget.',
-      kriteria: 'Daya terima di atas sensitivitas ONT + margin; rasio splitter sesuai jumlah rumah.',
-      lanjut: 'Mengerjakan contoh soal sumatif semester 2 no. 5 dengan kalkulator.' },
-    { no: 20, bab: 0, tp: [6, 7, 8], alat: 'Kertas, PC/VM Asterisk, softphone', topik: 'Asesmen sumatif semester 2 (tertulis + praktik)',
+    { no: 18, bab: 6, tp: [8], pola: 'praktik', alat: 'Patch cord, fiber scope, cleaner, alkohol, splicer (bila ada)', topik: 'Kabel serat optik, pembersihan konektor, dan penyambungan (LKPD 1–2)',
+      tujuan: 'Mengidentifikasi komponen dan jenis kabel, membersihkan dan menginspeksi konektor, serta menyambung serat.',
+      kegiatan: 'Penampang kabel; kurva redaman; multimode vs singlemode; LKPD 1 pembersihan & inspeksi; LKPD 2 penyambungan.',
+      langkah: ['K3 serat optik: kacamata, tidak menatap ujung konektor, wadah pecahan serat, alkohol jauh dari api.', 'Mengidentifikasi patch cord lab: jenis serat, konektor, UPC/APC.', 'LKPD 1: inspeksi, bersihkan, inspeksi ulang 4 konektor; isi tabel.', 'Guru mendemonstrasikan pengupasan, pembersihan, pemotongan, dan penyambungan.', 'LKPD 2: setiap pasangan membuat sambungan dan mencatat sudut potong serta rugi.', 'Membersihkan meja dan membuang pecahan serat; refleksi.'],
+      bukti: 'Tabel LKPD 1 dan 2 (atau tabel contoh data bila alat terbatas).',
+      kriteria: 'Semua konektor bersih pada inspeksi akhir; sudut potong ≤ 1°; rugi sambungan ≤ 0,1 dB (maksimum 0,3 dB).',
+      lanjut: 'Bila alat terbatas, menganalisis contoh data LKPD; pendampingan saat memakai cleaver dan splicer.' },
+    { no: 19, bab: 6, tp: [8], pola: 'praktik', alat: 'OPM, light source, patch cord, VFL, kalkulator', topik: 'Pengukuran redaman, analisis gangguan, FTTH dan link budget (LKPD 3–4)',
+      tujuan: 'Mengukur redaman link dengan OPM dan light source, menganalisis gangguan, serta menghitung link budget FTTH.',
+      kegiatan: 'LKPD 3 pengukuran; LKPD 4 analisis gangguan; widget jalur FTTH; kalkulator link budget.',
+      langkah: ['K3: tidak menatap port light source dan VFL; matikan sumber saat mencabut.', 'LKPD 3: ambil referensi, ukur 4 link di 1.310 dan 1.550 nm, isi tabel.', 'Membandingkan redaman dengan batas dan menandai link yang gagal.', 'LKPD 4: menganalisis 4 kasus gangguan dari data.', 'Menelusuri jalur FTTH dan menghitung link budget untuk satu perumahan.', 'Presentasi singkat hasil analisis; refleksi.'],
+      bukti: 'Tabel LKPD 3, jawaban LKPD 4, dan perhitungan link budget.',
+      kriteria: 'Redaman dihitung benar di dua panjang gelombang; kesimpulan sesuai batas; penyebab gangguan tepat; daya terima di atas sensitivitas ONT + margin.',
+      lanjut: 'Memakai tombol "Pakai contoh data" bila alat tidak cukup; contoh soal sumatif semester 2 no. 5.' },
+    { no: 20, bab: 0, tp: [6, 7, 8], pola: 'asesmen', alat: 'Kertas, PC/VM Asterisk, softphone, alat ukur serat optik', topik: 'Asesmen sumatif semester 2 (tertulis + praktik)',
       tujuan: 'Mengukur ketercapaian TP 6 sampai 8.',
-      kegiatan: 'Tes tertulis (contoh di tab Sumatif) dan praktik instalasi server VoIP.',
-      bukti: 'Lembar jawaban, file konfigurasi, demonstrasi panggilan.',
+      kegiatan: 'Tes tertulis (contoh di tab Sumatif) dan praktik instalasi server VoIP (PJSIP) atau pengukuran serat optik.',
+      langkah: ['Pengarahan dan pembagian giliran praktik.', 'Tes tertulis.', 'Uji praktik: konfigurasi pjsip.conf dan dialplan, lalu uji panggilan.', 'Uji praktik alternatif: pengukuran redaman dengan OPM dan analisis hasil.', 'Penilaian dengan rubrik, umpan balik singkat.'],
+      bukti: 'Lembar jawaban, file konfigurasi, demonstrasi panggilan, tabel pengukuran.',
       kriteria: 'Mencapai KKTP sekolah pada tes tertulis dan rubrik praktik.',
       lanjut: 'Remedial per TP; pengayaan: menambahkan IVR dan trunk keluar.' }
   ];
   const BAB_NAME = { 0: 'Asesmen sumatif', 1: 'Bab 1 · Jaringan berbasis kabel', 2: 'Bab 2 · Jaringan nirkabel', 3: 'Bab 3 · Instalasi & perawatan nirkabel', 4: 'Bab 4 · Instalasi VoIP', 5: 'Bab 5 · SIP & Asterisk', 6: 'Bab 6 · Serat optik' };
+  // Pembagian waktu per jenis pertemuan (proporsi dari total menit); total mengikuti JP yang dipilih guru.
+  const POLA = {
+    teori: [['Pendahuluan', .10, 'tb1'], ['Konsep & demonstrasi', .25, 'tb2'], ['Eksplorasi simulasi', .35, 'tb3'], ['Latihan & tiket keluar', .20, 'tb4'], ['Penutup & refleksi', .10, 'tb5']],
+    praktik: [['Pendahuluan & K3', .10, 'tb1'], ['Demonstrasi', .15, 'tb2'], ['Praktik', .55, 'tb3'], ['Uji & bukti kerja', .10, 'tb4'], ['Penutup & beres-beres', .10, 'tb5']],
+    asesmen: [['Pengarahan', .05, 'tb1'], ['Tes tertulis', .35, 'tb2'], ['Uji praktik', .50, 'tb3'], ['Umpan balik', .10, 'tb5']]
+  };
+  const jpCfg = () => { const c = store.get('jp', { per: 4, min: 45 }); return { per: clamp(+c.per || 4, 1, 12), min: [30, 35, 40, 45].includes(+c.min) ? +c.min : 45 }; };
+  function split(pola, total) {
+    const P = POLA[pola];
+    const mins = P.map(([, f]) => Math.max(5, Math.round(total * f / 5) * 5));
+    mins[mins.indexOf(Math.max(...mins))] += total - mins.reduce((a, b) => a + b, 0);
+    return P.map(([nm, , cls], i) => [nm, mins[i], cls]);
+  }
   function updateProgress() {
     const done = MEET.filter(m => store.get('meet' + m.no, false)).length;
     $('#prog-text').textContent = `${done}/${MEET.length}`;
@@ -271,6 +304,10 @@
   }
   function renderMeetings() {
     const box = $('#meet-list');
+    const { per, min } = jpCfg(), total = per * min;
+    $('#jp-per').value = per; $('#jp-min').value = min;
+    $('#jp-total').textContent = `${MEET.length} pertemuan × ${per} JP = ${MEET.length * per} JP`;
+    $('#jp-note').textContent = `${per} × ${min} menit = ${total} menit per pertemuan (±${fmt(MEET.length * total / 60, 0)} jam seluruhnya). Pembagian waktu di setiap pertemuan ikut menyesuaikan.`;
     let html = '', lastBab = -1;
     MEET.forEach(m => {
       if (m.bab !== lastBab) {
@@ -280,12 +317,17 @@
       }
       const on = store.get('meet' + m.no, false);
       const tp = m.tp.length > 2 ? `TP ${m.tp[0]}-${m.tp[m.tp.length - 1]}` : 'TP ' + m.tp.join(', ');
+      const seg = split(m.pola, total);
       html += `<div class="meet${on ? ' done' : ''}">
         <label class="meet-row"><input type="checkbox" data-meet="${m.no}"${on ? ' checked' : ''} aria-label="Pertemuan ${m.no} selesai"><span class="no">${m.no}</span><span class="t">${esc(m.topik)}</span></label>
-        <div class="d"><span class="tag">${tp}</span><span>Alat: ${esc(m.alat)}</span></div>
-        <details class="meet-more"><summary>Rincian pertemuan</summary><dl class="meet-dl">
+        <div class="d"><span class="tag">${tp}</span><span class="tag mask">${per} JP · ${total} menit</span><span>${m.pola === 'praktik' ? 'Praktik' : m.pola === 'asesmen' ? 'Asesmen' : 'Teori + simulasi'}</span><span>Alat: ${esc(m.alat)}</span></div>
+        <details class="meet-more"><summary>Rincian pertemuan</summary>
+          <div class="timebar" aria-hidden="true">${seg.map(([nm, mn, cls]) => `<div class="${cls}" style="flex:${mn}" title="${esc(nm)}"><b>${mn}'</b></div>`).join("")}</div>
+          <ul class="tlegend">${seg.map(([nm, mn, cls]) => `<li><i class="${cls}"></i><b>${mn} menit</b> ${esc(nm)}</li>`).join("")}</ul>
+          <dl class="meet-dl">
           <dt>Tujuan</dt><dd>${esc(m.tujuan)}</dd>
           <dt>Kegiatan</dt><dd>${esc(m.kegiatan)}</dd>
+          <dt>Langkah</dt><dd><ol class="list steps">${m.langkah.map(s => `<li>${esc(s)}</li>`).join('')}</ol></dd>
           <dt>Bukti kerja</dt><dd>${esc(m.bukti)}</dd>
           <dt>Kriteria keberhasilan</dt><dd>${esc(m.kriteria)}</dd>
           <dt>Tindak lanjut</dt><dd>${esc(m.lanjut)}</dd>
@@ -298,6 +340,12 @@
       updateProgress();
     }));
   }
+  ['#jp-per', '#jp-min'].forEach(s => $(s).addEventListener('change', () => {
+    store.set('jp', { per: clamp(+$('#jp-per').value || 4, 1, 12), min: +$('#jp-min').value });
+    const open = $$('#meet-list .meet-more').map(d => d.open);
+    renderMeetings();
+    $$('#meet-list .meet-more').forEach((d, i) => { d.open = open[i]; });
+  }));
   renderMeetings();
   updateProgress();
   $$('input[data-save]').forEach(cb => {
@@ -340,7 +388,7 @@
       const b = e.target.closest('button[data-act]');
       if (!b) return;
       if (b.dataset.act === 'copy') copyText(code);
-      else openInSim(/sip\.conf/.test(file) ? { sip: code } : { ext: code });
+      else openInSim(/pjsip\.conf/.test(file) ? { mode: 'pjsip', acc: code } : /sip\.conf/.test(file) ? { mode: 'sip', acc: code } : { ext: code });
     });
   }
   $$('.snippet[data-code]').forEach(renderSnippet);
@@ -366,8 +414,9 @@
     let bits = '01001000', raf = null, t0 = 0;
     function draw() {
       const ch = inp.value || ' ';
-      bits = ch.charCodeAt(0).toString(2).padStart(8, '0').slice(-8);
-      $('#hero-bits').textContent = bits;
+      const code = ch.charCodeAt(0);
+      bits = (code > 127 ? 63 : code).toString(2).padStart(8, '0');
+      $('#hero-bits').textContent = code > 127 ? 'bukan ASCII' : bits;
       const bw = W / 8;
       let d = `M${X0} ${bits[0] === '1' ? 30 : 58}`;
       [...bits].forEach((b, i) => {
@@ -447,7 +496,8 @@
       let svg = axis();
       if (mode === 'dig') {
         const groups = bitsOf($('#sig-text').value || 'H');
-        $('#sig-bits').innerHTML = groups.map((g, i) => `<span class="bitgrp"><b>${esc(($('#sig-text').value || 'H')[i])}</b>${g}</span>`).join(' ');
+        const txt = $('#sig-text').value || 'H';
+        $('#sig-bits').innerHTML = groups.map((g, i) => txt.charCodeAt(i) > 127 ? `<span class="bitgrp"><b>${esc(txt[i])}</b>bukan ASCII standar</span>` : `<span class="bitgrp"><b>${esc(txt[i])}</b><i class="b0" title="bit tambahan agar genap 1 byte">${g[0]}</i>${g.slice(1)}</span>`).join(' ') + '<span class="small muted"> · ASCII standar 7 bit; bit pertama (abu-abu) adalah 0 tambahan agar genap 1 byte.</span>';
         const bits = groups.join(''), bw = 340 / bits.length;
         let d = `M10 ${bits[0] === '1' ? 25 : 95}`;
         [...bits].forEach((b, i) => { const y = b === '1' ? 25 : 95; d += ` L${10 + i * bw} ${y} L${10 + (i + 1) * bw} ${y}`; });
@@ -940,6 +990,32 @@
   const ipStr = n => [n >>> 24, (n >>> 16) & 255, (n >>> 8) & 255, n & 255].join('.');
   const maskOf = pre => pre === 0 ? 0 : (0xffffffff << (32 - pre)) >>> 0;
   const isPrivate = n => (n >>> 24) === 10 || ((n >>> 20) === (172 << 4 | 1)) || ((n >>> 16) === (192 << 8 | 168));
+  // Blok alamat khusus IPv4 (RFC 6890 dan turunannya); yang tidak termasuk dianggap publik.
+  const IP_SPECIAL = [
+    ['0.0.0.0', 8, 'warn', 'this network', 'Dipakai saat perangkat belum punya alamat (misalnya 0.0.0.0 saat meminta DHCP). Tidak diberikan ke host.', false],
+    ['10.0.0.0', 8, 'ok', 'privat (RFC 1918)', 'Untuk LAN; tidak dirutekan di internet, butuh NAT untuk keluar.', true],
+    ['100.64.0.0', 10, 'warn', 'shared address space / CGNAT (RFC 6598)', 'Dipakai ISP di antara pelanggan dan NAT operator. Jangan dipakai untuk LAN sendiri.', true],
+    ['127.0.0.0', 8, 'warn', 'loopback', 'Menunjuk perangkat itu sendiri (localhost). Paket tidak pernah keluar ke jaringan.', true],
+    ['169.254.0.0', 16, 'warn', 'link-local / APIPA (RFC 3927)', 'Diberikan otomatis oleh perangkat sendiri saat tidak mendapat jawaban DHCP. Hanya berlaku di satu segmen dan tidak dirutekan; biasanya tanda DHCP gagal.', true],
+    ['172.16.0.0', 12, 'ok', 'privat (RFC 1918)', 'Untuk LAN (172.16.0.0–172.31.255.255); butuh NAT untuk ke internet.', true],
+    ['192.0.0.0', 24, 'warn', 'IETF protocol assignments', 'Dicadangkan untuk keperluan protokol, bukan untuk host biasa.', true],
+    ['192.0.2.0', 24, 'warn', 'dokumentasi TEST-NET-1 (RFC 5737)', 'Khusus contoh di buku dan dokumentasi; tidak dipakai di jaringan sungguhan.', true],
+    ['192.88.99.0', 24, 'warn', 'relay 6to4 (usang)', 'Dahulu untuk transisi IPv6; sudah tidak dipakai.', true],
+    ['192.168.0.0', 16, 'ok', 'privat (RFC 1918)', 'Untuk LAN rumah/kantor; butuh NAT untuk ke internet.', true],
+    ['198.18.0.0', 15, 'warn', 'benchmarking (RFC 2544)', 'Untuk pengujian kinerja perangkat di lab.', true],
+    ['198.51.100.0', 24, 'warn', 'dokumentasi TEST-NET-2 (RFC 5737)', 'Khusus contoh di buku dan dokumentasi.', true],
+    ['203.0.113.0', 24, 'warn', 'dokumentasi TEST-NET-3 (RFC 5737)', 'Khusus contoh di buku dan dokumentasi.', true],
+    ['224.0.0.0', 4, 'warn', 'multicast', 'Alamat tujuan untuk sekelompok penerima (misalnya streaming IPTV, protokol routing), bukan alamat satu host.', false],
+    ['255.255.255.255', 32, 'warn', 'limited broadcast', 'Dikirim ke semua perangkat di segmen yang sama; tidak pernah diteruskan router.', false],
+    ['240.0.0.0', 4, 'warn', 'cadangan (reserved)', 'Dicadangkan untuk masa depan; tidak dipakai host.', false]
+  ];
+  function ipKind(n) {
+    for (const [base, pre, cls, label, note, unicast] of IP_SPECIAL) {
+      const m = maskOf(pre);
+      if (((n & m) >>> 0) === ((ipInt(base) & m) >>> 0)) return { cls, label, note, unicast, special: !label.startsWith('privat') };
+    }
+    return { cls: 'ok', label: 'publik', note: 'Dapat dirutekan di internet; diberikan oleh ISP atau registri alamat.', unicast: true, special: false };
+  }
 
   (function router() {
     const DEF = { wan: 'dhcp', ppp: '', nat: true, ssid: 'TJKT-XI', ch: '6', sec: 'wpa2', pass: 'tjkt2026', lan: '192.168.1.1', mask: '24', dhcp: true, d1: '192.168.1.100', d2: '192.168.1.200' };
@@ -977,7 +1053,7 @@
       else {
         const net = (lan & m) >>> 0, bc = (net | (~m >>> 0)) >>> 0;
         if (lan === net || lan === bc) { add('err', `${c.lan} adalah alamat ${lan === net ? 'network' : 'broadcast'} dan tidak boleh dipakai router.`); ipOk = false; }
-        else add(isPrivate(lan) ? 'ok' : 'warn', `LAN ${ipStr(net)}/${pre}, router di ${c.lan}${isPrivate(lan) ? '.' : '. Ini bukan alamat privat; LAN sebaiknya memakai 10.x, 172.16–31.x, atau 192.168.x.'}`);
+        else add(isPrivate(lan) ? 'ok' : 'warn', `LAN ${ipStr(net)}/${pre}, router di ${c.lan}${isPrivate(lan) ? '.' : `. Alamat ini termasuk ${ipKind(lan).label}, bukan alamat privat; LAN sebaiknya memakai 10.x, 172.16–31.x, atau 192.168.x.`}`);
         if (!c.dhcp) { add('warn', 'DHCP server mati: setiap klien harus diisi IP manual. Jika ada yang lupa atau bentrok, muncul konflik IP atau alamat 169.254.x.x.'); clientIp = null; }
         else {
           const a = ipInt(c.d1), b = ipInt(c.d2);
@@ -997,6 +1073,7 @@
       else if (!inet) client = ['warn', `HP siswa terhubung dan mendapat IP ${clientIp}, gateway ${c.lan}, tetapi tidak bisa membuka internet.`];
       else client = ['ok', `HP siswa terhubung ke "${c.ssid}", mendapat IP ${clientIp}/${pre}, gateway dan DNS ${c.lan}, dan bisa membuka internet.`];
       const errs = out.filter(o => o[0] === 'err').length, warns = out.filter(o => o[0] === 'warn').length;
+      store.set('router-last', { waktu: new Date().toLocaleString('id-ID'), hasil: client[0], klien: client[1], kesalahan: errs, peringatan: warns, ssid: c.ssid, keamanan: c.sec, kanal: c.ch, lan: c.lan + '/' + c.mask, dhcp: c.dhcp ? c.d1 + '–' + c.d2 : 'mati' });
       $('#rt-out').innerHTML = `<div class="check-head ${client[0]}"><b>Uji klien:</b> ${esc(client[1])}</div>` + out.map(([l, t]) => `<div class="check ${l}"><span class="ci">${l === 'ok' ? '✓' : l === 'warn' ? '!' : '✕'}</span><span>${esc(t)}</span></div>`).join('') +
         `<p class="small muted">${errs ? `${errs} kesalahan` : 'Tanpa kesalahan'}${warns ? `, ${warns} peringatan` : ''}.</p>`;
     });
@@ -1487,6 +1564,112 @@
     });
   })();
 
+  /* ============================== Bab 6: LKPD praktik serat optik ============================== */
+  const numv = v => { const x = parseFloat(String(v).replace(',', '.')); return isNaN(x) ? null : x; };
+  const LK_OPT = {
+    jenis: ['SC/UPC', 'SC/APC', 'LC/UPC', 'LC/APC'],
+    sebelum: ['', 'Bersih', 'Debu', 'Minyak/sidik jari', 'Goresan'],
+    metode: ['', 'Kering', 'Basah-kering', 'Tidak perlu'],
+    sesudah: ['', 'Bersih', 'Masih kotor', 'Goresan di inti']
+  };
+  const LK_DEF = () => ({
+    l1: [0, 1, 2, 3].map(i => ({ kode: 'K' + (i + 1), jenis: ['SC/UPC', 'SC/APC', 'LC/UPC', 'LC/UPC'][i], sebelum: '', metode: '', sesudah: '' })),
+    l2: [0, 1, 2, 3].map(i => ({ kode: 'S' + (i + 1), a1: '', a2: '', est: '', ukur: '' })),
+    l3: { ref1310: '', ref1550: '', att1310: '0.4', att1550: '0.3', rows: ['Patch cord A', 'Kabel gulung', 'Link lab B', 'Link lab C'].map(n => ({ nama: n, km: '', kon: '', spl: '', rx1310: '', rx1550: '' })) },
+    l4: ['', '', '', '']
+  });
+  const LK_SAMPLE = {
+    l1: [['SC/UPC', 'Debu', 'Kering', 'Bersih'], ['SC/APC', 'Minyak/sidik jari', 'Basah-kering', 'Bersih'], ['LC/UPC', 'Debu', 'Kering', 'Masih kotor'], ['LC/UPC', 'Goresan', 'Basah-kering', 'Goresan di inti']],
+    l2: [['0.3', '0.4', '0.02', '0.03'], ['0.5', '1.4', '', ''], ['0.6', '0.7', '0.12', '0.15'], ['0.4', '0.9', '0.35', '0.38']],
+    l3: { ref1310: '-5.0', ref1550: '-5.2', rows: [['0.003', '2', '0', '-5.4', '-5.6'], ['2', '2', '1', '-7.3', '-7.1'], ['1', '2', '2', '-10.6', '-13.4'], ['0.5', '4', '0', '-9.6', '-9.7']] }
+  };
+  const LK_CASES = [
+    { t: 'ONT tidak menyala (LOS merah)', d: 'Lampu LOS di ONT pelanggan merah. OPM di port ODP (1.490 nm): −19 dBm. OPM di ujung kabel drop di dalam rumah: tidak ada daya (LO). VFL dari ODP: cahaya merah terlihat bocor di dekat tiang ke-2.',
+      b: 'Kabel drop putus atau patah di dekat tiang ke-2: daya di ODP normal, di rumah hilang, dan VFL menunjukkan titik bocor. Ganti atau sambung ulang kabel drop pada titik itu, lalu ukur daya di ONT (harus di atas sensitivitas ONT + margin) dan pastikan lampu LOS padam.' },
+    { t: 'Internet sering putus di malam hari', d: 'Daya terima ONT −27,6 dBm (sensitivitas −27 dBm). Pengukuran link: redaman 1.310 nm = 18,1 dB, redaman 1.550 nm = 21,4 dB. Kabel drop di dalam rumah dijepit klip rapat di sudut kusen pintu.',
+      b: 'Tekukan terlalu tajam (macrobend): rugi di 1.550 nm jauh lebih besar daripada di 1.310 nm, dan daya ONT berada di bawah batas. Rapikan jalur kabel dengan radius tekuk sesuai spesifikasi kabel, lepas klip yang menjepit, lalu ukur ulang sampai daya ONT di atas −27 dBm dengan margin.' },
+    { t: 'Daya turun setelah patch cord dicolok ulang', d: 'Teknisi mencabut dan memasang lagi patch cord di ODP tanpa membersihkan. Daya ONT turun dari −21 dBm menjadi −24,5 dBm. Inspeksi menunjukkan bintik hitam di inti konektor.',
+      b: 'Konektor kotor. Bersihkan dan inspeksi konektor beserta adaptornya (LKPD 1), lalu ukur ulang. SOP: selalu inspeksi → bersihkan → inspeksi sebelum mencolok konektor.' },
+    { t: 'Rugi besar di satu sambungan ODC', d: 'Patch cord berkonektor hijau disambungkan ke adaptor/patch cord berkonektor biru di ODC. Rugi pada titik itu terukur ±4 dB.',
+      b: 'Jenis konektor tercampur: hijau = APC (ujung miring 8°), biru = UPC (ujung rata). Sambungan APC–UPC menyisakan celah udara sehingga rugi dan pantulan besar, bahkan bisa merusak ujung konektor. Ganti dengan pasangan yang sejenis, bersihkan, lalu ukur ulang.' }
+  ];
+  const lk = Object.assign(LK_DEF(), store.get('lkpd', {}));
+  const lkSave = () => store.set('lkpd', lk);
+  function lk1Status(r) { return !r.sesudah ? ['', '–'] : r.sesudah === 'Bersih' ? ['ok', 'Lulus'] : r.sesudah === 'Goresan di inti' ? ['err', 'Ganti/poles'] : ['warn', 'Ulangi bersihkan']; }
+  function lk2Status(r) {
+    const a1 = numv(r.a1), a2 = numv(r.a2), est = numv(r.est), uk = numv(r.ukur);
+    if (a1 === null && a2 === null && est === null && uk === null) return ['', '–'];
+    if (Math.max(a1 || 0, a2 || 0) > 1) return ['warn', 'Potong ulang (sudut > 1°)'];
+    const u = uk !== null ? uk : est;
+    if (u === null) return ['', '–'];
+    return u <= 0.1 ? ['ok', 'Baik'] : u <= 0.3 ? ['warn', 'Diterima (≤ 0,3 dB)'] : ['err', 'Ulangi sambungan'];
+  }
+  function lk3Calc(r) {
+    const L = lk.l3, km = numv(r.km), kon = numv(r.kon), spl = numv(r.spl);
+    const r1 = numv(L.ref1310), r2 = numv(L.ref1550), x1 = numv(r.rx1310), x2 = numv(r.rx1550);
+    const l1 = r1 !== null && x1 !== null ? r1 - x1 : null, l2 = r2 !== null && x2 !== null ? r2 - x2 : null;
+    const base = (km || 0), b1 = base * (numv(L.att1310) || 0) + (kon || 0) * 0.75 + (spl || 0) * 0.3, b2 = base * (numv(L.att1550) || 0) + (kon || 0) * 0.75 + (spl || 0) * 0.3;
+    if (l1 === null && l2 === null) return { l1, l2, b1, b2, st: ['', '–'], an: '' };
+    const ok = (l1 === null || l1 <= b1 + 1e-9) && (l2 === null || l2 <= b2 + 1e-9);
+    let an = 'Redaman sesuai batas.';
+    if (!ok) an = l1 !== null && l2 !== null && l2 - l1 > 0.5 ? 'Rugi 1.550 nm jauh lebih besar dari 1.310 nm: curiga tekukan (macrobend). Periksa radius tekuk di sepanjang jalur.'
+      : 'Rugi tinggi di kedua panjang gelombang: curiga konektor kotor/rusak, adaptor longgar, atau sambungan buruk. Bersihkan, ukur ulang, lalu cari titiknya dengan VFL/OTDR.';
+    return { l1, l2, b1, b2, st: ok ? ['ok', 'Lulus'] : ['err', 'Gagal'], an };
+  }
+  const lkF2 = v => v === null ? '–' : fmt(v, 2);
+  const lkSel = (l, i, k, opts, v) => `<select data-l="${l}" data-i="${i}" data-k="${k}" aria-label="${k}">${opts.map(o => `<option${o === v ? ' selected' : ''} value="${esc(o)}">${o ? esc(o) : '–'}</option>`).join('')}</select>`;
+  const lkInp = (l, i, k, v, ph) => `<input type="text" inputmode="decimal" data-l="${l}" data-i="${i}" data-k="${k}" value="${esc(v)}" placeholder="${ph || ''}" aria-label="${k}">`;
+  function lkRender() {
+    $('#lk1').innerHTML = '<thead><tr><th>Konektor</th><th>Jenis</th><th>Sebelum</th><th>Metode</th><th>Sesudah</th><th>Hasil</th></tr></thead><tbody>' +
+      lk.l1.map((r, i) => `<tr><td>${r.kode}</td><td>${lkSel('l1', i, 'jenis', LK_OPT.jenis, r.jenis)}</td><td>${lkSel('l1', i, 'sebelum', LK_OPT.sebelum, r.sebelum)}</td><td>${lkSel('l1', i, 'metode', LK_OPT.metode, r.metode)}</td><td>${lkSel('l1', i, 'sesudah', LK_OPT.sesudah, r.sesudah)}</td><td id="lk1-s${i}"></td></tr>`).join('') + '</tbody>';
+    $('#lk2').innerHTML = '<thead><tr><th>Sambungan</th><th>Sudut kiri (°)</th><th>Sudut kanan (°)</th><th>Estimasi splicer (dB)</th><th>Hasil ukur (dB)</th><th>Status</th></tr></thead><tbody>' +
+      lk.l2.map((r, i) => `<tr><td>${r.kode}</td><td>${lkInp('l2', i, 'a1', r.a1, '0,5')}</td><td>${lkInp('l2', i, 'a2', r.a2)}</td><td>${lkInp('l2', i, 'est', r.est, '0,02')}</td><td>${lkInp('l2', i, 'ukur', r.ukur)}</td><td id="lk2-s${i}"></td></tr>`).join('') + '</tbody>';
+    const L = lk.l3;
+    $('#lk3-ref').innerHTML = `<div class="hdr-ctl"><label class="field">P<sub>ref</sub> 1.310 nm (dBm)${lkInp('l3', -1, 'ref1310', L.ref1310, '-5,0')}</label><label class="field">P<sub>ref</sub> 1.550 nm (dBm)${lkInp('l3', -1, 'ref1550', L.ref1550, '-5,2')}</label><label class="field">Redaman kabel 1.310 (dB/km)${lkInp('l3', -1, 'att1310', L.att1310)}</label><label class="field">Redaman kabel 1.550 (dB/km)${lkInp('l3', -1, 'att1550', L.att1550)}</label></div><p class="small muted">Nilai bawaan 0,4 dan 0,3 dB/km adalah nilai khas kabel singlemode; TIA-568.3-D membolehkan hingga 0,5 dB/km untuk kabel luar ruang. Pasangan konektor 0,75 dB dan sambungan 0,3 dB adalah batas maksimum TIA-568.</p>`;
+    $('#lk3').innerHTML = '<thead><tr><th>Link</th><th>Panjang (km)</th><th>Pasang konektor</th><th>Sambungan</th><th>P terima 1.310</th><th>P terima 1.550</th><th>Redaman 1.310 / batas</th><th>Redaman 1.550 / batas</th><th>Status</th><th>Analisis</th></tr></thead><tbody>' +
+      L.rows.map((r, i) => `<tr><td><input type="text" data-l="l3" data-i="${i}" data-k="nama" value="${esc(r.nama)}" aria-label="nama link" class="lk-name"></td><td>${lkInp('l3', i, 'km', r.km, '1')}</td><td>${lkInp('l3', i, 'kon', r.kon, '2')}</td><td>${lkInp('l3', i, 'spl', r.spl, '0')}</td><td>${lkInp('l3', i, 'rx1310', r.rx1310, '-6,1')}</td><td>${lkInp('l3', i, 'rx1550', r.rx1550, '-6,0')}</td><td id="lk3-a${i}"></td><td id="lk3-b${i}"></td><td id="lk3-s${i}"></td><td id="lk3-n${i}" class="small"></td></tr>`).join('') + '</tbody>';
+    $('#lk4').innerHTML = LK_CASES.map((c, i) => `<div class="card lk-case"><h3>${i + 1}. ${esc(c.t)}</h3><p class="small">${esc(c.d)}</p><label class="field">Analisis kamu<textarea data-l="l4" data-i="${i}" rows="3" placeholder="Penyebab, lokasi, langkah perbaikan, cara membuktikan">${esc(lk.l4[i] || '')}</textarea></label><details class="reveal"><summary>Pembahasan</summary><div><p>${esc(c.b)}</p></div></details></div>`).join('');
+    lkUpdate();
+  }
+  function lkUpdate() {
+    const tagc = ([c, t]) => `<span class="tag ${c}">${t}</span>`;
+    lk.l1.forEach((r, i) => { $('#lk1-s' + i).innerHTML = tagc(lk1Status(r)); });
+    lk.l2.forEach((r, i) => { $('#lk2-s' + i).innerHTML = tagc(lk2Status(r)); });
+    lk.l3.rows.forEach((r, i) => {
+      const c = lk3Calc(r);
+      $('#lk3-a' + i).textContent = `${lkF2(c.l1)} / ${lkF2(c.b1)} dB`;
+      $('#lk3-b' + i).textContent = `${lkF2(c.l2)} / ${lkF2(c.b2)} dB`;
+      $('#lk3-s' + i).innerHTML = tagc(c.st);
+      $('#lk3-n' + i).textContent = c.an;
+    });
+  }
+  $('#s-6-8').addEventListener('input', e => {
+    const t = e.target.closest('[data-l]'); if (!t) return;
+    const l = t.dataset.l, i = +t.dataset.i, k = t.dataset.k;
+    if (l === 'l4') lk.l4[i] = t.value;
+    else if (l === 'l3' && i < 0) lk.l3[k] = t.value;
+    else if (l === 'l3') lk.l3.rows[i][k] = t.value;
+    else lk[l][i][k] = t.value;
+    lkSave(); lkUpdate();
+  });
+  $('#lk-sample').addEventListener('click', () => {
+    const has = JSON.stringify(lk) !== JSON.stringify(Object.assign(LK_DEF(), { l4: lk.l4 }));
+    if (has && !confirm('Isi tabel LKPD 1–3 akan diganti contoh data. Lanjutkan?')) return;
+    LK_SAMPLE.l1.forEach(([j, s, m, a], i) => Object.assign(lk.l1[i], { jenis: j, sebelum: s, metode: m, sesudah: a }));
+    LK_SAMPLE.l2.forEach(([a1, a2, est, ukur], i) => Object.assign(lk.l2[i], { a1, a2, est, ukur }));
+    Object.assign(lk.l3, { ref1310: LK_SAMPLE.l3.ref1310, ref1550: LK_SAMPLE.l3.ref1550 });
+    LK_SAMPLE.l3.rows.forEach(([km, kon, spl, rx1310, rx1550], i) => Object.assign(lk.l3.rows[i], { km, kon, spl, rx1310, rx1550 }));
+    lk.sample = true;
+    lkSave(); lkRender();
+    toast('Contoh data dimuat. Analisis kolom Status dan Analisis.');
+  });
+  $('#lk-clear').addEventListener('click', () => {
+    if (!confirm('Kosongkan semua isian LKPD?')) return;
+    Object.assign(lk, LK_DEF()); delete lk.sample;
+    lkSave(); lkRender();
+  });
+  lkRender();
+
   /* ============================== Lab kabel RJ45 ============================== */
   (function lab() {
     const KEYS = Object.keys(WIRES);
@@ -1605,7 +1788,48 @@
   })();
 
   /* ============================== Simulator VoIP ============================== */
-  const SIP_BASE = `; Akun SIP untuk softphone. Alamat server Asterisk: 192.168.1.5
+  // Jalur utama: Asterisk 21+ dengan PJSIP (pjsip.conf). Jalur lama: chan_sip (sip.conf) untuk server Asterisk 20 ke bawah.
+  const USERS = [['101', 'Andi'], ['102', 'Budi'], ['103', 'Lab TKJ']];
+  // Membuat pjsip.conf 3 akun; o berisi pengubahan per akun untuk contoh dan soal perbaikan.
+  function pjAcc(o) {
+    o = o || {};
+    let s = `; Akun SIP untuk softphone (Asterisk 21 ke atas, modul PJSIP).
+; Alamat server Asterisk: 192.168.1.5
+; Setiap akun terdiri atas 3 section bernama sama:
+;   type=endpoint (aturan panggilan), type=auth (password), type=aor (alamat softphone)
+
+[transport-udp]
+type=transport
+protocol=udp
+bind=0.0.0.0:5060          ; dengarkan port SIP 5060 di semua alamat
+`;
+    USERS.forEach(([n, nm], i) => {
+      const x = o[n] || {}, c = i === 0;
+      s += `
+; ---------- ${n}: ${nm} ----------
+[${n}]
+type=endpoint
+context=${x.context || 'internal'}${c && !x.context ? '           ; panggilan dari akun ini masuk ke [internal]' : ''}
+disallow=all
+allow=${x.allow || 'ulaw,alaw,gsm'}
+auth=${n}
+aors=${n}
+callerid="${nm}" <${n}>
+${x.extra ? x.extra + '\n' : ''}
+[${n}]
+type=auth
+auth_type=userpass
+username=${n}
+password=${x.password || 'rahasia' + n}
+
+[${n}]
+type=aor
+${x.noMax ? '' : 'max_contacts=1' + (c ? '             ; boleh 1 softphone terdaftar' : '') + '\n'}`;
+    });
+    return s + (o.tail || '');
+  }
+  const SIP_BASE = `; Versi LAMA: chan_sip (Asterisk 20 ke bawah, modul usang dan dihapus di Asterisk 21).
+; Alamat server Asterisk: 192.168.1.5
 [general]
 context=default        ; context untuk panggilan tanpa akun
 allowguest=no          ; tolak panggilan dari pihak tak dikenal
@@ -1636,13 +1860,52 @@ secret=rahasia103
 context=internal
 callerid="Lab TKJ" <103>
 `;
+  const PJ_TRUNK = `
+; ---------- trunk ke penyedia layanan SIP (simulasi) ----------
+[trunk-pstn]
+type=endpoint
+context=dari-pstn
+disallow=all
+allow=ulaw,alaw
+outbound_auth=trunk-pstn-auth
+aors=trunk-pstn
+from_user=02150001234
+
+[trunk-pstn-auth]
+type=auth
+auth_type=userpass
+username=02150001234
+password=rahasiatrunk
+
+[trunk-pstn]
+type=aor
+contact=sip:sip.provider.test   ; alamat server penyedia
+
+[trunk-pstn]
+type=identify
+endpoint=trunk-pstn
+match=sip.provider.test          ; panggilan masuk dari alamat ini = trunk
+`;
+  const SIP_TRUNK = `
+; trunk ke penyedia layanan SIP (simulasi)
+[trunk-pstn]
+type=peer
+host=sip.provider.test
+fromuser=02150001234
+secret=rahasiatrunk
+insecure=invite
+context=dari-pstn
+disallow=all
+allow=ulaw
+allow=alaw
+`;
   const EXT_HEAD = `[general]
 static=yes
 writeprotect=no
 autofallthrough=yes
 
 [globals]
-OPERATOR=SIP/101
+OPERATOR=PJSIP/101
 `;
   const VM_BASE = `[general]
 format=wav49
@@ -1652,16 +1915,18 @@ format=wav49
 102 => 1234,Budi
 103 => 1234,Lab TKJ
 `;
+  // Dialplan ditulis untuk PJSIP; versi chan_sip dibuat otomatis (PJSIP/n@trunk → SIP/trunk/n, PJSIP/ → SIP/).
+  const toSipExt = s => s.replace(/PJSIP\/([^,)&@\s]+)@([A-Za-z0-9_-]+)/g, 'SIP/$2/$1').replace(/PJSIP\//g, 'SIP/');
   const EXAMPLES = [
-    { id: 'dasar', name: 'Dasar: 3 extension, pengumuman, tes gema', sip: SIP_BASE, vm: VM_BASE, ext: EXT_HEAD + `
+    { id: 'dasar', name: 'Dasar: 3 extension, pengumuman, tes gema', pj: pjAcc(), sip: SIP_BASE, ext: EXT_HEAD + `
 [internal]
-exten => 101,1,Dial(SIP/101,20)
+exten => 101,1,Dial(PJSIP/101,20)
  same => n,Hangup()
 
-exten => 102,1,Dial(SIP/102,20)
+exten => 102,1,Dial(PJSIP/102,20)
  same => n,Hangup()
 
-exten => 103,1,Dial(SIP/103,20)
+exten => 103,1,Dial(PJSIP/103,20)
  same => n,Hangup()
 
 ; 500: tes pengumuman suara
@@ -1673,11 +1938,11 @@ exten => 500,1,Answer()
 exten => 600,1,Answer()
  same => n,Echo()
 `, tip: 'Daftarkan HP Andi dan HP Budi, lalu dari Andi panggil 102, 500, dan 600.' },
-    { id: 'vm', name: 'Pattern _1XX + voicemail saat sibuk/tak diangkat', sip: SIP_BASE, vm: VM_BASE, ext: EXT_HEAD + `
+    { id: 'vm', name: 'Pattern _1XX + voicemail saat sibuk/tak diangkat', pj: pjAcc(), sip: SIP_BASE, ext: EXT_HEAD + `
 [internal]
 ; satu baris pattern untuk semua extension 100-199
 exten => _1XX,1,NoOp(Panggilan dari \${CALLERID(num)} ke \${EXTEN})
- same => n,Dial(SIP/\${EXTEN},20)
+ same => n,Dial(PJSIP/\${EXTEN},20)
  same => n,GotoIf($["\${DIALSTATUS}" = "BUSY"]?sibuk)
  same => n,VoiceMail(\${EXTEN}@default,u)   ; tidak diangkat/tidak aktif
  same => n,Hangup()
@@ -1691,26 +1956,14 @@ exten => *97,1,VoiceMailMain(\${CALLERID(num)}@default)
 exten => 600,1,Answer()
  same => n,Echo()
 `, tip: 'Panggil 102 tiga kali dengan pilihan penerima berbeda (angkat, sibuk, tidak diangkat), lalu bandingkan DIALSTATUS di log.' },
-    { id: 'trunk', name: 'Trunk keluar: tekan 9 + nomor telepon', sip: SIP_BASE + `
-; trunk ke penyedia layanan SIP (simulasi)
-[trunk-pstn]
-type=peer
-host=sip.provider.test
-fromuser=02150001234
-secret=rahasiatrunk
-insecure=invite
-context=dari-pstn
-disallow=all
-allow=ulaw
-allow=alaw
-`, vm: VM_BASE, ext: EXT_HEAD + `
+    { id: 'trunk', name: 'Trunk keluar: tekan 9 + nomor telepon', pj: pjAcc({ tail: PJ_TRUNK }), sip: SIP_BASE + SIP_TRUNK, ext: EXT_HEAD + `
 [internal]
-exten => _1XX,1,Dial(SIP/\${EXTEN},20)
+exten => _1XX,1,Dial(PJSIP/\${EXTEN},20)
  same => n,Hangup()
 
 ; 9 + nomor: keluar lewat trunk, angka 9 dibuang dengan \${EXTEN:1}
 exten => _9X.,1,NoOp(Panggilan keluar ke \${EXTEN:1})
- same => n,Dial(SIP/trunk-pstn/\${EXTEN:1},30)
+ same => n,Dial(PJSIP/\${EXTEN:1}@trunk-pstn,30)
  same => n,Congestion()
 
 [dari-pstn]
@@ -1718,9 +1971,9 @@ exten => _9X.,1,NoOp(Panggilan keluar ke \${EXTEN:1})
 exten => s,1,Dial(\${OPERATOR},30)
  same => n,Hangup()
 `, tip: 'Dari HP Andi panggil 9081234567890. Perhatikan nomor yang dikirim ke trunk tanpa angka 9.' },
-    { id: 'ivr', name: 'IVR PT X: tekan 1 HRD, 2 Keuangan, 0 operator', sip: SIP_BASE, vm: VM_BASE, ext: EXT_HEAD + `
+    { id: 'ivr', name: 'IVR PT X: tekan 1 HRD, 2 Keuangan, 0 operator', pj: pjAcc(), sip: SIP_BASE, ext: EXT_HEAD + `
 [internal]
-exten => _1XX,1,Dial(SIP/\${EXTEN},20)
+exten => _1XX,1,Dial(PJSIP/\${EXTEN},20)
  same => n,Hangup()
 
 ; 200: nomor utama kantor, dijawab mesin penjawab (IVR)
@@ -1731,11 +1984,11 @@ exten => s,1,Answer()
  same => n,Background(custom/menu-ptx)  ; "Tekan 1 HRD, 2 Keuangan, 0 operator"
  same => n,WaitExten(5)
 
-exten => 1,1,Dial(SIP/102,20)   ; HRD
+exten => 1,1,Dial(PJSIP/102,20)   ; HRD
  same => n,Hangup()
-exten => 2,1,Dial(SIP/103,20)   ; Keuangan
+exten => 2,1,Dial(PJSIP/103,20)   ; Keuangan
  same => n,Hangup()
-exten => 0,1,Dial(SIP/101,20)   ; Operator
+exten => 0,1,Dial(PJSIP/101,20)   ; Operator
  same => n,Hangup()
 
 exten => i,1,Playback(pbx-invalid)  ; tombol tidak ada di menu
@@ -1743,22 +1996,31 @@ exten => i,1,Playback(pbx-invalid)  ; tombol tidak ada di menu
 exten => t,1,Playback(vm-goodbye)   ; tidak menekan apa pun
  same => n,Hangup()
 `, tip: 'Dari HP Andi panggil 200 dan isi "Digit saat menu" dengan 1, lalu coba 5 dan kosong.' },
-    { id: 'acl', name: 'Keamanan: permit/deny alamat IP', sip: SIP_BASE.replace('callerid="Andi" <101>', 'callerid="Andi" <101>\ndeny=0.0.0.0/0.0.0.0             ; tolak semua alamat…\npermit=192.168.1.0/255.255.255.0 ; …kecuali jaringan lab').replace('callerid="Budi" <102>', 'callerid="Budi" <102>\ndeny=0.0.0.0/0.0.0.0\npermit=192.168.2.0/24            ; hanya dari jaringan kantor'), vm: VM_BASE, ext: EXT_HEAD + `
+    { id: 'acl', name: 'Keamanan: permit/deny alamat IP',
+      pj: pjAcc({ 101: { extra: 'deny=0.0.0.0/0.0.0.0             ; tolak semua alamat…\npermit=192.168.1.0/255.255.255.0 ; …kecuali jaringan lab' }, 102: { extra: 'deny=0.0.0.0/0.0.0.0\npermit=192.168.2.0/24            ; hanya dari jaringan kantor' } }),
+      sip: SIP_BASE.replace('callerid="Andi" <101>', 'callerid="Andi" <101>\ndeny=0.0.0.0/0.0.0.0             ; tolak semua alamat…\npermit=192.168.1.0/255.255.255.0 ; …kecuali jaringan lab').replace('callerid="Budi" <102>', 'callerid="Budi" <102>\ndeny=0.0.0.0/0.0.0.0\npermit=192.168.2.0/24            ; hanya dari jaringan kantor'),
+      ext: EXT_HEAD + `
 [internal]
-exten => _1XX,1,Dial(SIP/\${EXTEN},20)
+exten => _1XX,1,Dial(PJSIP/\${EXTEN},20)
  same => n,Hangup()
 `, tip: 'Daftarkan HP Andi dan HP Budi. Mengapa Budi ditolak? Perbaiki permit-nya atau ubah IP HP Budi.' }
   ];
+  const exampleFiles = (x, mode) => ({ acc: mode === 'sip' ? x.sip : x.pj, ext: mode === 'sip' ? toSipExt(x.ext) : x.ext, vm: VM_BASE });
   const DEVS_DEF = [
     { label: 'HP Andi', user: '101', secret: 'rahasia101', server: '192.168.1.5', ip: '192.168.1.11', codecs: ['ulaw', 'alaw'] },
     { label: 'HP Budi', user: '102', secret: 'rahasia102', server: '192.168.1.5', ip: '192.168.1.12', codecs: ['ulaw', 'gsm'] },
     { label: 'PC Lab', user: '103', secret: 'rahasia103', server: '192.168.1.5', ip: '192.168.1.13', codecs: ['alaw', 'gsm'] }
   ];
   const vp = {
-    files: store.get('voip-files', { sip: EXAMPLES[0].sip, ext: EXAMPLES[0].ext, vm: EXAMPLES[0].vm }),
-    file: 'sip', server: null, devs: store.get('voip-devs', DEVS_DEF.map(d => Object.assign({}, d))), regState: {}, anim: null
+    mode: store.get('voip-mode', 'pjsip'),
+    files: store.get('voip-files2', { pjsip: exampleFiles(EXAMPLES[0], 'pjsip'), sip: exampleFiles(EXAMPLES[0], 'sip') }),
+    file: 'acc', server: null, devs: store.get('voip-devs', DEVS_DEF.map(d => Object.assign({}, d))), regState: {}, anim: null
   };
-  const FILE_NAME = { sip: 'sip.conf', ext: 'extensions.conf', vm: 'voicemail.conf' };
+  if (!vp.files.pjsip || !vp.files.sip) vp.files = { pjsip: exampleFiles(EXAMPLES[0], 'pjsip'), sip: exampleFiles(EXAMPLES[0], 'sip') };
+  const fileName = (f, mode) => f === 'acc' ? AST.MODES[mode || vp.mode].file : f === 'ext' ? 'extensions.conf' : 'voicemail.conf';
+  const fileKey = name => name === 'extensions.conf' ? 'ext' : name === 'voicemail.conf' ? 'vm' : 'acc';
+  const curFiles = () => vp.files[vp.mode];
+  const saveFiles = () => store.set('voip-files2', vp.files);
   const ta = $('#vp-text'), gut = $('#vp-gutter');
   function cliAppend(text, cls) {
     const out = $('#vp-cli-out');
@@ -1770,25 +2032,41 @@ exten => _1XX,1,Dial(SIP/\${EXTEN},20)
   }
   function gutter() {
     const n = ta.value.split('\n').length;
-    const bad = new Set((vp.server ? vp.server.diags : []).filter(d => d.file === FILE_NAME[vp.file] && d.sev !== 'notice').map(d => d.line));
+    const bad = new Set((vp.server ? vp.server.diags : []).filter(d => d.file === fileName(vp.file) && d.sev !== 'notice').map(d => d.line));
     let s = '';
     for (let i = 1; i <= n; i++) s += bad.has(i) ? `<b>${i}</b>\n` : i + '\n';
     gut.innerHTML = s;
     gut.scrollTop = ta.scrollTop;
   }
-  function showFile(f) {
-    vp.files[vp.file] = ta.value;
-    vp.file = f;
-    ta.value = vp.files[f];
-    $$('#vp-files button').forEach(b => b.classList.toggle('on', b.dataset.f === f));
-    gutter();
+  function fileTabs() {
+    $$('#vp-files button').forEach(b => { b.classList.toggle('on', b.dataset.f === vp.file); if (b.dataset.f === 'acc') b.textContent = fileName('acc'); });
+    $$('#vp-mode button').forEach(b => b.classList.toggle('on', b.dataset.m === vp.mode));
+    $('#vp-mode-note').innerHTML = vp.mode === 'pjsip'
+      ? 'Jalur utama. Cocok untuk Asterisk 16 sampai 22+ karena PJSIP sudah bawaan; wajib untuk Asterisk 21 ke atas. Kanal di dialplan: <code>PJSIP/101</code>, cek akun: <code>pjsip show endpoints</code>.'
+      : 'Hanya untuk server lama (Asterisk 20 ke bawah) yang masih memuat modul chan_sip. Kanal: <code>SIP/101</code>, cek akun: <code>sip show peers</code>.';
   }
-  ta.addEventListener('input', debounce(() => { vp.files[vp.file] = ta.value; store.set('voip-files', vp.files); gutter(); }, 250));
+  function showFile(f) {
+    curFiles()[vp.file] = ta.value;
+    vp.file = f;
+    ta.value = curFiles()[f];
+    fileTabs(); gutter();
+  }
+  ta.addEventListener('input', debounce(() => { curFiles()[vp.file] = ta.value; saveFiles(); gutter(); }, 250));
   ta.addEventListener('scroll', () => { gut.scrollTop = ta.scrollTop; });
   ta.addEventListener('keydown', e => {
     if (e.key === 'Tab') { e.preventDefault(); const s = ta.selectionStart; ta.setRangeText(' ', s, ta.selectionEnd, 'end'); ta.dispatchEvent(new Event('input')); }
   });
   segPick($('#vp-files'), 'f', showFile);
+  function setMode(m, quiet) {
+    if (m === vp.mode && vp.server) return;
+    curFiles()[vp.file] = ta.value; saveFiles();
+    vp.mode = m; store.set('voip-mode', m);
+    vp.server = null; vp.regState = {};
+    ta.value = curFiles()[vp.file];
+    reload(true);
+    if (!quiet) { cliAppend(`; Beralih ke ${AST.MODES[m].ver}. Daftarkan ulang softphone.`, 'sys'); toast(`Mode ${AST.MODES[m].ver}`); }
+  }
+  segPick($('#vp-mode'), 'm', m => setMode(m));
   $('#vp-sym').innerHTML = ['=>', ',', '(', ')', '[', ']', '${', '}', '_', ';', '=', '/', '@', '.', '"'].map(s => `<button type="button" data-s="${esc(s)}">${esc(s)}</button>`).join('');
   $('#vp-sym').addEventListener('mousedown', e => e.preventDefault());
   $('#vp-sym').addEventListener('click', e => {
@@ -1804,8 +2082,7 @@ exten => _1XX,1,Dial(SIP/\${EXTEN},20)
   }
   $('#vp-diags').addEventListener('click', e => {
     const b = e.target.closest('.diag[data-file]'); if (!b) return;
-    const f = Object.keys(FILE_NAME).find(k => FILE_NAME[k] === b.dataset.file);
-    showFile(f);
+    showFile(fileKey(b.dataset.file));
     const lines = ta.value.split('\n'), ln = +b.dataset.line;
     const start = lines.slice(0, ln - 1).join('\n').length + (ln > 1 ? 1 : 0);
     ta.focus(); ta.setSelectionRange(start, start + (lines[ln - 1] || '').length);
@@ -1813,19 +2090,21 @@ exten => _1XX,1,Dial(SIP/\${EXTEN},20)
     if (matchMedia('(max-width: 1099px)').matches) setPane('code');
   });
   function reload(quiet) {
-    vp.files[vp.file] = ta.value;
-    store.set('voip-files', vp.files);
+    curFiles()[vp.file] = ta.value;
+    saveFiles();
     const prev = vp.server;
-    vp.server = AST.load(vp.files);
-    if (prev) {
+    vp.server = AST.load(Object.assign({ mode: vp.mode }, curFiles()));
+    if (prev && prev.mode === vp.mode) {
       vp.server.vmCount = prev.vmCount; vp.server.chanSeq = prev.chanSeq;
-      Object.entries(prev.regs).forEach(([u, r]) => { const p = vp.server.sip.peers[u]; if (p && p.host === 'dynamic') vp.server.regs[u] = r; });
+      Object.entries(prev.regs).forEach(([u, r]) => { const p = vp.server.acc.accounts[u]; if (p && p.kind === 'phone') vp.server.regs[u] = r; });
     }
-    renderDiags(); gutter(); renderPhones();
+    fileTabs(); renderDiags(); gutter(); renderPhones();
     if (!quiet) {
       const e = vp.server.diags.filter(d => d.sev === 'error').length, w = vp.server.diags.filter(d => d.sev === 'warning').length;
       cliAppend('CLI> core reload', 'in');
-      cliAppend(`    -- Reloading module 'chan_sip.so' (Session Initiation Protocol (SIP))\n    -- Reloading module 'pbx_config.so' (Text Extension Configuration)\nDialplan reloaded.`);
+      cliAppend(vp.mode === 'pjsip'
+        ? `    -- Reloading module 'res_pjsip.so' (Basic SIP resource)\n    -- Reloading module 'pbx_config.so' (Text Extension Configuration)\nDialplan reloaded.`
+        : `    -- Reloading module 'chan_sip.so' (Session Initiation Protocol (SIP))\n    -- Reloading module 'pbx_config.so' (Text Extension Configuration)\nDialplan reloaded.`);
       toast(e ? `Dimuat dengan ${e} error dan ${w} peringatan` : w ? `Dimuat dengan ${w} peringatan` : 'Konfigurasi dimuat');
     }
   }
@@ -1835,23 +2114,25 @@ exten => _1XX,1,Dial(SIP/\${EXTEN},20)
     const x = EXAMPLES.find(y => y.id === e.target.value);
     e.target.value = '';
     if (!x) return;
-    vp.files = { sip: x.sip, ext: x.ext, vm: x.vm };
-    ta.value = vp.files[vp.file];
+    vp.files[vp.mode] = exampleFiles(x, vp.mode);
+    ta.value = curFiles()[vp.file];
     reload(true);
-    cliAppend(`; Contoh "${x.name}" dimuat. ${x.tip}`, 'sys');
+    cliAppend(`; Contoh "${x.name}" dimuat (${fileName('acc')}). ${x.tip}`, 'sys');
     toast('Contoh dimuat. ' + x.tip);
   });
-  $('#vp-save').addEventListener('click', () => { vp.files[vp.file] = ta.value; saveFile(FILE_NAME[vp.file], ta.value); });
+  $('#vp-save').addEventListener('click', () => { curFiles()[vp.file] = ta.value; saveFile(fileName(vp.file), ta.value); });
   $('#vp-open').addEventListener('click', () => $('#vp-file').click());
   $('#vp-file').addEventListener('change', e => {
     const f = e.target.files[0]; if (!f) return;
     const rd = new FileReader();
     rd.onload = () => {
-      const target = /extensions/i.test(f.name) ? 'ext' : /voicemail/i.test(f.name) ? 'vm' : /sip/i.test(f.name) ? 'sip' : vp.file;
-      vp.files[target] = String(rd.result);
-      if (target !== vp.file) showFile(target); else ta.value = vp.files[target];
+      const nm = f.name.toLowerCase();
+      const target = /extensions/.test(nm) ? 'ext' : /voicemail/.test(nm) ? 'vm' : /sip/.test(nm) ? 'acc' : vp.file;
+      if (target === 'acc') { const m = /pjsip/.test(nm) ? 'pjsip' : 'sip'; if (m !== vp.mode) setMode(m, true); }
+      curFiles()[target] = String(rd.result);
+      if (target !== vp.file) showFile(target); else ta.value = curFiles()[target];
       reload(false);
-      toast(`${f.name} dimuat ke ${FILE_NAME[target]}`);
+      toast(`${f.name} dimuat ke ${fileName(target)}`);
     };
     rd.readAsText(f);
     e.target.value = '';
@@ -1882,7 +2163,6 @@ exten => _1XX,1,Dial(SIP/\${EXTEN},20)
     const d = vp.devs[+card.dataset.i];
     if (e.target.dataset.f) d[e.target.dataset.f] = e.target.value.trim();
     if (e.target.dataset.codec) d.codecs = $$('input[data-codec]', card).filter(x => x.checked).map(x => x.dataset.codec);
-    if (vp.server.regs[d.user] && vp.server.regs[d.user].dev === d) delete vp.server.regs[d.user];
     Object.keys(vp.server.regs).forEach(u => { if (vp.server.regs[u].dev === d) delete vp.server.regs[u]; });
     delete vp.regState[+card.dataset.i];
     store.set('voip-devs', vp.devs);
@@ -1896,14 +2176,21 @@ exten => _1XX,1,Dial(SIP/\${EXTEN},20)
     const i = +b.closest('.phone').dataset.i, d = vp.devs[i];
     if (b.dataset.act === 'unreg') {
       delete vp.server.regs[d.user];
-      cliAppend(`    -- Unregistered SIP '${d.user}'`);
+      cliAppend(vp.mode === 'pjsip' ? `    -- Removed contact 'sip:${d.user}@${d.ip}:5060' from AOR '${d.user}' due to request\n  == Endpoint ${d.user} is now Unreachable` : `    -- Unregistered SIP '${d.user}'`);
       renderPhones(); return;
     }
     const r = AST.register(vp.server, d);
     vp.regState[i] = r.ok ? null : `${r.code} ${r.text}`;
-    playEvents(r, () => { renderPhones(); setResult(r.ok ? 'ok' : 'err', r.ok ? `${d.label} terdaftar sebagai ${d.user}` : `Registrasi ${d.label} gagal: ${r.code} ${r.text}`); });
+    logVoip({ jenis: 'daftar', dari: d.user, ok: r.ok, hasil: `${r.code} ${r.text}` });
+    playEvents(r, () => { renderPhones(); setResult(r.ok ? 'ok' : 'err', r.ok ? `${esc(d.label)} terdaftar sebagai ${esc(d.user)}` : `Registrasi ${esc(d.label)} gagal: ${r.code} ${esc(r.text)}`); });
     renderPhones();
   });
+  // Riwayat singkat untuk halaman Kumpulkan hasil
+  function logVoip(x) {
+    const log = store.get('voip-log', []);
+    log.push(Object.assign({ waktu: new Date().toLocaleString('id-ID'), mode: vp.mode }, x));
+    store.set('voip-log', log.slice(-30));
+  }
   keypad($('#vp-pad'), k => { const n = $('#vp-num'); n.value += k; });
   $('#vp-pad').insertAdjacentHTML('beforeend', '<button type="button" class="bs" aria-label="Hapus satu digit">⌫</button>');
   $('#vp-pad .bs').addEventListener('click', () => { const n = $('#vp-num'); n.value = n.value.slice(0, -1); });
@@ -1938,9 +2225,10 @@ exten => _1XX,1,Dial(SIP/\${EXTEN},20)
     if (!vp.server) reload(true);
     const d = vp.devs[+$('#vp-from').value || 0];
     const num = $('#vp-num').value.trim();
-    const dtmf = $('#vp-dtmf') ? $('#vp-dtmf').value : '';
+    const dtmf = $('#vp-dtmf').value;
     cliAppend(`; ${d.label} (${d.user}) memanggil ${num || '(kosong)'}`, 'sys');
     const r = AST.call(vp.server, d, num, { answer: $('#vp-answer').value, dtmf });
+    logVoip({ jenis: 'panggil', dari: d.user, ke: num, ok: ['connected', 'voicemail', 'served'].includes(r.status), hasil: `${r.status}${r.code ? ' · ' + r.code + ' ' + r.text : ''}${r.dialstatus ? ' · DIALSTATUS=' + r.dialstatus : ''}` });
     if (matchMedia('(max-width: 1099px)').matches) $('#vp-result').scrollIntoView({ block: 'nearest' });
     setResult('', 'Memproses panggilan…');
     playEvents(r, () => {
@@ -1955,7 +2243,7 @@ exten => _1XX,1,Dial(SIP/\${EXTEN},20)
       };
       const m = M[r.status] || ['', esc(r.status)];
       const bad = r.events.filter(e => e.t === 'note' && e.cls === 'bad').map(e => e.text);
-      setResult(m[0], m[1] + (bad.length && r.status !== 'connected' ? `<span class="small">${esc(bad[bad.length - 1])}</span>` : ''));
+      setResult(m[0], m[1] + (bad.length && r.status !== 'connected' && r.status !== 'notreg' ? `<span class="small">${esc(bad[bad.length - 1])}</span>` : ''));
       renderPhones();
     });
   });
@@ -1976,31 +2264,34 @@ exten => _1XX,1,Dial(SIP/\${EXTEN},20)
     $$('#voip-mtabs button').forEach(b => b.classList.toggle('on', b.dataset.pane === p));
   }
   segPick($('#voip-mtabs .seg'), 'pane', setPane);
-  // Dipanggil tombol "Coba di simulator" pada contoh kode di materi
+  // Dipanggil tombol "Coba di simulator" (materi) dan "Buka di simulator" (soal perbaikan).
+  // files: { mode?, acc?, ext?, vm? }; mode ditebak dari isi bila tidak disebut.
   function openInSim(files) {
-    if (files.ext !== undefined) vp.files.ext = files.ext;
-    if (files.sip !== undefined) vp.files.sip = files.sip;
-    if (files.vm !== undefined) vp.files.vm = files.vm;
-    if (!vp.files.sip.trim()) vp.files.sip = SIP_BASE;
-    if (!vp.files.vm.trim()) vp.files.vm = VM_BASE;
-    vp.file = files.ext !== undefined ? 'ext' : 'sip';
-    ta.value = vp.files[vp.file];
-    $$('#vp-files button').forEach(b => b.classList.toggle('on', b.dataset.f === vp.file));
+    let mode = files.mode;
+    if (!mode && files.ext) mode = /PJSIP\//.test(files.ext) ? 'pjsip' : /(^|[^J])SIP\//.test(files.ext) ? 'sip' : vp.mode;
+    if (mode && mode !== vp.mode) { curFiles()[vp.file] = ta.value; vp.mode = mode; store.set('voip-mode', mode); vp.server = null; vp.regState = {}; }
+    const F = curFiles();
+    ['acc', 'ext', 'vm'].forEach(k => { if (files[k] !== undefined) F[k] = files[k]; });
+    if (!F.acc.trim()) F.acc = vp.mode === 'sip' ? SIP_BASE : pjAcc();
+    if (!F.vm.trim()) F.vm = VM_BASE;
+    vp.file = files.ext !== undefined && files.acc === undefined ? 'ext' : 'acc';
+    ta.value = F[vp.file];
     reload(true);
-    vp.devs.forEach(d => { const r = AST.register(vp.server, d); if (r.ok) cliAppend(`    -- Registered SIP '${d.user}' at ${d.ip}:5060`); });
+    vp.devs.forEach(d => { const r = AST.register(vp.server, d); if (r.ok) cliAppend(vp.mode === 'pjsip' ? `  == Endpoint ${d.user} is now Reachable` : `    -- Registered SIP '${d.user}' at ${d.ip}:5060`); });
     renderPhones();
     go('voip');
     setPane('code');
     toast('Konfigurasi dimuat dan softphone didaftarkan. Coba lakukan panggilan.');
   }
-  onShow.voip = () => { if (!vp.server) { ta.value = vp.files[vp.file]; reload(true); cliAppend('Asterisk (simulator) siap. Ketik help untuk daftar perintah.', 'sys'); } };
-  ta.value = vp.files[vp.file];
+  onShow.voip = () => { if (!vp.server) { ta.value = curFiles()[vp.file]; reload(true); cliAppend(`${AST.MODES[vp.mode].ver} (simulator) siap. Ketik help untuk daftar perintah.`, 'sys'); } };
+  ta.value = curFiles()[vp.file];
+  fileTabs();
   gutter();
 
   /* ============================== Kalkulator ============================== */
   (function subnet() {
     const inp = $('#ip-in');
-    const EX = ['172.16.0.126/25', '10.11.0.125/25', '10.10.10.1/27', '192.168.1.1/24', '192.168.10.65/26'];
+    const EX = ['172.16.0.126/25', '10.11.0.125/25', '10.10.10.1/27', '192.168.1.1/24', '192.168.1.0/31', '169.254.1.10/16', '203.0.113.5/24'];
     $('#ip-ex').innerHTML = '<span class="small muted">Contoh:</span>' + EX.map(x => `<button type="button" class="btn btn-ghost small mono" data-ip="${x}">${x}</button>`).join('');
     $('#ip-ex').addEventListener('click', e => { const b = e.target.closest('[data-ip]'); if (b) { inp.value = b.dataset.ip; calc(); } });
     function calc() {
@@ -2013,15 +2304,20 @@ exten => _1XX,1,Dial(SIP/\${EXTEN},20)
       if (m[3]) { const mk = ipInt(m[3]); if (mk !== null) { const b = mk.toString(2).padStart(32, '0'); if (/^1*0*$/.test(b)) pre = b.indexOf('0') < 0 ? 32 : b.indexOf('0'); } }
       if (ip === null || pre === null || pre > 32) { out.innerHTML = `<tr><td>${ip === null ? 'Alamat IP tidak valid. Setiap angka harus 0–255.' : 'Tambahkan prefix (/24) atau subnet mask yang valid.'}</td></tr>`; $('#ip-bits').innerHTML = ''; return; }
       const mk = maskOf(pre), net = (ip & mk) >>> 0, bc = (net | (~mk >>> 0)) >>> 0;
-      const total = Math.pow(2, 32 - pre), hosts = pre >= 31 ? (pre === 31 ? 2 : 1) : total - 2;
-      const first = pre >= 31 ? net : net + 1, last = pre >= 31 ? bc : bc - 1;
-      const a = ip >>> 24, cls = a < 128 ? 'A' : a < 192 ? 'B' : a < 224 ? 'C' : a < 240 ? 'D (multicast)' : 'E';
-      const role = ip === net && pre < 31 ? '<span class="tag err">alamat network, tidak boleh dipakai host</span>' : ip === bc && pre < 31 ? '<span class="tag err">alamat broadcast, tidak boleh dipakai host</span>' : '<span class="tag ok">alamat host yang valid</span>';
-      const rows = [
-        ['Alamat IP', `${ipStr(ip)} ${role}`], ['Subnet mask', `${ipStr(mk)} (/${pre})`], ['Wildcard', ipStr(~mk >>> 0)],
-        ['Network', ipStr(net)], ['Broadcast', ipStr(bc)], ['Host pertama', ipStr(first)], ['Host terakhir', ipStr(last)],
-        ['Jumlah host', `${fmt(hosts)} (2^${32 - pre}${pre < 31 ? ' − 2' : ''})`], ['Kelas / jenis', `Kelas ${cls} · ${isPrivate(ip) ? 'privat (untuk LAN)' : (ip >>> 24) === 127 ? 'loopback' : 'publik'}`]
-      ];
+      const a = ip >>> 24, cls = a < 128 ? 'A' : a < 192 ? 'B' : a < 224 ? 'C' : a < 240 ? 'D' : 'E';
+      const kind = ipKind(ip);
+      const tag = (c, t) => `<span class="tag ${c}">${t}</span>`;
+      let role;
+      if (!kind.unicast) role = tag('warn', 'bukan alamat host biasa');
+      else if (pre === 32) role = tag('ok', 'satu host (/32)');
+      else if (pre === 31) role = tag('ok', 'endpoint point-to-point (RFC 3021)');
+      else role = ip === net ? tag('err', 'alamat network, tidak boleh dipakai host') : ip === bc ? tag('err', 'alamat broadcast, tidak boleh dipakai host') : tag('ok', 'alamat host yang valid');
+      const rows = [['Alamat IP', `${ipStr(ip)} ${role}`], ['Subnet mask', `${ipStr(mk)} (/${pre})`], ['Wildcard', ipStr(~mk >>> 0)]];
+      if (!kind.unicast) rows.push(['Network / host', 'Tidak berlaku: alamat ini bukan untuk satu host, jadi tidak dibagi menjadi network, host, dan broadcast.']);
+      else if (pre <= 30) rows.push(['Network', ipStr(net)], ['Broadcast', ipStr(bc)], ['Host pertama', ipStr(net + 1)], ['Host terakhir', ipStr(bc - 1)], ['Jumlah host', `${fmt(Math.pow(2, 32 - pre) - 2)} (2^${32 - pre} − 2)`]);
+      else if (pre === 31) rows.push(['Network / broadcast', 'Tidak ada. Pada /31 kedua alamat dipakai sebagai endpoint sambungan point-to-point dan tidak ada directed broadcast (RFC 3021).'], ['Endpoint 1', ipStr(net)], ['Endpoint 2', ipStr(bc)], ['Jumlah alamat terpakai', '2 (2^1, tidak dikurangi 2)']);
+      else rows.push(['Cakupan', `Hanya ${ipStr(ip)}. Prefix /32 menunjuk satu host, misalnya untuk rute khusus atau alamat loopback router.`], ['Jumlah host', '1']);
+      rows.push(['Jenis alamat', `${tag(kind.cls, kind.label)} ${esc(kind.note)}`], ['Kelas (historis)', `Kelas ${cls}${cls === 'D' ? ' (multicast)' : cls === 'E' ? ' (cadangan)' : ''}. Pembagian kelas sudah diganti CIDR; ditampilkan sebagai pengetahuan dasar.`]);
       out.innerHTML = '<tbody>' + rows.map(([k, v]) => `<tr><th>${k}</th><td>${v}</td></tr>`).join('') + '</tbody>';
       const bits = ip.toString(2).padStart(32, '0');
       $('#ip-bits').innerHTML = '<span class="small muted">Biner (bagian network disorot):</span><div class="mono">' + [0, 1, 2, 3].map(o => [...bits.slice(o * 8, o * 8 + 8)].map((b, i) => `<span class="${o * 8 + i < pre ? 'nb' : 'hb'}">${b}</span>`).join('')).join('.') + '</div>';
@@ -2092,7 +2388,7 @@ exten => _1XX,1,Dial(SIP/\${EXTEN},20)
     { b: 2, q: 'Standar IEEE 802.11ax dikenal dengan nama…', o: ['Wi-Fi 4', 'Wi-Fi 5', 'Wi-Fi 6', 'Wi-Fi 7'], a: 2, e: '802.11n = Wi-Fi 4, 802.11ac = Wi-Fi 5, 802.11ax = Wi-Fi 6/6E, 802.11be = Wi-Fi 7.' },
     { b: 3, s: 1, q: 'Pada keamanan wireless disarankan memakai WPA2-PSK dibandingkan WEP. Alasan yang tepat adalah…', o: ['Algoritma enkripsi yang digunakan', 'Jumlah user yang didukung', 'Fungsi utama access control', 'Panjang password minimal', 'Frekuensi yang digunakan'], a: 0, e: 'WPA2 memakai AES-CCMP, sedangkan WEP memakai RC4 dengan kunci statis yang mudah dibobol.' },
     { b: 3, s: 1, q: 'Fungsi utama bridge pada jaringan adalah…', o: ['Menyediakan IP address bagi pengguna', 'Mengubah sinyal analog menjadi digital', 'Menghubungkan segmen antarjaringan LAN', 'Menghubungkan jaringan kabel dan nirkabel', 'Mengirimkan paket melalui jalur tercepat'], a: 2, e: 'Bridge menyatukan dua segmen LAN menjadi satu jaringan. Wireless bridge melakukannya lewat radio.' },
-    { b: 3, s: 1, q: 'Sebagai administrator, jika menemukan konflik IP address pada jaringan Wi-Fi, hal pertama yang harus diidentifikasi adalah…', o: ['Password jaringan terlalu panjang', 'Perangkat tidak mendukung 802.11ac', 'Frekuensi sinyal terlalu tinggi', 'DHCP server tidak aktif', 'SSID tidak di-broadcast'], a: 3, e: 'Konflik IP terkait pembagian alamat. Periksa DHCP server: aktif atau tidak, dan apakah ada IP statis di dalam pool.' },
+    { b: 3, s: 1, q: 'Sebagai administrator, jika menemukan konflik IP address pada jaringan Wi-Fi, hal pertama yang harus diidentifikasi adalah…', o: ['Password jaringan terlalu panjang', 'Perangkat tidak mendukung 802.11ac', 'Frekuensi sinyal terlalu tinggi', 'Perangkat mana saja yang memakai alamat IP yang sama, termasuk IP statis yang berada di dalam rentang pool DHCP', 'SSID tidak di-broadcast'], a: 3, e: 'Konflik IP berarti dua perangkat memakai alamat yang sama. Cari perangkat yang bentrok (daftar klien DHCP, tabel ARP, atau ping alamat itu), lalu periksa apakah ada IP statis di dalam pool DHCP, seperti kasus printer di Studi kasus no. 4. (Soal di slide memakai jawaban "DHCP server tidak aktif"; dirapikan karena DHCP yang mati bukan satu-satunya dan bukan penyebab langsung konflik.)' },
     { b: 3, q: 'Antena yang paling tepat untuk menghubungkan dua gedung berjarak 1 km secara point-to-point adalah…', o: ['Omni-directional', 'Sektoral', 'Grid/parabola (directional)', 'Antena bawaan router'], a: 2, e: 'Antena directional memfokuskan pancaran ke satu arah sehingga jangkauannya paling jauh.' },
     { b: 3, q: 'Kanal Wi-Fi 2,4 GHz yang tidak saling tumpang tindih adalah…', o: ['1, 2, 3', '1, 6, 11', '2, 7, 12', '5, 10, 13'], a: 1, e: 'Lebar kanal 20 MHz dengan jarak antarkanal 5 MHz membuat 1, 6, dan 11 tidak saling tumpang tindih.' },
     { b: 3, q: 'Pada mode wireless station, perangkat…', o: ['Memancarkan SSID agar klien bisa terhubung', 'Hanya menerima sinyal dari AP lain dan tidak memancarkan SSID', 'Membagikan IP lewat DHCP ke klien nirkabel', 'Mengubah sinyal analog menjadi digital'], a: 1, e: 'Station bertindak sebagai klien, biasanya untuk link point-to-point jarak jauh.' },
@@ -2102,10 +2398,10 @@ exten => _1XX,1,Dial(SIP/\${EXTEN},20)
     { b: 4, q: 'Bitrate codec G.711 adalah…', o: ['8 kbps', '16 kbps', '32 kbps', '64 kbps'], a: 3, e: 'G.711 tidak memampatkan: 8.000 sampel × 8 bit = 64 kbps.' },
     { b: 4, q: 'Batas delay satu arah yang disarankan ITU-T G.114 agar percakapan terasa nyaman adalah…', o: ['15 ms', '150 ms', '400 ms', '1.500 ms'], a: 1, e: 'Sampai 150 ms terasa alami; 150–400 ms masih bisa diterima; di atas 400 ms percakapan terganggu.' },
     { b: 4, q: 'Komponen softswitch yang mengubah suara dari jaringan PSTN menjadi paket RTP adalah…', o: ['Application server', 'Media gateway', 'Signaling gateway', 'Media server'], a: 1, e: 'Media gateway melakukan packetizing dan depacketizing antara jaringan sirkuit dan jaringan IP.' },
-    { b: 5, s: 1, q: 'Seorang teknisi ingin memastikan server Asterisk hanya menerima koneksi SIP dari IP tertentu. File konfigurasi yang relevan untuk dimodifikasi adalah…', o: ['extensions.conf', 'features.conf', 'sip.conf', 'rtp.conf', 'iax.conf'], a: 2, e: 'Opsi permit= dan deny= pada akun di sip.conf (atau ACL di pjsip.conf).' },
+    { b: 5, s: 1, q: 'Seorang teknisi ingin memastikan server Asterisk 21 hanya menerima koneksi SIP dari IP tertentu. File konfigurasi yang relevan untuk dimodifikasi adalah…', o: ['extensions.conf', 'features.conf', 'pjsip.conf', 'rtp.conf', 'iax.conf'], a: 2, e: 'Opsi permit= dan deny= pada section type=endpoint (atau section type=acl) di pjsip.conf. Soal di slide menjawab sip.conf; itu benar untuk server lama chan_sip, tetapi file tersebut tidak dipakai lagi di Asterisk 21.' },
     { b: 5, s: 1, q: 'Fungsi protokol RTCP untuk memastikan komunikasi real-time adalah…', o: ['Mengatur keamanan jaringan', 'Mengatur proses autentikasi data', 'Memberikan IP address kepada pengguna', 'Mengirim data video dan audio', 'Memantau RTP serta menjaga kualitas dan sinkronisasi'], a: 4, e: 'RTCP melaporkan statistik (jitter, paket hilang) dan membantu sinkronisasi; yang membawa suara adalah RTP.' },
     { b: 5, s: 1, q: 'Softphone berhasil register ke Asterisk, tetapi gagal melakukan panggilan keluar. Kemungkinan besar masalahnya adalah…', o: ['Konfigurasi trunk outbound', 'Codec inbound tidak cocok', 'Password extension salah', 'rtp.conf kosong', 'Port SIP tertutup'], a: 0, e: 'Register berhasil berarti password dan port benar. Panggilan keluar butuh trunk dan aturan dialplan menuju trunk.' },
-    { b: 5, q: 'Pada baris exten => 101,2,Hangup(), angka 2 menunjukkan…', o: ['Nomor extension', 'Prioritas (urutan langkah)', 'Lama dering 2 detik', 'Jumlah percobaan'], a: 1, e: 'Format: exten => nomor,prioritas,aplikasi.' },
+    { b: 5, q: 'Di pjsip.conf, softphone 102 selalu ditolak saat REGISTER walaupun password benar. Log: "AOR has been configured to not allow registrations". Yang perlu ditambahkan adalah…', o: ['max_contacts=1 pada section type=aor', 'context=internal pada section type=auth', 'host=dynamic pada section type=endpoint', 'allow=ulaw pada section type=transport'], a: 0, e: 'Nilai bawaan max_contacts adalah 0, artinya AOR menolak semua registrasi. host=dynamic adalah opsi chan_sip dan tidak dikenal di PJSIP.' },
     { b: 5, q: 'Pattern _1XX cocok dengan nomor…', o: ['1', '100', '1000', '210'], a: 1, e: '_1XX berarti tiga digit: angka 1 diikuti dua digit 0–9, yaitu 100 sampai 199.' },
     { b: 5, q: 'Respons SIP yang dikirim saat penerima sedang sibuk adalah…', o: ['180 Ringing', '200 OK', '404 Not Found', '486 Busy Here'], a: 3, e: '486 Busy Here. Di Asterisk, DIALSTATUS menjadi BUSY.' },
     { b: 6, s: 1, q: 'Lapisan kabel serat optik yang lentur, berbahan plastik, dan melindungi cladding dari kelembapan adalah…', o: ['Strength member', 'Outer jacket', 'Cladding', 'Coating', 'Core'], a: 3, e: 'Coating langsung membungkus cladding. Outer jacket melindungi seluruh kabel dari luar.' },
@@ -2164,16 +2460,21 @@ exten => _1XX,1,Dial(SIP/\${EXTEN},20)
       ['Ganti password Wi-Fi.', 0, 'Password tidak berhubungan dengan pembagian alamat IP.'],
       ['Matikan DHCP server.', 0, 'Tanpa DHCP, semua klien harus diisi manual dan konflik justru makin mungkin.'],
       ['Pindah ke kanal 11.', 0, 'Kanal radio tidak memengaruhi alamat IP.']] },
-    { t: 'Softphone gagal register', d: 'Zoiper menampilkan "403 Forbidden". Log Asterisk: Registration from \'"102" <sip:102@192.168.1.5>\' failed for \'192.168.1.12:5060\' - Wrong password.', o: [
-      ['Samakan password di softphone dengan secret akun [102] di sip.conf.', 1, 'Tepat. "Wrong password" berarti akun ditemukan tetapi password berbeda (huruf besar/kecil dibedakan).'],
+    { t: 'Softphone gagal register', d: 'Server Asterisk 21. Zoiper terus menampilkan "401 Unauthorized". Log: Request \'REGISTER\' from \'"102" <sip:102@192.168.1.5>\' failed for \'192.168.1.12:5060\' (callid: …) - Failed to authenticate.', o: [
+      ['Samakan password di softphone dengan password= pada section type=auth milik 102 di pjsip.conf (periksa juga username=).', 1, 'Tepat. Endpoint 102 ditemukan, tetapi username atau password tidak cocok dengan section auth-nya (huruf besar/kecil dibedakan). Di server lama chan_sip, pesannya "Wrong password" dan yang dicocokkan adalah secret= di sip.conf.'],
       ['Ganti codec softphone.', 0, 'Codec baru dicek saat panggilan, bukan saat registrasi.'],
-      ['Tambahkan extension 102 di extensions.conf.', 0, 'Registrasi diatur sip.conf. Dialplan baru dipakai saat menelepon.'],
+      ['Tambahkan extension 102 di extensions.conf.', 0, 'Registrasi diatur pjsip.conf. Dialplan baru dipakai saat menelepon.'],
       ['Ganti alamat server di softphone.', 0, 'Server sudah menjawab (ada log), jadi alamatnya benar.']] },
-    { t: 'Panggilan ditolak 404', d: 'Dari 101 memanggil 102 dan mendapat "404 Not Found". Log: Call from \'101\' (192.168.1.11:5060) to extension \'102\' rejected because extension not found in context \'intenal\'.', o: [
-      ['Perbaiki context=intenal menjadi context=internal pada akun 101 di sip.conf.', 1, 'Tepat. Asterisk mencari 102 di context milik akun pemanggil. Salah ketik nama context membuat semua nomor tidak ditemukan.'],
+    { t: 'Panggilan ditolak 404', d: 'Dari 101 memanggil 102 dan mendapat "404 Not Found". Log: Call from \'101\' (UDP:192.168.1.11:5060) to extension \'102\' rejected because extension not found in context \'intenal\'.', o: [
+      ['Perbaiki context=intenal menjadi context=internal pada section type=endpoint milik 101 di pjsip.conf.', 1, 'Tepat. Asterisk mencari 102 di context milik akun pemanggil. Salah ketik nama context membuat semua nomor tidak ditemukan.'],
       ['Daftarkan ulang softphone 102.', 0, 'Pesan 404 muncul sebelum Asterisk mencoba menghubungi 102.'],
       ['Ganti codec menjadi ulaw.', 0, 'Masalah codec memberi 488, bukan 404.'],
-      ['Restart server Asterisk.', 0, 'Restart tidak memperbaiki salah ketik di konfigurasi.']] }
+      ['Restart server Asterisk.', 0, 'Restart tidak memperbaiki salah ketik di konfigurasi.']] },
+    { t: 'Konfigurasi lama dipindah ke server baru', d: 'Sekolah memindahkan sip.conf lama ke server Asterisk 21. Semua softphone tidak bisa mendaftar, dan module show like chan_sip menampilkan "0 modules loaded".', o: [
+      ['Tulis ulang akun di pjsip.conf (endpoint, auth, aor) dan ubah dialplan dari SIP/101 menjadi PJSIP/101.', 1, 'Tepat. Asterisk 21 tidak punya chan_sip, jadi sip.conf tidak dibaca sama sekali. Gunakan tabel padanan di Glosarium & cheat sheet.'],
+      ['Restart server sampai chan_sip muncul.', 0, 'Modul chan_sip sudah dihapus dari Asterisk 21, jadi tidak akan muncul walaupun di-restart.'],
+      ['Ganti port SIP ke 5061.', 0, 'Port bukan masalahnya; tidak ada modul yang membaca sip.conf.'],
+      ['Ganti semua password softphone.', 0, 'Password tidak berpengaruh bila akunnya sendiri tidak terbaca.']] }
   ];
   (function cases() {
     const box = $('#case-list');
@@ -2196,30 +2497,32 @@ exten => _1XX,1,Dial(SIP/\${EXTEN},20)
   })();
 
   /* ============================== Asesmen: perbaiki konfigurasi ============================== */
+  // Soal memakai jalur utama Asterisk 21 (PJSIP).
   const EXT_DASAR = EXAMPLES[0].ext;
+  const PJ_OK = pjAcc();
   const DEBUG = [
     { t: 'Salah ketik di dialplan', d: 'Panggilan 101 ke 102 langsung terputus, dan panggilan ke 103 tidak pernah berdering. Ada 2 kesalahan di extensions.conf.',
-      files: { sip: SIP_BASE, vm: VM_BASE, ext: EXT_HEAD + `
+      files: { mode: 'pjsip', acc: PJ_OK, vm: VM_BASE, ext: EXT_HEAD + `
 [internal]
-exten => 101,1,Dial(SIP/101,20)
+exten => 101,1,Dial(PJSIP/101,20)
  same => n,Hangup()
 
-exten => 102,1,Dail(SIP/102,20)
+exten => 102,1,Dail(PJSIP/102,20)
  same => n,Hangup()
 
-exten => 103,1,Dial(SIP/130,20)
+exten => 103,1,Dial(PJSIP/130,20)
  same => n,Hangup()
 ` }, edit: ['ext'], tests: [{ from: 0, num: '102', answer: 'answer', want: 'connected', label: '101 memanggil 102 dan diangkat' }, { from: 0, num: '103', answer: 'answer', want: 'connected', label: '101 memanggil 103 dan diangkat' }] },
-    { t: 'Context dan host', d: 'Softphone 102 tidak bisa mendaftar, dan semua panggilan dari 101 ditolak 404. Ada 2 kesalahan di sip.conf.',
-      files: { sip: SIP_BASE.replace('context=internal       ; panggilan dari akun ini masuk ke [internal]', 'context=intenal').replace(/(\[102\]\ntype=friend\n)host=dynamic\n/, '$1'), vm: VM_BASE, ext: EXT_DASAR },
-      edit: ['sip'], tests: [{ from: 0, num: '102', answer: 'answer', want: 'connected', label: '101 memanggil 102 dan diangkat' }, { from: 1, num: '101', answer: 'answer', want: 'connected', label: '102 memanggil 101 dan diangkat' }] },
-    { t: 'Password dan codec', d: 'Softphone 102 ditolak saat mendaftar (403), dan panggilan dari 101 ditolak 488 Not Acceptable Here. Softphone 101 memakai codec ulaw/alaw, 102 memakai ulaw/gsm, password di softphone 102 adalah rahasia102. Perbaiki sip.conf.',
-      files: { sip: SIP_BASE.replace('secret=rahasia102', 'secret=rahasia120').replace('callerid="Andi" <101>', 'callerid="Andi" <101>\ndisallow=all\nallow=g729'), vm: VM_BASE, ext: EXT_DASAR },
-      edit: ['sip'], tests: [{ from: 0, num: '102', answer: 'answer', want: 'connected', label: '101 memanggil 102 dan diangkat' }] },
+    { t: 'Context dan AOR', d: 'Softphone 102 ditolak saat mendaftar (403 Forbidden), dan semua panggilan dari 101 ditolak 404. Ada 2 kesalahan di pjsip.conf.',
+      files: { mode: 'pjsip', acc: pjAcc({ 101: { context: 'intenal' }, 102: { noMax: true } }), vm: VM_BASE, ext: EXT_DASAR },
+      edit: ['acc'], tests: [{ from: 0, num: '102', answer: 'answer', want: 'connected', label: '101 memanggil 102 dan diangkat' }, { from: 1, num: '101', answer: 'answer', want: 'connected', label: '102 memanggil 101 dan diangkat' }] },
+    { t: 'Password dan codec', d: 'Softphone 102 ditolak saat mendaftar (401 Unauthorized), dan panggilan dari 101 ditolak 488 Not Acceptable Here. Softphone 101 memakai codec ulaw/alaw, 102 memakai ulaw/gsm, password di softphone 102 adalah rahasia102. Perbaiki pjsip.conf.',
+      files: { mode: 'pjsip', acc: pjAcc({ 101: { allow: 'g729' }, 102: { password: 'rahasia120' } }), vm: VM_BASE, ext: EXT_DASAR },
+      edit: ['acc'], tests: [{ from: 0, num: '102', answer: 'answer', want: 'connected', label: '101 memanggil 102 dan diangkat' }] },
     { t: 'Voicemail saat sibuk', d: 'Saat 102 sibuk, penelepon seharusnya masuk voicemail dengan sapaan "sedang sibuk", dan saat tidak diangkat masuk voicemail biasa. Ada 2 kesalahan: satu di extensions.conf, satu di voicemail.conf.',
-      files: { sip: SIP_BASE, vm: VM_BASE.replace('102 => 1234,Budi\n', ''), ext: EXT_HEAD + `
+      files: { mode: 'pjsip', acc: PJ_OK, vm: VM_BASE.replace('102 => 1234,Budi\n', ''), ext: EXT_HEAD + `
 [internal]
-exten => _1XX,1,Dial(SIP/\${EXTEN},20)
+exten => _1XX,1,Dial(PJSIP/\${EXTEN},20)
  same => n,GotoIf($["\${DIALSTATUS}" = "BUSY"]?sibuk)
  same => n,VoiceMail(\${EXTEN}@default,u)
  same => n,Hangup()
@@ -2229,12 +2532,12 @@ exten => _1XX,1,Dial(SIP/\${EXTEN},20)
   ];
   (function debugTasks() {
     const box = $('#debug-list');
-    const solved = store.get('dbg-solved', {});
+    const solved = store.get('dbg2-solved', {});
     box.innerHTML = DEBUG.map((t, i) => {
-      const saved = store.get('dbg-' + i, null);
+      const saved = store.get('dbg2-' + i, null);
       return `<div class="q debug-q" data-i="${i}"><div class="q-head"><span class="n">${i + 1}</span><b>${esc(t.t)}</b>${solved[i] ? '<span class="tag ok">selesai</span>' : ''}</div><p class="small">${esc(t.d)}</p>
         <ul class="list small">${t.tests.map(x => `<li>Uji: ${esc(x.label)}</li>`).join('')}</ul>
-        ${t.edit.map(f => `<label class="field mono">${FILE_NAME[f]}<textarea class="cfg dbg" data-f="${f}" spellcheck="false" autocapitalize="off" rows="${Math.min(22, ((saved && saved[f]) || t.files[f]).split('\n').length + 1)}">${esc((saved && saved[f]) || t.files[f])}</textarea></label>`).join('')}
+        ${t.edit.map(f => `<label class="field mono">${fileName(f, 'pjsip')}<textarea class="cfg dbg" data-f="${f}" spellcheck="false" autocapitalize="off" rows="${Math.min(22, ((saved && saved[f]) || t.files[f]).split('\n').length + 1)}">${esc((saved && saved[f]) || t.files[f])}</textarea></label>`).join('')}
         <div class="btn-row"><button type="button" class="btn btn-primary small" data-act="check">Periksa</button><button type="button" class="btn btn-ghost small" data-act="reset">Kembalikan soal</button><button type="button" class="btn btn-ghost small" data-act="sim">${icon('call')}Buka di simulator</button></div>
         <div class="checks" data-out></div></div>`;
     }).join('');
@@ -2243,12 +2546,12 @@ exten => _1XX,1,Dial(SIP/\${EXTEN},20)
       const card = e.target.closest('.debug-q'); if (!card) return;
       const i = +card.dataset.i, o = {};
       $$('textarea[data-f]', card).forEach(x => { o[x.dataset.f] = x.value; });
-      store.set('dbg-' + i, o);
+      store.set('dbg2-' + i, o);
     }, 300));
     box.addEventListener('click', e => {
       const b = e.target.closest('button[data-act]'); if (!b) return;
       const card = b.closest('.debug-q'), i = +card.dataset.i, t = DEBUG[i];
-      if (b.dataset.act === 'reset') { $$('textarea[data-f]', card).forEach(x => { x.value = t.files[x.dataset.f]; }); store.set('dbg-' + i, null); $('[data-out]', card).innerHTML = ''; return; }
+      if (b.dataset.act === 'reset') { $$('textarea[data-f]', card).forEach(x => { x.value = t.files[x.dataset.f]; }); store.set('dbg2-' + i, null); $('[data-out]', card).innerHTML = ''; return; }
       const files = filesOf(card, t);
       if (b.dataset.act === 'sim') { openInSim(files); return; }
       const srv = AST.load(files);
@@ -2267,7 +2570,7 @@ exten => _1XX,1,Dial(SIP/\${EXTEN},20)
       });
       const all = pass === t.tests.length && !msgs.some(m => m.includes('check err'));
       if (errs.length) add('warn', `Masih ada ${errs.length} pesan diagnostik: ${esc(errs[0].file)}:${errs[0].line} ${esc(errs[0].msg)}`);
-      if (all) { solved[i] = true; store.set('dbg-solved', solved); }
+      if (all) { solved[i] = true; store.set('dbg2-solved', solved); }
       $('[data-out]', card).innerHTML = `<div class="check-head ${all ? 'ok' : 'err'}">${all ? 'Lulus: semua uji berhasil.' : 'Belum lulus. Baca pesan di bawah, perbaiki, lalu periksa lagi.'}</div>` + msgs.join('');
     });
   })();
@@ -2287,12 +2590,18 @@ exten => _1XX,1,Dial(SIP/\${EXTEN},20)
         ['Keamanan', 25, ['WPA2/WPA3, password kuat ≥ 12 karakter, password admin diganti', 'WPA2, password cukup, admin belum diganti', 'WPA/password lemah', 'Open/WEP']],
         ['Pengujian klien', 20, ['Dua klien terhubung, dapat IP, bisa internet dan saling ping', 'Terhubung dan bisa internet', 'Terhubung tanpa internet', 'Tidak bisa terhubung']],
         ['Dokumentasi', 15, ['Tangkapan layar dan tabel konfigurasi lengkap', 'Sebagian besar lengkap', 'Kurang lengkap', 'Tidak ada']]] },
-      voip: { label: 'Instalasi server VoIP', aspects: [
-        ['Instalasi Asterisk', 15, ['Terpasang, layanan berjalan, bisa masuk CLI', 'Terpasang dengan sedikit bantuan', 'Terpasang dengan banyak bantuan', 'Tidak terpasang']],
-        ['Akun SIP', 20, ['Semua akun benar (secret, context, codec), sip show peers OK', 'Satu akun perlu diperbaiki', 'Beberapa akun salah', 'Tidak ada akun yang berfungsi']],
-        ['Dialplan', 25, ['Pattern, voicemail, dan echo test benar dan rapi', 'Berfungsi, kurang rapi', 'Sebagian berfungsi', 'Tidak berfungsi']],
+      voip: { label: 'Instalasi server VoIP (PJSIP)', note: 'Rubrik untuk jalur utama Asterisk 21+ dengan pjsip.conf. Bila sekolah memakai server lama chan_sip, ganti bukti di aspek 2 dan 5 menjadi sip.conf dan sip show peers.', aspects: [
+        ['Instalasi & cek versi', 15, ['Terpasang, layanan berjalan, versi dicek (asterisk -V) dan modul PJSIP termuat', 'Terpasang dan berjalan, versi belum dicek', 'Terpasang dengan banyak bantuan', 'Tidak terpasang']],
+        ['Akun di pjsip.conf', 20, ['Transport, endpoint, auth, dan aor benar untuk semua akun; pjsip show endpoints dan pjsip show contacts menunjukkan semua softphone Avail', 'Satu akun perlu diperbaiki', 'Beberapa akun salah (misalnya max_contacts atau auth terlewat)', 'Tidak ada akun yang berfungsi']],
+        ['Dialplan', 25, ['Kanal PJSIP/..., pattern, voicemail, dan echo test benar dan rapi', 'Berfungsi, kurang rapi', 'Sebagian berfungsi', 'Tidak berfungsi']],
         ['Uji panggilan', 25, ['Antar-extension, voicemail, dan echo berhasil', 'Antar-extension berhasil, satu fitur gagal', 'Hanya sebagian panggilan berhasil', 'Tidak ada panggilan berhasil']],
-        ['Troubleshooting', 15, ['Bisa menjelaskan arti log (401, 404, 486, 488) dan memperbaikinya', 'Bisa menjelaskan sebagian', 'Butuh bantuan untuk membaca log', 'Tidak bisa']]] },
+        ['Troubleshooting', 15, ['Bisa menjelaskan arti log (401, 403, 404, 486, 488) dan memperbaikinya sendiri', 'Bisa menjelaskan sebagian', 'Butuh bantuan untuk membaca log', 'Tidak bisa']]] },
+      fo: { label: 'Praktik serat optik (LKPD)', aspects: [
+        ['K3', 15, ['Memakai kacamata, tidak menatap ujung konektor, potongan serat dibuang ke wadah, alkohol jauh dari api', 'Satu prosedur K3 terlewat lalu diperbaiki', 'Beberapa prosedur K3 terlewat', 'Mengabaikan K3']],
+        ['Pembersihan & inspeksi konektor', 20, ['Semua konektor diinspeksi sebelum dan sesudah, dibersihkan dengan metode benar, hasil tercatat', 'Dibersihkan benar, inspeksi tidak lengkap', 'Dibersihkan tanpa inspeksi', 'Tidak dibersihkan']],
+        ['Penyambungan serat', 20, ['Kupas, bersihkan, potong (sudut ≤ 1°), sambung, rugi ≤ 0,1 dB, pelindung terpasang', 'Rugi 0,1–0,3 dB', 'Rugi > 0,3 dB atau perlu diulang beberapa kali', 'Gagal menyambung']],
+        ['Pengukuran OPM & light source', 25, ['Referensi diambil benar, semua link diukur di 1.310 dan 1.550 nm, dihitung dan dibandingkan dengan batas', 'Pengukuran benar, satu perhitungan keliru', 'Referensi tidak diambil atau beberapa data keliru', 'Tidak mengukur']],
+        ['Analisis gangguan', 20, ['Menentukan penyebab dan lokasi gangguan dari data, dengan langkah perbaikan yang tepat', 'Penyebab tepat, langkah perbaikan kurang lengkap', 'Penyebab kurang tepat', 'Tidak menganalisis']]] },
       ftth: { label: 'Perancangan FTTH', aspects: [
         ['Topologi & perangkat', 20, ['OLT, ODC, ODP, ONT, dan kabel ditempatkan logis dan berlabel', 'Lengkap, sedikit kurang logis', 'Ada perangkat yang terlewat', 'Tidak jelas']],
         ['Perhitungan link budget', 30, ['Semua komponen rugi dihitung benar dan disimpulkan layak/tidak', 'Satu komponen terlewat', 'Beberapa kesalahan hitung', 'Tidak ada perhitungan']],
@@ -2314,7 +2623,7 @@ exten => _1XX,1,Dial(SIP/\${EXTEN},20)
     const draw = () => {
       sel = store.get('rubric-' + mode, {});
       $$('#rub-mode button').forEach(b => { b.classList.toggle('on', b.dataset.m === mode); b.setAttribute('aria-selected', b.dataset.m === mode ? 'true' : 'false'); });
-      $('#rubric').innerHTML = SETS[mode].aspects.map(([nm, w, ds], i) => `<fieldset class="rubric-row" style="border:0;margin:0;padding-inline:0"><legend class="head" style="display:flex;width:100%"><span style="color:var(--ink);font-family:var(--font-body)">${esc(nm)}</span><span style="margin-left:auto">bobot ${w}%</span></legend>
+      $('#rubric').innerHTML = (SETS[mode].note ? `<p class="small callout">${esc(SETS[mode].note)}</p>` : '') + SETS[mode].aspects.map(([nm, w, ds], i) => `<fieldset class="rubric-row" style="border:0;margin:0;padding-inline:0"><legend class="head" style="display:flex;width:100%"><span style="color:var(--ink);font-family:var(--font-body)">${esc(nm)}</span><span style="margin-left:auto">bobot ${w}%</span></legend>
         <div class="rubric-opts">${ds.map((dsc, k) => `<label><input type="radio" name="rub${i}" value="${4 - k}"${sel[i] === 4 - k ? ' checked' : ''}><b>${LAB[k]}</b>${esc(dsc)}</label>`).join('')}</div></fieldset>`).join('');
       calc();
     };
@@ -2324,10 +2633,107 @@ exten => _1XX,1,Dial(SIP/\${EXTEN},20)
     draw();
   })();
 
+  /* ============================== Kumpulkan hasil belajar ============================== */
+  // Merekap semua yang tersimpan di browser siswa menjadi laporan yang bisa diunduh atau disalin.
+  (function kumpul() {
+    const ID = ['nama', 'kelas', 'absen'];
+    const idv = store.get('kp-id', {});
+    ID.forEach(k => { $('#kp-' + k).value = idv[k] || ''; $('#kp-' + k).addEventListener('input', debounce(() => { idv[k] = $('#kp-' + k).value.trim(); store.set('kp-id', idv); }, 250)); });
+    function data() {
+      const ans = store.get('quiz', {}), cases = store.get('cases', {}), dbg = store.get('dbg2-solved', {});
+      const perBab = [1, 2, 3, 4, 5, 6].map(b => { const idx = QUIZ.map((q, i) => i).filter(i => QUIZ[i].b === b); return { b, n: idx.length, dij: idx.filter(i => ans[i] !== undefined).length, benar: idx.filter(i => ans[i] === QUIZ[i].a).length }; });
+      const chk = $$('input[data-save]').map(c => c.dataset.save);
+      return {
+        id: { nama: idv.nama || '', kelas: idv.kelas || '', absen: idv.absen || '' },
+        meet: MEET.filter(m => store.get('meet' + m.no, false)).map(m => m.no),
+        keg: { done: chk.filter(k => store.get('chk:' + k, false)).length, total: chk.length },
+        quiz: { benar: perBab.reduce((p, x) => p + x.benar, 0), dij: Object.keys(ans).length, total: QUIZ.length, perBab },
+        kasus: { dij: Object.keys(cases).length, tepat: Object.entries(cases).filter(([i, k]) => CASES[i] && CASES[i].o[k] && CASES[i].o[k][1]).length, total: CASES.length },
+        dbg: { lulus: DEBUG.map((t, i) => i).filter(i => dbg[i]).map(i => i + 1), total: DEBUG.length },
+        lab: store.get('lab-stats', { tries: 0, pass: 0, straight: false, cross: false }),
+        router: store.get('router-last', null),
+        voip: store.get('voip-log', []).slice(-10),
+        lk: {
+          sample: !!lk.sample,
+          l1: lk.l1.map(r => Object.assign({}, r, { hasil: lk1Status(r)[1] })),
+          l2: lk.l2.map(r => Object.assign({}, r, { hasil: lk2Status(r)[1] })),
+          l3: { ref1310: lk.l3.ref1310, ref1550: lk.l3.ref1550, rows: lk.l3.rows.map(r => { const c = lk3Calc(r); return Object.assign({}, r, { l1310: c.l1, l1550: c.l2, b1310: c.b1, b1550: c.b2, hasil: c.st[1], analisis: c.an }); }) },
+          l4: LK_CASES.map((c, i) => ({ kasus: c.t, jawaban: lk.l4[i] || '' }))
+        }
+      };
+    }
+    const yes = b => b ? '✓' : '–';
+    const filled = rows => rows.filter(r => r.hasil && r.hasil !== '–').length;
+    function cards(d) {
+      const c = (t, v, s) => `<div class="kp-card"><span>${t}</span><b>${v}</b><small>${s}</small></div>`;
+      return c('Pertemuan', `${d.meet.length}/${MEET.length}`, d.meet.length ? 'no. ' + d.meet.join(', ') : 'belum dicentang') +
+        c('Kuis', `${d.quiz.benar}/${d.quiz.total}`, `${d.quiz.dij} soal dijawab`) +
+        c('Studi kasus', `${d.kasus.tepat}/${d.kasus.total}`, `${d.kasus.dij} dijawab`) +
+        c('Perbaiki konfigurasi', `${d.dbg.lulus.length}/${d.dbg.total}`, d.dbg.lulus.length ? 'lulus no. ' + d.dbg.lulus.join(', ') : 'belum ada yang lulus') +
+        c('Lab RJ45', `${d.lab.pass}/${d.lab.tries}`, `straight ${yes(d.lab.straight)} · crossover ${yes(d.lab.cross)}`) +
+        c('Simulasi router', d.router ? (d.router.hasil === 'ok' ? 'Berhasil' : d.router.hasil === 'warn' ? 'Sebagian' : 'Gagal') : '–', d.router ? `${d.router.kesalahan} kesalahan, ${d.router.peringatan} peringatan` : 'belum dicoba') +
+        c('Simulator VoIP', `${d.voip.filter(x => x.ok).length}/${d.voip.length}`, 'aktivitas terakhir berhasil') +
+        c('LKPD serat optik', `${filled(d.lk.l1) + filled(d.lk.l2) + filled(d.lk.l3.rows)}/12`, `baris terisi${d.lk.sample ? ' · contoh data' : ''} · LKPD 4: ${d.lk.l4.filter(x => x.jawaban.trim()).length}/4`);
+    }
+    const tbl = (head, rows) => `<table><thead><tr>${head.map(h => `<th>${esc(h)}</th>`).join('')}</tr></thead><tbody>${rows.map(r => `<tr>${r.map(v => `<td>${esc(v === null || v === undefined ? '–' : v)}</td>`).join('')}</tr>`).join('')}</tbody></table>`;
+    const n2 = v => v === null || v === undefined ? '–' : fmt(v, 2);
+    function detail(d) {
+      let h = '';
+      h += `<h3>Kuis per bab</h3>` + tbl(['Bab', 'Dijawab', 'Benar'], d.quiz.perBab.map(x => [x.b, `${x.dij}/${x.n}`, x.benar]));
+      h += `<h3>Kegiatan siswa</h3><p>${d.keg.done} dari ${d.keg.total} kegiatan dan butir perawatan dicentang.</p>`;
+      if (d.router) h += `<h3>Simulasi router (terakhir ${esc(d.router.waktu)})</h3><p>${esc(d.router.klien)} SSID ${esc(d.router.ssid)}, keamanan ${esc(d.router.keamanan)}, kanal ${esc(d.router.kanal)}, LAN ${esc(d.router.lan)}, DHCP ${esc(d.router.dhcp)}.</p>`;
+      if (d.voip.length) h += `<h3>Simulator VoIP (10 aktivitas terakhir)</h3>` + tbl(['Waktu', 'Mode', 'Aktivitas', 'Hasil'], d.voip.map(x => [x.waktu, x.mode === 'sip' ? 'chan_sip' : 'PJSIP', x.jenis === 'daftar' ? `${x.dari} mendaftar` : `${x.dari} → ${x.ke}`, x.hasil]));
+      h += `<h3>LKPD 1 · Pembersihan & inspeksi${d.lk.sample ? ' (contoh data)' : ''}</h3>` + tbl(['Konektor', 'Jenis', 'Sebelum', 'Metode', 'Sesudah', 'Hasil'], d.lk.l1.map(r => [r.kode, r.jenis, r.sebelum, r.metode, r.sesudah, r.hasil]));
+      h += `<h3>LKPD 2 · Penyambungan</h3>` + tbl(['Sambungan', 'Sudut kiri', 'Sudut kanan', 'Estimasi (dB)', 'Ukur (dB)', 'Status'], d.lk.l2.map(r => [r.kode, r.a1, r.a2, r.est, r.ukur, r.hasil]));
+      h += `<h3>LKPD 3 · Pengukuran OPM (P ref 1.310 = ${esc(d.lk.l3.ref1310 || '–')} dBm, 1.550 = ${esc(d.lk.l3.ref1550 || '–')} dBm)</h3>` + tbl(['Link', 'km', 'Konektor', 'Splice', 'Redaman 1.310 / batas', 'Redaman 1.550 / batas', 'Status', 'Analisis'], d.lk.l3.rows.map(r => [r.nama, r.km, r.kon, r.spl, `${n2(r.l1310)} / ${n2(r.b1310)}`, `${n2(r.l1550)} / ${n2(r.b1550)}`, r.hasil, r.analisis]));
+      h += `<h3>LKPD 4 · Analisis gangguan</h3>` + d.lk.l4.map((x, i) => `<p><b>${i + 1}. ${esc(x.kasus)}</b><br>${esc(x.jawaban || '(belum dijawab)')}</p>`).join('');
+      return h;
+    }
+    function text(d) {
+      const nm = d.id.nama || '(nama belum diisi)';
+      return [`HASIL BELAJAR · Teknologi Jaringan Kabel & Nirkabel`, `${nm} · ${d.id.kelas || '-'} · absen ${d.id.absen || '-'}`,
+        `Pertemuan selesai: ${d.meet.length}/${MEET.length}`,
+        `Kuis: ${d.quiz.benar}/${d.quiz.total} benar (${d.quiz.perBab.map(x => `Bab ${x.b} ${x.benar}/${x.n}`).join(', ')})`,
+        `Studi kasus: ${d.kasus.tepat}/${d.kasus.total} tepat (${d.kasus.dij} dijawab)`,
+        `Perbaiki konfigurasi: ${d.dbg.lulus.length}/${d.dbg.total} lulus${d.dbg.lulus.length ? ' (no. ' + d.dbg.lulus.join(', ') + ')' : ''}`,
+        `Lab RJ45: ${d.lab.tries} percobaan, ${d.lab.pass} lulus, straight ${yes(d.lab.straight)}, crossover ${yes(d.lab.cross)}`,
+        `Simulasi router: ${d.router ? d.router.klien : 'belum dicoba'}`,
+        `Simulator VoIP: ${d.voip.filter(x => x.ok).length} dari ${d.voip.length} aktivitas terakhir berhasil`,
+        `LKPD serat optik: ${filled(d.lk.l1)}/4 konektor, ${filled(d.lk.l2)}/4 sambungan, ${filled(d.lk.l3.rows)}/4 link diukur, ${d.lk.l4.filter(x => x.jawaban.trim()).length}/4 kasus dianalisis${d.lk.sample ? ' (contoh data)' : ''}`,
+        `Dibuat: ${new Date().toLocaleString('id-ID')}`].join('\n');
+    }
+    function render() {
+      const d = data();
+      $('#kp-rekap').innerHTML = cards(d);
+      $('#kp-detail').innerHTML = detail(d);
+    }
+    $('#kp-copy').addEventListener('click', () => copyText(text(data())));
+    $('#kp-download').addEventListener('click', () => {
+      const d = data();
+      if (!d.id.nama) { toast('Isi nama dulu.'); $('#kp-nama').focus(); return; }
+      const slug = d.id.nama.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '') || 'siswa';
+      const html = `<!doctype html><html lang="id"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Hasil belajar TJKN · ${esc(d.id.nama)}</title>
+<style>body{font:15px/1.5 system-ui,sans-serif;margin:24px auto;max-width:900px;padding:0 16px;color:#13212a}h1{font-size:1.5rem;margin:0}h2{margin-top:28px;font-size:1.2rem}h3{margin:20px 0 6px;font-size:1rem}table{border-collapse:collapse;width:100%;font-size:13px;margin:6px 0}th,td{border:1px solid #c9d3d8;padding:5px 8px;text-align:left;vertical-align:top}th{background:#eef3f5}.kp{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:8px}.kp-card{border:1px solid #c9d3d8;border-radius:8px;padding:8px 10px;display:grid}.kp-card b{font-size:1.3rem}.kp-card small,.kp-card span{color:#55656d}pre{white-space:pre-wrap;background:#f4f7f8;padding:10px;border-radius:6px;font-size:12px}@media print{body{margin:0}}</style></head><body>
+<h1>Hasil belajar · Teknologi Jaringan Kabel dan Nirkabel</h1><p><b>${esc(d.id.nama)}</b> · ${esc(d.id.kelas || '-')} · absen ${esc(d.id.absen || '-')}<br>Dibuat ${esc(new Date().toLocaleString('id-ID'))} dari web media ajar TJKN kelas XI.</p>
+<h2>Rekap</h2><div class="kp">${cards(d)}</div><h2>Rincian</h2>${detail(d)}
+<h2>Konfigurasi VoIP terakhir (${esc(AST.MODES[vp.mode].ver)})</h2>${['acc', 'ext', 'vm'].map(k => `<h3>${esc(fileName(k))}</h3><pre>${esc(curFiles()[k])}</pre>`).join('')}</body></html>`;
+      saveFile(`hasil-tjkn-${slug}.html`, html);
+    });
+    $('#kp-voip').addEventListener('click', () => {
+      const nm = (idv.nama || 'siswa').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '') || 'siswa';
+      saveFile(`konfigurasi-voip-${nm}.txt`, ['acc', 'ext', 'vm'].map(k => `;;;;;;;;;; ${fileName(k)} ;;;;;;;;;;\n${curFiles()[k]}`).join('\n\n'));
+    });
+    onShow.kumpul = render;
+  })();
+
   /* ============================== Referensi ============================== */
   const GLOSS = [
     ['Access point (AP)', 'Perangkat yang menghubungkan klien nirkabel ke jaringan kabel.', 3], ['ADSL', 'DSL asimetris: unduh lebih cepat dari unggah, memakai kabel telepon.', 1],
     ['AMC', 'Adaptive modulation and coding: modulasi berubah mengikuti kualitas sinyal.', 2], ['Asterisk', 'Perangkat lunak PBX/VoIP open source.', 4],
+    ['AOR (address of record)', 'Section type=aor di pjsip.conf: tempat alamat softphone yang terdaftar disimpan; max_contacts=1 agar bisa REGISTER.', 5], ['Endpoint (PJSIP)', 'Section type=endpoint: aturan panggilan satu akun (context, codec, auth, aors).', 5],
+    ['PJSIP', 'Modul SIP Asterisk berbasis pustaka PJSIP, memakai pjsip.conf; satu-satunya modul SIP di Asterisk 21 ke atas.', 5], ['chan_sip', 'Modul SIP lama Asterisk (sip.conf), usang sejak versi 17 dan dihapus di versi 21.', 5],
+    ['RTT (round-trip time)', 'Waktu pergi-pulang paket, yang ditampilkan ping. Berbeda dengan delay satu arah.', 4], ['Link-local (APIPA)', 'Alamat 169.254.x.x yang diambil perangkat sendiri saat DHCP tidak menjawab; tidak dirutekan.', 3],
+    ['OPM', 'Optical power meter: alat ukur daya cahaya (dBm) untuk menghitung redaman link serat optik.', 6], ['VFL', 'Visual fault locator: laser merah untuk mencari patahan atau tekukan serat dari cahaya yang bocor.', 6],
     ['Attenuation (redaman)', 'Pelemahan daya sinyal sepanjang media, satuan dB atau dB/km.', 6], ['Baseband', 'Satu sinyal memakai seluruh pita media (contoh: Ethernet).', 1],
     ['Bridge', 'Perangkat/mode yang menyatukan dua segmen LAN menjadi satu jaringan.', 3], ['Broadband', 'Pita dibagi banyak kanal frekuensi; juga berarti internet berkecepatan tinggi.', 1],
     ['CDMA', 'Code division multiple access: pengguna dibedakan dengan kode unik.', 2], ['Circuit-switched', 'Satu jalur khusus dipesan selama panggilan (PSTN).', 1],
@@ -2370,12 +2776,15 @@ exten => _1XX,1,Dial(SIP/\${EXTEN},20)
     $('#glo-search').addEventListener('input', e => draw(e.target.value.trim()));
     draw('');
     const CLI = [
+      ['asterisk -V', 'Dari terminal Linux: menampilkan versi Asterisk.'],
       ['asterisk -rvvv', 'Masuk ke CLI Asterisk dari terminal Linux (v = tingkat detail log).'],
-      ['sip show peers', 'Daftar akun SIP dan status registrasinya.'], ['sip show peer 101', 'Rincian akun: context, codec, IP terdaftar.'],
-      ['pjsip show endpoints', 'Padanan sip show peers di Asterisk 21 ke atas (PJSIP).'],
+      ['pjsip show endpoints', 'Daftar endpoint, auth, AOR, dan kontak yang terdaftar.'], ['pjsip show contacts', 'Softphone yang sedang terdaftar beserta alamat IP-nya.'],
+      ['pjsip show endpoint 101', 'Rincian satu endpoint: context, codec, auth, aors, ACL.'],
+      ['module reload res_pjsip.so', 'Membaca ulang pjsip.conf (bisa juga pjsip reload).'],
       ['dialplan show internal', 'Menampilkan isi context [internal].'], ['dialplan reload', 'Membaca ulang extensions.conf.'],
-      ['sip reload', 'Membaca ulang sip.conf.'], ['core show channels', 'Panggilan yang sedang berlangsung.'],
-      ['voicemail show users', 'Daftar kotak suara dan jumlah pesan.'], ['core set verbose 3', 'Mengatur tingkat detail log di CLI.']
+      ['core show channels', 'Panggilan yang sedang berlangsung.'], ['voicemail show users', 'Daftar kotak suara dan jumlah pesan.'],
+      ['module show like chan_sip', 'Cek modul lama: 0 modules loaded berarti server tidak punya chan_sip.'], ['core set verbose 3', 'Mengatur tingkat detail log di CLI.'],
+      ['sip show peers', 'Server lama (chan_sip) saja: daftar akun di sip.conf. Muat ulang dengan sip reload.']
     ];
     $('#cheat-cli').innerHTML = CLI.map(([c, d]) => `<div class="cheat-row"><code>${esc(c)}</code><button type="button" class="btn btn-ghost small" data-copy="${esc(c)}">${icon('copy')}Salin</button><span class="d">${esc(d)}</span></div>`).join('');
     $('#cheat-cli').addEventListener('click', e => { const b = e.target.closest('[data-copy]'); if (b) copyText(b.dataset.copy); });

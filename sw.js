@@ -1,7 +1,7 @@
 /* Service worker: menyimpan salinan web agar bisa dibuka ulang tanpa internet.
  * Strategi: ambil versi terbaru dari jaringan bila ada (maks. 4 detik), lalu simpan;
  * bila jaringan putus, pakai salinan yang tersimpan. Naikkan CACHE setiap rilis. */
-const CACHE = 'modul-tjkn-v1';
+const CACHE = 'modul-tjkn-v2';
 const ASSETS = [
   './',
   './index.html',
