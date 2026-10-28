@@ -9,12 +9,17 @@ Web ini dibuat dari slide "Media Mengajar Teknologi Jaringan Kabel dan Nirkabel 
 - Peta 20 pertemuan dengan tujuan, kegiatan, bukti kerja, kriteria keberhasilan, dan tindak lanjut.
 - Asesmen dalam tab: kuis 36 soal (18 soal sumatif dari slide + 18 soal tambahan), studi kasus troubleshooting, perbaiki konfigurasi Asterisk (dicek otomatis), contoh soal sumatif semester 1 dan 2, serta rubrik praktik (crimping, Wi-Fi, VoIP, FTTH).
 
+## Link website
+
+- Website untuk siswa: https://nothinsphere.github.io/modul-tjkn/
+- Repositori GitHub: https://github.com/nothinsphere/modul-tjkn
+
+Untuk memperbarui website setelah mengubah file, jalankan di folder ini: `git add -A`, `git commit -m "pesan perubahan"`, lalu `git push`. Bisa juga dengan **Add file → Upload files** di halaman repositori. Website ikut berubah sekitar 1 menit kemudian.
+
 ## Cara membuka
 
-- Di laptop/PC: klik dua kali `index.html`.
-- Untuk siswa (HP): unggah folder ini ke GitHub Pages (seperti web modul embedded), lalu bagikan link-nya. Membuka `index.html` langsung dari pengelola file di HP Android sering gagal.
-
-Untuk memperbarui website setelah mengubah file, jalankan di folder ini: `git add -A`, `git commit -m "pesan perubahan"`, lalu `git push`.
+- Untuk siswa (HP): bagikan link website di atas. Membuka file `index.html` langsung dari pengelola file di HP Android sering gagal.
+- Di laptop/PC: klik dua kali `index.html`, atau buka link website.
 
 Setiap kali mengubah file di folder `assets`, naikkan juga angka versinya: `?v=…` di bagian bawah dan atas `index.html` serta `CACHE` di baris atas `sw.js`. Tanpa itu, HP siswa bisa tetap memakai salinan lama yang tersimpan untuk mode offline.
 
