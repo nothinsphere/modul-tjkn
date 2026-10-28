@@ -1,0 +1,1865 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, interactive-widget=resizes-content">
+<title>Jaringan Kabel &amp; Nirkabel</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<meta name="description" content="Media ajar interaktif Teknologi Jaringan Kabel dan Nirkabel untuk SMK kelas XI: materi 6 bab, lab crimping RJ45, simulator VoIP Asterisk, kalkulator jaringan, dan kuis.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700;12..96,800&family=JetBrains+Mono:wght@400;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="assets/style.css?v=1">
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <symbol id="i-menu" viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></symbol>
+    <symbol id="i-sun" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></g></symbol>
+    <symbol id="i-moon" viewBox="0 0 24 24"><path d="M20 14.5A8.5 8.5 0 0 1 9.5 4 8.5 8.5 0 1 0 20 14.5z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></symbol>
+    <symbol id="i-home" viewBox="0 0 24 24"><path d="M4 11l8-7 8 7v9a1 1 0 0 1-1 1h-5v-6h-4v6H5a1 1 0 0 1-1-1z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></symbol>
+    <symbol id="i-book" viewBox="0 0 24 24"><path d="M4 5a2 2 0 0 1 2-2h13v16H6a2 2 0 0 0-2 2zM4 21V5M8 7h7" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/></symbol>
+    <symbol id="i-plug" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"><path d="M6 3h12v9a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2z"/><path d="M9 3v4M12 3v4M15 3v4M12 14v7"/></g></symbol>
+    <symbol id="i-call" viewBox="0 0 24 24"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></symbol>
+    <symbol id="i-calc" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="3" width="14" height="18" rx="2"/><path d="M8 7h8M8.5 12h.01M12 12h.01M15.5 12h.01M8.5 16h.01M12 16h.01M15.5 16h.01"/></g></symbol>
+    <symbol id="i-wifi" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M2.5 9a14 14 0 0 1 19 0M5.5 12.5a9.5 9.5 0 0 1 13 0M8.6 16a5 5 0 0 1 6.8 0"/><circle cx="12" cy="19.5" r="1" fill="currentColor"/></g></symbol>
+    <symbol id="i-check" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="4" width="14" height="17" rx="2"/><path d="M9 4V3h6v1M9 13l2 2 4-4"/></g></symbol>
+    <symbol id="i-ref" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="6"/><path d="M20 20l-4.5-4.5"/></g></symbol>
+    <symbol id="i-info" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 11v6M12 7.5v.5"/></g></symbol>
+    <symbol id="i-phone" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="6" y="2.5" width="12" height="19" rx="2.5"/><path d="M11 18.5h2"/></g></symbol>
+    <symbol id="i-map" viewBox="0 0 24 24"><path d="M9 4L3 6v14l6-2 6 2 6-2V4l-6 2zM9 4v14M15 6v14" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></symbol>
+    <symbol id="i-play" viewBox="0 0 24 24"><path d="M7 4.5v15l12-7.5z" fill="currentColor"/></symbol>
+    <symbol id="i-stop" viewBox="0 0 24 24"><rect x="6" y="6" width="12" height="12" rx="1.5" fill="currentColor"/></symbol>
+    <symbol id="i-step" viewBox="0 0 24 24"><path d="M5 5v14l9-7z" fill="currentColor"/><path d="M17 5v14" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/></symbol>
+    <symbol id="i-copy" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><rect x="8" y="8" width="12" height="12" rx="2"/><path d="M16 8V5a1 1 0 0 0-1-1H5a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h3"/></g></symbol>
+    <symbol id="i-down" viewBox="0 0 24 24"><path d="M12 4v11M7 10l5 5 5-5M5 20h14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="i-up" viewBox="0 0 24 24"><path d="M12 15V4M7 9l5-5 5 5M5 20h14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="i-reset" viewBox="0 0 24 24"><path d="M4 12a8 8 0 1 0 2.4-5.7M4 4v5h5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="i-hang" viewBox="0 0 24 24"><path d="M3 14.5c5-5 13-5 18 0l-2.5 2.5-3.5-1.5V13a10 10 0 0 0-6 0v2.5L5.5 17z" fill="currentColor"/></symbol>
+  </defs>
+</svg>
+
+<div class="app">
+  <aside class="sidebar" id="sidebar" aria-label="Navigasi">
+    <a class="brand" href="#beranda">
+      <svg class="brand-chip" viewBox="0 0 40 40" aria-hidden="true"><rect x="4" y="6" width="32" height="28" rx="5" fill="var(--mask)"/><path d="M11 13h18v9h-4v4H15v-4h-4z" fill="var(--mask-ink)"/><g fill="var(--copper)"><rect x="13" y="14" width="1.6" height="4"/><rect x="15.8" y="14" width="1.6" height="4"/><rect x="18.6" y="14" width="1.6" height="4"/><rect x="21.4" y="14" width="1.6" height="4"/><rect x="24.2" y="14" width="1.6" height="4"/></g><path d="M8 30a16 16 0 0 1 24 0" fill="none" stroke="var(--mask-ink)" stroke-width="1.6" stroke-linecap="round" opacity=".6"/></svg>
+      <span><b>Jaringan Kabel &amp; Nirkabel</b><small>SMK · XI TJKT</small></span>
+    </a>
+    <div class="progress-box">
+      <div class="row"><span>Pertemuan selesai</span><b class="tnum" id="prog-text">0/20</b></div>
+      <div class="meter"><i id="prog-bar"></i></div>
+    </div>
+    <nav class="nav-group" aria-label="Mulai">
+      <div class="nav-label">Mulai</div>
+      <a class="nav-link" href="#beranda"><span class="nav-ico"><svg><use href="#i-home"/></svg></span>Beranda</a>
+      <a class="nav-link" href="#info"><span class="nav-ico"><svg><use href="#i-info"/></svg></span>Identitas &amp; tujuan</a>
+      <a class="nav-link" href="#persiapan"><span class="nav-ico"><svg><use href="#i-phone"/></svg></span>Alat &amp; aplikasi</a>
+      <a class="nav-link" href="#peta"><span class="nav-ico"><svg><use href="#i-map"/></svg></span>Peta 20 pertemuan</a>
+    </nav>
+    <nav class="nav-group" aria-label="Materi">
+      <div class="nav-label">Materi</div>
+      <a class="nav-link" href="#bab1"><span class="rbar b1"></span>Jaringan kabel<span class="nav-sub">P1-3</span></a>
+      <a class="nav-link" href="#bab2"><span class="rbar b2"></span>Jaringan nirkabel<span class="nav-sub">P4-6</span></a>
+      <a class="nav-link" href="#bab3"><span class="rbar b3"></span>Instalasi nirkabel<span class="nav-sub">P7-9</span></a>
+      <a class="nav-link" href="#bab4"><span class="rbar b4"></span>Instalasi VoIP<span class="nav-sub">P11-13</span></a>
+      <a class="nav-link" href="#bab5"><span class="rbar b5"></span>SIP &amp; Asterisk<span class="nav-sub">P14-16</span></a>
+      <a class="nav-link" href="#bab6"><span class="rbar b6"></span>Serat optik<span class="nav-sub">P17-19</span></a>
+    </nav>
+    <nav class="nav-group" aria-label="Alat praktik">
+      <div class="nav-label">Alat praktik</div>
+      <a class="nav-link" href="#lab"><span class="nav-ico"><svg><use href="#i-plug"/></svg></span>Lab kabel RJ45</a>
+      <a class="nav-link" href="#voip"><span class="nav-ico"><svg><use href="#i-call"/></svg></span>Simulator VoIP</a>
+      <a class="nav-link" href="#kalkulator"><span class="nav-ico"><svg><use href="#i-calc"/></svg></span>Kalkulator jaringan</a>
+    </nav>
+    <nav class="nav-group" aria-label="Evaluasi">
+      <div class="nav-label">Evaluasi &amp; bantuan</div>
+      <a class="nav-link" href="#asesmen"><span class="nav-ico"><svg><use href="#i-check"/></svg></span>Asesmen &amp; kuis</a>
+      <a class="nav-link" href="#referensi"><span class="nav-ico"><svg><use href="#i-ref"/></svg></span>Glosarium &amp; cheat sheet</a>
+    </nav>
+  </aside>
+  <div class="scrim" id="scrim" hidden></div>
+
+  <header class="topbar">
+    <button class="icon-btn menu-btn" id="menu-btn" type="button" aria-label="Buka menu" aria-controls="sidebar" aria-expanded="false"><svg><use href="#i-menu"/></svg></button>
+    <div class="topbar-title" id="topbar-title">Beranda</div>
+    <button class="icon-btn" id="theme-btn" type="button" aria-label="Ganti tema terang/gelap"><svg><use href="#i-moon"/></svg></button>
+  </header>
+  <div class="netbar" id="netbar" role="status" hidden>Sedang offline. Materi, lab kabel, simulator VoIP, kalkulator, dan kuis tetap bisa dipakai. Tautan bertanda ↗ ke situs lain butuh internet.</div>
+
+  <main class="main" id="main">
+
+<!-- ============================== BERANDA ============================== -->
+<section class="view" id="v-beranda" data-title="Beranda">
+  <div class="wrap-wide">
+    <div class="hero">
+      <div class="hero-copy">
+        <div class="eyebrow">Media ajar · SMK TJKT · Kelas XI · Fase F</div>
+        <h1>Teknologi <em>Jaringan Kabel</em> dan Nirkabel, dicoba langsung dari HP</h1>
+        <p class="lead">Dari sinyal listrik di kabel tembaga, gelombang radio Wi-Fi, panggilan VoIP, sampai cahaya di serat optik. Setiap konsep punya simulasi kecil, dan praktik intinya bisa dilatih di lab crimping, simulator Asterisk, dan kalkulator di web ini.</p>
+        <div class="btn-row">
+          <a class="btn btn-primary" href="#bab1">Mulai dari Bab 1</a>
+          <a class="btn btn-ghost" href="#lab"><svg><use href="#i-plug"/></svg>Lab kabel RJ45</a>
+          <a class="btn btn-ghost" href="#voip"><svg><use href="#i-call"/></svg>Simulator VoIP</a>
+        </div>
+      </div>
+      <div class="hero-demo">
+        <div class="hero-send">
+          <label class="field">Huruf yang dikirim<input type="text" id="hero-char" value="H" maxlength="1" autocomplete="off" aria-describedby="hero-bits"></label>
+          <div class="hero-bits"><span class="small muted">Kode ASCII (8 bit)</span><b class="mono" id="hero-bits">01001000</b></div>
+        </div>
+        <svg class="media3" id="hero-media" viewBox="0 0 360 214" role="img" aria-label="Bit yang sama dikirim melalui kabel tembaga, gelombang radio, dan serat optik">
+          <text class="m3-lab" x="6" y="14">Kabel tembaga · tegangan naik-turun</text>
+          <rect class="m3-cu" x="6" y="22" width="348" height="44" rx="6"/>
+          <path id="hero-cu" class="m3-sig cu" d=""/>
+          <text class="m3-lab" x="6" y="86">Nirkabel · gelombang radio dimodulasi</text>
+          <rect class="m3-air" x="6" y="94" width="348" height="44" rx="6"/>
+          <path id="hero-air" class="m3-sig air" d=""/>
+          <text class="m3-lab" x="6" y="158">Serat optik · kedip cahaya</text>
+          <rect class="m3-fo" x="6" y="166" width="348" height="44" rx="22"/>
+          <rect class="m3-core" x="6" y="183" width="348" height="10" rx="5"/>
+          <g id="hero-fo"></g>
+          <line id="hero-cursor" class="m3-cursor" x1="6" y1="20" x2="6" y2="212"/>
+        </svg>
+        <p class="small muted">Satu huruf dikirim sebagai 8 bit. Kabel tembaga membawanya sebagai pulsa tegangan, Wi-Fi sebagai perubahan gelombang radio (di sini digambarkan sebagai modulasi amplitudo), dan serat optik sebagai cahaya yang menyala-padam. Ganti hurufnya untuk melihat polanya berubah.</p>
+      </div>
+    </div>
+
+    <div class="facts">
+      <div class="fact"><b class="tnum">20</b><span>pertemuan (18 materi + 2 asesmen sumatif)</span></div>
+      <div class="fact"><b class="tnum">6</b><span>bab: kabel, nirkabel, VoIP, SIP, serat optik</span></div>
+      <div class="fact"><b class="tnum">3</b><span>alat praktik: lab RJ45, simulator VoIP, kalkulator</span></div>
+      <div class="fact"><b class="tnum">36</b><span>soal kuis dengan pembahasan</span></div>
+    </div>
+
+    <section class="block">
+      <h2>Yang bisa dilakukan di web ini</h2>
+      <div class="grid">
+        <div class="card"><h3>Baca, lalu langsung coba</h3><p class="muted small">Hampir setiap subbab punya simulasi: sinyal digital/analog, hierarki telepon, CDMA, pola pancar antena, jitter buffer, sampai pantulan cahaya di serat optik.</p></div>
+        <div class="card"><h3>Lab kabel RJ45</h3><p class="muted small">Susun 8 warna kabel sesuai T568A/T568B, crimp, lalu uji dengan LAN tester virtual. Kesalahan seperti <i>split pair</i> ikut terdeteksi.</p></div>
+        <div class="card"><h3>Simulator VoIP Asterisk</h3><p class="muted small">Tulis <code>sip.conf</code> dan <code>extensions.conf</code>, daftarkan softphone, lalu lakukan panggilan. Log CLI dan diagram pesan SIP muncul seperti di server sungguhan.</p></div>
+        <div class="card"><h3>Kalkulator &amp; kuis</h3><p class="muted small">Subnet IPv4, bandwidth VoIP, <i>link budget</i> FTTH, kuis 36 soal, studi kasus perbaikan konfigurasi, dan rubrik praktik untuk guru.</p></div>
+      </div>
+    </section>
+
+    <section class="block">
+      <h2>Bab</h2>
+      <div class="chap-cards">
+        <a class="chap-card b1" href="#bab1"><span class="k"><span class="rbar b1"></span>Bab 1 · Pertemuan 1-3</span><h3>Jaringan berbasis kabel</h3><p>Transmisi data, telepon analog, PSTN, xDSL, kabel koaksial, twisted pair.</p></a>
+        <a class="chap-card b2" href="#bab2"><span class="k"><span class="rbar b2"></span>Bab 2 · Pertemuan 4-6</span><h3>Jaringan nirkabel</h3><p>Elemen jaringan, OSI/TCP-IP, FDMA/TDMA/CDMA, WPAN sampai WWAN, standar IEEE.</p></a>
+        <a class="chap-card b3" href="#bab3"><span class="k"><span class="rbar b3"></span>Bab 3 · Pertemuan 7-9</span><h3>Instalasi &amp; perawatan nirkabel</h3><p>Pola pancar antena, access point, wireless router, bridge, repeater, keamanan Wi-Fi.</p></a>
+        <a class="chap-card b4" href="#bab4"><span class="k"><span class="rbar b4"></span>Bab 4 · Pertemuan 11-13</span><h3>Instalasi VoIP</h3><p>Mekanisme paket suara, latency, jitter, packet loss, codec, softswitch, Asterisk.</p></a>
+        <a class="chap-card b5" href="#bab5"><span class="k"><span class="rbar b5"></span>Bab 5 · Pertemuan 14-16</span><h3>SIP dalam jaringan kabel</h3><p>PBX, sistem hunting, dialplan &amp; extension, protokol SIP, H.323.</p></a>
+        <a class="chap-card b6" href="#bab6"><span class="k"><span class="rbar b6"></span>Bab 6 · Pertemuan 17-19</span><h3>Jaringan serat optik</h3><p>Broadband, pemantulan total, struktur &amp; jenis kabel, karakteristik, FTTH.</p></a>
+      </div>
+      <p class="small muted">Warna penanda bab mengikuti kode warna tabung serat optik (TIA-598): 1 biru, 2 oranye, 3 hijau, 4 coklat, 5 abu-abu, 6 putih. Kode yang sama dipakai teknisi saat menyambung kabel serat optik di Bab 6.</p>
+    </section>
+  </div>
+</section>
+
+<!-- ============================== INFO MODUL ============================== -->
+<section class="view" id="v-info" data-title="Identitas & tujuan" hidden>
+  <div class="wrap">
+    <div class="chap-head">
+      <div class="eyebrow">Identitas media ajar</div>
+      <h1>Identitas dan tujuan</h1>
+      <p class="lead">Web ini disusun dari slide <i>Media Mengajar Teknologi Jaringan Kabel dan Nirkabel untuk SMK/MAK Kelas XI</i> (Bab 1–6), lalu dilengkapi penjelasan, simulasi, latihan, dan asesmen.</p>
+    </div>
+    <div class="tbl-wrap">
+      <table class="tbl kv">
+        <tbody>
+          <tr><th>Satuan pendidikan</th><td>SMK/MAK</td></tr>
+          <tr><th>Program keahlian</th><td>Teknik Jaringan Komputer dan Telekomunikasi (TJKT)</td></tr>
+          <tr><th>Kelas / Fase</th><td>XI / Fase F (Kurikulum Merdeka)</td></tr>
+          <tr><th>Mata pelajaran</th><td>Teknologi Jaringan Kabel dan Nirkabel (mata pelajaran konsentrasi keahlian)</td></tr>
+          <tr><th>Alokasi waktu</th><td>20 pertemuan (usulan): 18 pertemuan materi dan praktik, 2 pertemuan asesmen sumatif. Sesuaikan dengan alokasi JP di sekolah.</td></tr>
+          <tr><th>Prasyarat</th><td>Dasar-dasar TJKT kelas X: perangkat jaringan, pengalamatan IP, dan K3 kerja</td></tr>
+          <tr><th>Sarana utama</th><td>Smartphone atau laptop dengan browser; untuk praktik fisik: kabel UTP, konektor RJ45, tang crimping, LAN tester, access point/wireless router, PC/VM Linux untuk Asterisk</td></tr>
+          <tr><th>Model pembelajaran</th><td>Project Based Learning dan Problem Based Learning, dengan pola amati → coba di simulasi → praktik di perangkat → refleksi</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <section class="block">
+      <h2>Capaian pembelajaran</h2>
+      <p>Pada akhir fase, peserta didik mampu memahami dan menerapkan teknologi jaringan kabel dan nirkabel, termasuk media transmisi tembaga dan serat optik, perangkat dan standar jaringan nirkabel, keamanan jaringan nirkabel, serta layanan suara berbasis IP (VoIP), sesuai standar industri.</p>
+      <div class="callout"><b class="t">Sumber dan status rumusan CP</b>
+        <p>Rumusan di atas adalah <b>ringkasan pengembang</b> untuk ruang lingkup mata pelajaran ini, bukan kutipan langsung dokumen resmi.</p>
+        <p>Dokumen acuan: Capaian Pembelajaran Program Keahlian Teknik Jaringan Komputer dan Telekomunikasi Fase F (SMK/MAK) dalam Keputusan Kepala BSKAP Kemendikbudristek Nomor 032/H/KR/2024 tentang Capaian Pembelajaran pada PAUD, Jenjang Pendidikan Dasar, dan Jenjang Pendidikan Menengah pada Kurikulum Merdeka.</p>
+        <p class="small muted">Rumusan CP dapat diperbarui. Sebelum dipakai, cocokkan dengan dokumen CP yang berlaku di sekolah (lihat <a href="https://kurikulum.kemdikbud.go.id/" target="_blank" rel="noopener">kurikulum.kemdikbud.go.id</a>), lalu sesuaikan TP bila perlu.</p>
+      </div>
+    </section>
+
+    <section class="block">
+      <h2>Tujuan pembelajaran</h2>
+      <ol class="list">
+        <li>Menjelaskan komponen komunikasi data, jenis sinyal, dan proses transmisi data.</li>
+        <li>Menganalisis jaringan telepon analog: hierarki sentral, PSTN, jaringan akses lokal, dan teknologi xDSL.</li>
+        <li>Membedakan kabel koaksial dan twisted pair, serta membuat kabel UTP <i>straight</i> dan <i>crossover</i> sesuai T568A/T568B.</li>
+        <li>Menjelaskan elemen, protokol, teknik akses, tipe, dan standar jaringan nirkabel.</li>
+        <li>Menginstalasi, mengonfigurasi, mengamankan, dan merawat perangkat nirkabel (access point, wireless router, bridge, repeater).</li>
+        <li>Menganalisis layanan VoIP: mekanisme paket, parameter kualitas (latency, delay, jitter, packet loss), codec, dan softswitch.</li>
+        <li>Mengonfigurasi server VoIP berbasis Asterisk: akun SIP, dialplan, dan extension, lalu menguji panggilan.</li>
+        <li>Menjelaskan teknologi serat optik dan menghitung kelayakan jaringan FTTH sederhana (<i>link budget</i>).</li>
+      </ol>
+    </section>
+
+    <section class="block">
+      <h2>Hubungan TP, pertemuan, dan asesmen</h2>
+      <p class="small muted">Rincian tujuan, kegiatan, bukti kerja, kriteria keberhasilan, dan tindak lanjut setiap pertemuan ada di <a href="#peta">Peta 20 pertemuan</a>.</p>
+      <div class="tbl-wrap">
+        <table class="tbl">
+          <thead><tr><th>TP</th><th>Pertemuan</th><th>Bukti kerja</th><th>Asesmen di web ini</th></tr></thead>
+          <tbody>
+            <tr><td>1</td><td>1</td><td>Diagram komunikasi data, gambar sinyal</td><td>Kuis Bab 1 no. 2, 4</td></tr>
+            <tr><td>2</td><td>2</td><td>Peta jalur telepon dari STO ke rumah</td><td>Kuis Bab 1 no. 3, 5</td></tr>
+            <tr><td>3</td><td>3</td><td>Kabel straight &amp; crossover yang lolos uji</td><td>Kuis Bab 1 no. 1, 6; Lab kabel RJ45; rubrik crimping</td></tr>
+            <tr><td>4</td><td>4–6</td><td>Tabel perbandingan standar, analisis skenario</td><td>Kuis Bab 2</td></tr>
+            <tr><td>5</td><td>7–9</td><td>Konfigurasi router/AP, laporan site survey</td><td>Kuis Bab 3; studi kasus Wi-Fi; rubrik konfigurasi AP</td></tr>
+            <tr><td>6</td><td>11–13</td><td>Perhitungan bandwidth &amp; analisis QoS</td><td>Kuis Bab 4; kalkulator VoIP</td></tr>
+            <tr><td>7</td><td>14–16</td><td>File konfigurasi Asterisk, uji panggilan</td><td>Kuis Bab 5; Perbaiki konfigurasi; rubrik instalasi VoIP</td></tr>
+            <tr><td>8</td><td>17–19</td><td>Perhitungan link budget FTTH</td><td>Kuis Bab 6; kalkulator serat optik; rubrik FTTH</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="block">
+      <h2>Profil Pelajar Pancasila yang dikembangkan</h2>
+      <div class="grid">
+        <div class="card"><h3>Bernalar kritis</h3><p class="small muted">Mencari penyebab gangguan jaringan dari gejala yang terlihat.</p></div>
+        <div class="card"><h3>Mandiri</h3><p class="small muted">Menguji dan memperbaiki hasil kerja sendiri (LAN tester, log Asterisk).</p></div>
+        <div class="card"><h3>Gotong royong</h3><p class="small muted">Praktik berpasangan: satu memasang, satu memeriksa.</p></div>
+        <div class="card"><h3>Kreatif</h3><p class="small muted">Merancang jaringan Wi-Fi, dialplan, dan FTTH untuk kasus nyata.</p></div>
+      </div>
+    </section>
+
+    <section class="block">
+      <h2>Strategi mengatasi kendala</h2>
+      <div class="tbl-wrap">
+        <table class="tbl">
+          <thead><tr><th>Kendala</th><th>Solusi dalam media ini</th></tr></thead>
+          <tbody>
+            <tr><td>Alat praktik terbatas</td><td>Latihan urutan warna dan pengujian dilakukan dulu di Lab kabel RJ45, baru praktik fisik bergiliran. Konektor yang terbuang jadi lebih sedikit.</td></tr>
+            <tr><td>Belum ada server VoIP</td><td>Konsep akun SIP, dialplan, dan alur panggilan dilatih di Simulator VoIP. Konfigurasinya bisa diunduh lalu dipakai di Asterisk sungguhan.</td></tr>
+            <tr><td>Materi abstrak (sinyal, CDMA, pemantulan cahaya)</td><td>Setiap konsep punya simulasi yang bisa diubah nilainya dan langsung terlihat hasilnya.</td></tr>
+            <tr><td>Tidak semua siswa punya laptop</td><td>Seluruh web bisa dipakai di HP. Praktik yang butuh PC (Asterisk, Packet Tracer) dikerjakan berkelompok.</td></tr>
+            <tr><td>Kuota internet terbatas</td><td>Setelah dibuka sekali, web ini bisa dipakai tanpa internet (lihat <a href="#s-offline">Memakai web ini tanpa internet</a>).</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+  </div>
+</section>
+
+<!-- ============================== PERSIAPAN ============================== -->
+<section class="view" id="v-persiapan" data-title="Alat & aplikasi" hidden>
+  <div class="wrap">
+    <div class="chap-head">
+      <div class="eyebrow">Persiapan</div>
+      <h1>Alat dan aplikasi</h1>
+      <p class="lead">Sebagian besar materi cukup dibuka di browser HP. Untuk praktik di perangkat sungguhan, siapkan alat dan aplikasi berikut.</p>
+    </div>
+
+    <section class="block">
+      <h2>Alat praktik fisik</h2>
+      <div class="tbl-wrap">
+        <table class="tbl">
+          <thead><tr><th>Praktik</th><th>Alat dan bahan</th><th>Bab</th></tr></thead>
+          <tbody>
+            <tr><td>Membuat kabel UTP</td><td>Kabel UTP Cat5e/Cat6, konektor RJ45 (dan boot), tang crimping, pengupas kabel, LAN tester</td><td>1</td></tr>
+            <tr><td>Instalasi Wi-Fi</td><td>Access point atau wireless router, kabel UTP, laptop/HP, aplikasi Wi-Fi analyzer</td><td>3</td></tr>
+            <tr><td>Instalasi VoIP</td><td>PC atau mesin virtual Linux untuk Asterisk, switch/AP, 2 HP atau PC dengan softphone</td><td>4–5</td></tr>
+            <tr><td>Serat optik</td><td>Patch cord, adaptor, OPM (<i>optical power meter</i>) dan <i>light source</i>, VFL (<i>visual fault locator</i>); bila ada: <i>cleaver</i> dan <i>fusion splicer</i></td><td>6</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="callout warn"><b class="t">K3 saat praktik</b><p>Jangan menatap ujung serat optik atau konektor yang sedang aktif: cahaya laser inframerah tidak terlihat tetapi bisa merusak mata. Potongan serat optik sangat tajam dan sulit terlihat, buang ke wadah khusus. Pasang perangkat outdoor dengan pentanahan (<i>grounding</i>) dan jangan bekerja di ketinggian saat hujan atau petir.</p></div>
+    </section>
+
+    <section class="block">
+      <h2>Aplikasi</h2>
+      <div class="tbl-wrap">
+        <table class="tbl">
+          <thead><tr><th>Aplikasi</th><th>Kegunaan</th><th>Perangkat</th></tr></thead>
+          <tbody>
+            <tr><td>Web ini</td><td>Materi, simulasi, lab kabel, simulator VoIP, kalkulator, kuis</td><td>Semua (browser)</td></tr>
+            <tr><td>Softphone: Zoiper, Linphone, atau MicroSIP</td><td>Mendaftar ke server Asterisk dan melakukan panggilan VoIP</td><td>Android/iOS (Zoiper, Linphone), Windows (MicroSIP)</td></tr>
+            <tr><td>Asterisk</td><td>Server PBX/VoIP. Bisa dipasang di Ubuntu (<code>sudo apt install asterisk</code>, paket <i>universe</i>), mesin virtual, atau Raspberry Pi</td><td>PC/VM Linux</td></tr>
+            <tr><td>Wi-Fi analyzer</td><td>Melihat kanal, kekuatan sinyal (dBm), dan jaringan di sekitar untuk <i>site survey</i></td><td>Android</td></tr>
+            <tr><td>Cisco Packet Tracer</td><td>Simulasi jaringan (access point, router, VoIP IP phone). Gratis dengan akun Cisco Networking Academy</td><td>Windows/Linux/macOS</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="callout"><b class="t">Versi Asterisk</b><p>Materi Bab 4–5 memakai file <code>sip.conf</code> (modul <code>chan_sip</code>), seperti di slide. Modul ini dihapus sejak Asterisk 21. Di Asterisk baru, akun SIP ditulis di <code>pjsip.conf</code> dan nama kanal di dialplan menjadi <code>PJSIP/101</code>. Konsep context, extension, dan dialplan tidak berubah. Contoh padanannya ada di <a href="#referensi">Glosarium &amp; cheat sheet</a>.</p></div>
+    </section>
+
+    <section class="block" id="s-offline">
+      <h2>Memakai web ini tanpa internet</h2>
+      <p>Status di browser ini: <span class="tag" id="offline-status">memeriksa…</span></p>
+      <ul class="list">
+        <li>Buka web ini sekali saat ada internet. Salinannya disimpan otomatis oleh browser.</li>
+        <li>Setelah itu web bisa dibuka ulang tanpa internet di browser yang sama (bukan mode penyamaran).</li>
+        <li>Kemajuan, jawaban kuis, dan konfigurasi simulator tersimpan di browser masing-masing, tidak dikirim ke mana pun.</li>
+        <li>Tautan bertanda ↗ menuju situs lain dan selalu butuh internet.</li>
+      </ul>
+    </section>
+  </div>
+</section>
+
+<!-- ============================== PETA ============================== -->
+<section class="view" id="v-peta" data-title="Peta 20 pertemuan" hidden>
+  <div class="wrap">
+    <div class="chap-head">
+      <div class="eyebrow">Rencana</div>
+      <h1>Peta 20 pertemuan</h1>
+      <p class="lead">Setiap bab dibagi tiga pertemuan: konsep, konsep lanjutan, lalu praktik. Centang pertemuan yang sudah selesai; kemajuannya tampil di menu.</p>
+    </div>
+    <div class="callout tip"><b class="t">Pola satu pertemuan</b><p>Apersepsi dan tujuan → penjelasan dengan simulasi di web ini → latihan atau praktik berpasangan → tiket keluar (kuis singkat atau bukti kerja) → refleksi.</p></div>
+    <div class="meet-list" id="meet-list"></div>
+    <p class="small muted">Rencana ini usulan pengembang. Urutan dan jumlah pertemuan boleh disesuaikan dengan kalender sekolah dan ketersediaan alat.</p>
+  </div>
+</section>
+
+<!-- ============================== BAB 1 ============================== -->
+<section class="view" id="v-bab1" data-title="Bab 1 · Jaringan kabel" hidden>
+  <div class="wrap">
+    <div class="chap-head">
+      <div class="eyebrow"><span class="rbar b1"></span>Bab 1 · Pertemuan 1-3</div>
+      <h1>Jaringan berbasis kabel</h1>
+      <p class="lead">Sebelum memasang kabel, kita perlu tahu apa yang sebenarnya dikirim lewat kabel itu: data dalam bentuk sinyal. Bab ini membahas transmisi data, jaringan telepon analog yang masih memakai kabel tembaga, lalu dua jenis kabel tembaga yang dipakai di jaringan: koaksial dan twisted pair.</p>
+    </div>
+
+    <section class="block" id="s-1-1">
+      <h2><span class="num">1.1</span>Transmisi data</h2>
+      <h3>Komponen komunikasi data</h3>
+      <p><b>Komunikasi data</b> adalah proses pengiriman data dari satu perangkat ke perangkat lain melalui media transmisi, misalnya saat mengirim email, chatting, atau panggilan video. Prosesnya dimulai dari perangkat <b>pengirim</b> (<i>sender</i>) yang mentransmisikan data melalui media dalam bentuk sinyal digital atau analog.</p>
+      <p>Komunikasi data selalu melibatkan lima elemen: <b>pengirim</b>, <b>penerima</b> (<i>receiver</i>), <b>pesan/data</b>, <b>media transmisi</b>, dan <b>protokol</b>. Protokol adalah aturan bersama (format, urutan, kecepatan) yang menyatukan "bahasa" kedua perangkat. Tanpa protokol yang sama, data tetap sampai tetapi tidak bisa dipahami.</p>
+      <div class="widget" id="w-komdat">
+        <div class="widget-title">Lima elemen komunikasi data <span class="tag mask">interaktif</span></div>
+        <svg class="komdat" viewBox="0 0 360 150" role="img" aria-label="Diagram pengirim, media, penerima, pesan, dan protokol">
+          <g class="kd-node" data-k="sender" tabindex="0" role="button" aria-label="Pengirim"><rect x="8" y="44" width="76" height="56" rx="10"/><text x="46" y="70">Pengirim</text><text class="kd-sub" x="46" y="86">HP Andi</text></g>
+          <g class="kd-node" data-k="receiver" tabindex="0" role="button" aria-label="Penerima"><rect x="276" y="44" width="76" height="56" rx="10"/><text x="314" y="70">Penerima</text><text class="kd-sub" x="314" y="86">HP Budi</text></g>
+          <g class="kd-node" data-k="media" tabindex="0" role="button" aria-label="Media transmisi"><path id="kd-wire" class="kd-wire" d="M84 72 H276"/><text class="kd-sub" x="180" y="64">media transmisi</text></g>
+          <g class="kd-node" data-k="message" tabindex="0" role="button" aria-label="Pesan"><g id="kd-msg"><rect x="92" y="78" width="54" height="22" rx="5" class="kd-msgbox"/><text x="119" y="93" class="kd-msgtext" id="kd-msgtext">Halo!</text></g></g>
+          <g class="kd-node" data-k="protocol" tabindex="0" role="button" aria-label="Protokol"><rect x="120" y="116" width="120" height="26" rx="13" class="kd-proto"/><text x="180" y="133">protokol (aturan)</text></g>
+          <text x="180" y="22" class="kd-status" id="kd-status">Ketuk elemen untuk penjelasan</text>
+        </svg>
+        <p class="small" id="kd-info" aria-live="polite">Ketuk salah satu elemen di diagram.</p>
+        <div class="btn-row">
+          <button class="btn btn-primary small" type="button" id="kd-send"><svg><use href="#i-play"/></svg>Kirim pesan</button>
+          <label class="small" style="display:flex;gap:6px;align-items:center"><input type="checkbox" id="kd-cut"> Media putus</label>
+          <label class="small" style="display:flex;gap:6px;align-items:center"><input type="checkbox" id="kd-proto"> Protokol berbeda</label>
+        </div>
+      </div>
+
+      <h3>Jenis sinyal pada transmisi data</h3>
+      <div class="compare">
+        <div class="card"><h3>Sinyal digital</h3><p class="small">Pulsa diskrit dengan dua kondisi logika: <b>0</b> (tegangan rendah) dan <b>1</b> (tegangan tinggi). Setiap kondisi mewakili satu digit biner atau <b>bit</b>. Contoh: data di kabel UTP Ethernet.</p></div>
+        <div class="card"><h3>Sinyal analog</h3><p class="small">Gelombang kontinu (misalnya gelombang sinus) yang membawa informasi lewat perubahan <b>amplitudo</b>, <b>frekuensi</b>, atau <b>fase</b>. Contoh: suara di telepon rumah, gelombang radio.</p></div>
+      </div>
+      <div class="widget" id="w-sinyal">
+        <div class="widget-title">Lab sinyal <span class="tag mask">interaktif</span></div>
+        <div class="seg" id="sig-tabs" role="tablist" aria-label="Jenis sinyal">
+          <button type="button" class="on" data-t="dig">Digital</button>
+          <button type="button" data-t="ana">Analog</button>
+          <button type="button" data-t="mod">Digital dibawa analog</button>
+        </div>
+        <div id="sig-dig" class="stack">
+          <label class="field">Teks (maks. 3 huruf)<input type="text" id="sig-text" value="Hi" maxlength="3" autocomplete="off"></label>
+          <div class="mono small" id="sig-bits"></div>
+        </div>
+        <div id="sig-ana" class="stack" hidden>
+          <div class="range-row"><span class="small">Amplitudo</span><input type="range" id="sig-amp" min="10" max="100" value="70"><output id="sig-amp-o">70%</output></div>
+          <div class="range-row"><span class="small">Frekuensi</span><input type="range" id="sig-freq" min="1" max="8" value="3"><output id="sig-freq-o">3 Hz</output></div>
+        </div>
+        <div id="sig-mod" class="stack" hidden>
+          <div class="seg" id="sig-modtype" aria-label="Jenis modulasi">
+            <button type="button" class="on" data-m="ask">ASK (amplitudo)</button>
+            <button type="button" data-m="fsk">FSK (frekuensi)</button>
+            <button type="button" data-m="psk">PSK (fase)</button>
+          </div>
+          <p class="small muted" id="sig-modnote"></p>
+        </div>
+        <svg class="sigplot" id="sig-plot" viewBox="0 0 360 120" role="img" aria-label="Grafik sinyal"></svg>
+      </div>
+
+      <h3>Proses transmisi data</h3>
+      <p>Berdasarkan cara bit dikirim, ada <b>transmisi serial</b> (bit dikirim satu per satu lewat satu jalur, misalnya USB, Ethernet, dan serat optik) dan <b>transmisi paralel</b> (beberapa bit dikirim bersamaan lewat beberapa jalur, misalnya bus data di dalam komputer dan printer paralel lama). Paralel terlihat lebih cepat, tetapi pada jarak jauh bit-bitnya tiba tidak serempak (<i>skew</i>) dan butuh banyak kabel, sehingga jaringan memakai serial.</p>
+      <div class="widget" id="w-serpar">
+        <div class="widget-title">Serial vs paralel <span class="tag mask">animasi</span></div>
+        <svg class="serpar" id="sp-svg" viewBox="0 0 360 170" role="img" aria-label="Animasi pengiriman 8 bit secara serial dan paralel"></svg>
+        <div class="btn-row"><button class="btn btn-primary small" type="button" id="sp-play"><svg><use href="#i-play"/></svg>Kirim 8 bit</button><span class="small muted" id="sp-note">Byte yang dikirim: 01001000 (huruf H).</span></div>
+      </div>
+      <p>Berdasarkan pemakaian pita frekuensi, ada <b>transmisi baseband</b> dan <b>broadband</b>:</p>
+      <div class="compare">
+        <div class="card"><h3>Baseband</h3><svg class="band-fig" viewBox="0 0 200 70" aria-hidden="true"><rect x="10" y="12" width="180" height="40" rx="4" class="bf-ch1"/><text x="100" y="37">1 sinyal memakai seluruh pita</text><path d="M10 60h180" class="bf-axis"/></svg><p class="small">Satu sinyal (biasanya digital) memakai seluruh kapasitas media, bergantian dengan pengirim lain. Contoh: Ethernet pada kabel UTP.</p></div>
+        <div class="card"><h3>Broadband</h3><svg class="band-fig" viewBox="0 0 200 70" aria-hidden="true"><rect x="10" y="12" width="56" height="40" rx="4" class="bf-ch1"/><rect x="72" y="12" width="56" height="40" rx="4" class="bf-ch2"/><rect x="134" y="12" width="56" height="40" rx="4" class="bf-ch3"/><text x="38" y="37">kanal 1</text><text x="100" y="37">kanal 2</text><text x="162" y="37">kanal 3</text><path d="M10 60h180" class="bf-axis"/></svg><p class="small">Pita frekuensi dibagi menjadi beberapa kanal, sehingga banyak sinyal (analog) dikirim bersamaan pada frekuensi berbeda. Contoh: TV kabel dan internet pada kabel koaksial.</p></div>
+      </div>
+      <p>Berdasarkan arah aliran data, transmisi dibedakan menjadi <b>simplex</b> (satu arah saja, contoh siaran radio), <b>half duplex</b> (dua arah bergantian, contoh HT/walkie-talkie), dan <b>full duplex</b> (dua arah bersamaan, contoh telepon dan Ethernet modern).</p>
+    </section>
+
+    <section class="block" id="s-1-2">
+      <h2><span class="num">1.2</span>Kabel telepon analog</h2>
+      <h3>Hierarki jaringan telepon</h3>
+      <p>Sentral telepon disusun bertingkat. Panggilan hanya "naik" setinggi yang diperlukan: panggilan ke tetangga cukup lewat sentral lokal, sedangkan panggilan ke luar negeri naik sampai gerbang internasional.</p>
+      <ol class="list" type="a">
+        <li><b>International gateway exchange (IGE)</b>: gerbang panggilan ke dan dari luar negeri.</li>
+        <li><b>Primary center (PC)</b> / sentral tandem: menghubungkan antarwilayah besar.</li>
+        <li><b>Secondary center (SC)</b> / sentral trunk.</li>
+        <li><b>Tertiary center (TC)</b> / sentral trunk tingkat 2.</li>
+        <li><b>Local exchange (LE)</b> / STO (sentral telepon otomat): sentral terdekat yang langsung terhubung ke pelanggan.</li>
+      </ol>
+      <div class="widget" id="w-hirarki">
+        <div class="widget-title">Jalur panggilan di hierarki sentral <span class="tag mask">simulasi</span></div>
+        <div class="seg" id="hr-tabs" role="tablist" aria-label="Tujuan panggilan">
+          <button type="button" class="on" data-r="lokal">Tetangga (satu STO)</button>
+          <button type="button" data-r="kota">Kota lain</button>
+          <button type="button" data-r="jauh">Pulau lain</button>
+          <button type="button" data-r="intl">Luar negeri</button>
+        </div>
+        <svg class="hirarki" id="hr-svg" viewBox="0 0 360 230" role="img" aria-label="Hierarki sentral telepon dan jalur panggilan"></svg>
+        <p class="small" id="hr-note" aria-live="polite"></p>
+      </div>
+
+      <h3>Public Switched Telephone Network (PSTN)</h3>
+      <p><b>PSTN</b> adalah jaringan telepon publik (telepon rumah) yang menghubungkan pelanggan lewat sentral-sentral di atas.</p>
+      <div class="compare">
+        <div class="card"><h3>Elemen PSTN</h3><ul class="list small">
+          <li><b>Customer premises equipment (CPE)</b>: perangkat di sisi pelanggan, misalnya pesawat telepon dan faksimile.</li>
+          <li><b>Network access</b>: kabel penghubung pesawat telepon dengan sentral (<i>local loop</i>).</li>
+          <li><b>Central offices (CO)</b>: sentral yang menyambungkan panggilan (LE, sentral trunk, sentral internasional).</li>
+          <li><b>Trunk and special circuits</b>: saluran berkapasitas besar antarsentral.</li>
+        </ul></div>
+        <div class="card"><h3>Karakteristik PSTN</h3><ul class="list small">
+          <li>Sinyal suara di saluran pelanggan masih <b>analog</b>.</li>
+          <li>Memakai pita suara <b>300–3.400 Hz</b>. Karena itu suara di telepon rumah terdengar "kecil" dibanding aslinya.</li>
+          <li>Berbasis <b>circuit-switched</b>: satu jalur khusus dipesan selama panggilan berlangsung.</li>
+          <li>Terikat lokasi, kurang cocok bagi pengguna yang sering berpindah tempat.</li>
+          <li>Bergantung pada sistem sentral bertingkat (lokal, trunk, internasional).</li>
+        </ul></div>
+      </div>
+      <div class="callout"><b class="t">Circuit-switched vs packet-switched</b><p>PSTN memesan satu jalur utuh untuk setiap panggilan, walaupun saat diam jalur itu tidak terpakai. Internet memecah data menjadi paket yang berbagi jalur dengan pengguna lain. Perbedaan inilah yang membuat VoIP (Bab 4) lebih murah, tetapi kualitasnya bergantung pada kondisi jaringan.</p></div>
+
+      <h3>Jaringan akses lokal (JARLOKAT)</h3>
+      <p>Jaringan lokal akses tembaga (<b>JARLOKAT</b>) adalah kabel tembaga yang menghubungkan STO ke rumah pelanggan. Telkom mengatur spesifikasi perangkatnya dalam standar <b>STEL</b> (spesifikasi telekomunikasi).</p>
+      <div class="widget" id="w-jarlokat">
+        <div class="widget-title">Dari STO sampai pesawat telepon <span class="tag mask">interaktif</span></div>
+        <svg class="jarlok" id="jl-svg" viewBox="0 0 360 150" role="img" aria-label="Jalur MDF, rumah kabel, distribution point, KTB, roset, pesawat telepon"></svg>
+        <p class="small" id="jl-info" aria-live="polite">Ketuk perangkat atau ruas kabel.</p>
+      </div>
+      <div class="grid">
+        <div class="card"><h3>Persyaratan jaringan akses</h3><ul class="list small"><li>Kompatibel dengan layanan teknologi yang sedang digunakan.</li><li>Mampu menangani berbagai jenis layanan (suara, data).</li><li>Dapat bekerja dengan berbagai platform media transmisi.</li></ul></div>
+        <div class="card"><h3>Model jaringan akses</h3><ul class="list small"><li><b>Access node terminal (ANT)</b>: titik akses di sisi sentral.</li><li><b>Network unit (NU)</b>: unit di tengah jaringan yang mendistribusikan saluran.</li><li><b>Network terminal (NT)</b>: titik akhir di sisi pelanggan.</li></ul></div>
+        <div class="card"><h3>Kabel quad</h3><p class="small">Empat urat tembaga dipilin bersama (dua pasang). Ukuran kabel dinyatakan dalam jumlah quad, misalnya 1 quad untuk saluran rumah dan 5 quad atau lebih untuk distribusi.</p></div>
+        <div class="card"><h3>Catu daya</h3><p class="small">Sentral mencatu tegangan DC (umumnya −48 V) lewat pasangan kabel yang sama dengan sinyal suara. Itu sebabnya telepon rumah biasa tetap bisa dipakai saat listrik rumah padam.</p></div>
+      </div>
+      <p>Hubungan MDF ke KTB dibedakan menjadi dua: <b>JARLOKAT murni</b>, yaitu seluruh jalur dari sentral sampai pelanggan memakai kabel tembaga, dan <b>JARLOKAT tidak murni</b>, yaitu sebagian jalur memakai media atau perangkat lain (misalnya serat optik sampai kabinet, atau perangkat multiplexer) lalu diteruskan dengan tembaga sampai rumah.</p>
+
+      <h3>Teknologi internet pelanggan: xDSL</h3>
+      <p><b>xDSL</b> (<i>digital subscriber line</i>) memberi layanan data jauh lebih cepat daripada modem dial-up atau ISDN, walaupun tetap memakai kabel tembaga telepon. Caranya: data dikirim pada frekuensi di atas pita suara. Modem DSL di rumah dan perangkat <b>DSLAM</b> (<i>DSL access multiplexer</i>) di sentral memisahkan dan menggabungkan sinyalnya.</p>
+      <div class="widget" id="w-dsl">
+        <div class="widget-title">Satu kabel, dua layanan (ADSL) <span class="tag mask">interaktif</span></div>
+        <svg class="dsl" id="dsl-svg" viewBox="0 0 360 150" role="img" aria-label="Spektrum frekuensi ADSL: suara, upstream, downstream"></svg>
+        <label class="small" style="display:flex;gap:6px;align-items:center"><input type="checkbox" id="dsl-split" checked> Pasang splitter/filter di rumah</label>
+        <p class="small" id="dsl-note" aria-live="polite"></p>
+      </div>
+      <div class="tbl-wrap">
+        <table class="tbl">
+          <thead><tr><th>Teknologi</th><th>Sifat</th><th>Keterangan</th></tr></thead>
+          <tbody>
+            <tr><td>ADSL / ADSL2+</td><td>Asimetris</td><td>Unduh lebih cepat daripada unggah; cocok untuk pelanggan rumah (ADSL2+ hingga sekitar 24 Mbps)</td></tr>
+            <tr><td>SDSL</td><td>Simetris</td><td>Kecepatan unduh = unggah, satu pasang kabel; untuk kantor</td></tr>
+            <tr><td>HDSL</td><td>Simetris</td><td>Kecepatan tinggi memakai dua pasang kabel, pengganti saluran E1/T1</td></tr>
+            <tr><td>MDSL</td><td>Simetris, multi-rate</td><td>Kecepatan dipilih bertingkat sesuai panjang dan kualitas kabel</td></tr>
+            <tr><td>RADSL</td><td>Asimetris, adaptif</td><td>Kecepatan otomatis menyesuaikan kualitas saluran</td></tr>
+            <tr><td>VDSL / VDSL2</td><td>Asimetris/simetris</td><td>Paling cepat, tetapi hanya untuk kabel pendek; biasanya dari kabinet yang dicatu serat optik</td></tr>
+            <tr><td>DSL Lite (G.Lite)</td><td>Asimetris</td><td>Versi ADSL tanpa splitter dengan kecepatan lebih rendah</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="small muted">DSLAM bukan jenis DSL, melainkan perangkat di sentral yang menghimpun banyak saluran DSL pelanggan ke jaringan internet.</p>
+    </section>
+
+    <section class="block" id="s-1-3">
+      <h2><span class="num">1.3</span>Kabel koaksial</h2>
+      <p>Kabel koaksial terdiri atas satu konduktor di tengah yang dikelilingi pelindung logam dengan sumbu (<i>axis</i>) yang sama, sehingga disebut <i>co-axial</i>. Pelindung ini membuat sinyal frekuensi tinggi tahan gangguan.</p>
+      <div class="widget" id="w-coax">
+        <div class="widget-title">Bongkar kabel koaksial <span class="tag mask">interaktif</span></div>
+        <div class="coax-wrap">
+          <svg class="coax" id="coax-svg" viewBox="0 0 220 120" role="img" aria-label="Penampang kabel koaksial"></svg>
+          <div class="stack"><div class="seg" id="coax-tabs" aria-label="Lapisan kabel"></div><p class="small" id="coax-info" aria-live="polite"></p></div>
+        </div>
+      </div>
+      <div class="tbl-wrap">
+        <table class="tbl">
+          <thead><tr><th>Tipe</th><th>Impedansi</th><th>Pemakaian</th></tr></thead>
+          <tbody>
+            <tr><td>RG-6</td><td>75 Ω</td><td>TV kabel, antena parabola, internet broadband kabel; frekuensi tinggi hingga orde GHz</td></tr>
+            <tr><td>RG-11</td><td>75 Ω</td><td>Lebih tebal, redaman rendah; jalur utama dan jarak jauh agar sinyal tetap stabil</td></tr>
+            <tr><td>RG-59</td><td>75 Ω</td><td>Lebih tipis; CCTV analog dan video jarak pendek</td></tr>
+            <tr><td>RG-58</td><td>50 Ω</td><td>Ethernet generasi awal 10BASE2 (<i>thinnet</i>) dan radio</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="grid">
+        <div class="card"><h3>Standar jaringan koaksial</h3><ul class="list small"><li>Ethernet generasi awal: 10BASE5 (<i>thicknet</i>, hingga 500 m) dan 10BASE2 (<i>thinnet</i>, hingga 185 m).</li><li>Jaringan broadband: siaran TV kabel dan sinyal frekuensi tinggi.</li><li>Teknologi baru seperti ITU-T G.hn yang memakai kabel koaksial di rumah untuk internet berkecepatan tinggi.</li></ul></div>
+        <div class="card"><h3>Konektor koaksial</h3><ul class="list small"><li><b>F</b>: konektor ulir untuk RG-6 (TV kabel, parabola, modem kabel).</li><li><b>BNC</b>: konektor kunci putar untuk CCTV dan 10BASE2.</li><li><b>N-type</b>: konektor ulir tahan cuaca untuk antena luar ruangan.</li></ul></div>
+      </div>
+    </section>
+
+    <section class="block" id="s-1-4">
+      <h2><span class="num">1.4</span>Kabel twisted pair</h2>
+      <div class="timeline">
+        <div class="tl-item"><b>1880</b><p>Sistem telepon masih memakai kabel tunggal seperti telegraf, sangat rentan gangguan, terutama setelah trem listrik beroperasi di kota-kota.</p></div>
+        <div class="tl-item"><b>1881</b><p>Lahirnya kabel berpilin (<i>twisted pair</i>) yang dipatenkan Alexander Graham Bell.</p></div>
+        <div class="tl-item"><b>1900</b><p>Seluruh jaringan telepon di Amerika sudah memakai twisted pair atau kabel terbuka (<i>open wire</i>) dengan transposisi.</p></div>
+      </div>
+      <p>Mengapa kabel dipilin? Gangguan elektromagnetik dari luar menginduksi tegangan pada kedua kabel. Karena terpilin, kedua kabel bergantian dekat dan jauh dari sumber gangguan, sehingga gangguannya hampir sama besar. Penerima membaca <b>selisih</b> tegangan kedua kabel, jadi gangguan yang sama besar saling menghapus.</p>
+      <div class="widget" id="w-twist">
+        <div class="widget-title">Pilinan menghapus gangguan <span class="tag mask">simulasi</span></div>
+        <svg class="twist" id="tw-svg" viewBox="0 0 360 200" role="img" aria-label="Sinyal pada dua kabel dengan gangguan, dan sinyal hasil di penerima"></svg>
+        <div class="seg" id="tw-mode" aria-label="Jenis kabel"><button type="button" class="on" data-m="par">Kabel sejajar</button><button type="button" data-m="tw">Kabel dipilin</button></div>
+        <div class="range-row"><span class="small">Gangguan</span><input type="range" id="tw-noise" min="0" max="100" value="60"><output id="tw-noise-o">60%</output></div>
+      </div>
+
+      <h3>Unshielded twisted pair (UTP)</h3>
+      <p><b>UTP</b> adalah kabel berisi 4 pasang kabel berpilin tanpa pelindung logam, paling umum dipakai untuk Ethernet dan telepon. Kelebihannya murah, ringan, dan mudah dipasang untuk jarak pendek sampai menengah. Panjang maksimum satu segmen Ethernet adalah <b>100 m</b>.</p>
+      <div class="tbl-wrap">
+        <table class="tbl">
+          <thead><tr><th>Kategori</th><th>Frekuensi</th><th>Kecepatan umum</th><th>Pemakaian</th></tr></thead>
+          <tbody>
+            <tr><td>Cat 3</td><td>16 MHz</td><td>10 Mbps</td><td>Telepon, Ethernet lama</td></tr>
+            <tr><td>Cat 5e</td><td>100 MHz</td><td>1 Gbps</td><td>LAN rumah dan kantor</td></tr>
+            <tr><td>Cat 6</td><td>250 MHz</td><td>1 Gbps (10 Gbps hingga ±55 m)</td><td>LAN kantor, gedung baru</td></tr>
+            <tr><td>Cat 6A</td><td>500 MHz</td><td>10 Gbps hingga 100 m</td><td>Data center, backbone gedung</td></tr>
+            <tr><td>Cat 8</td><td>2.000 MHz</td><td>25/40 Gbps hingga 30 m</td><td>Antar-rak di data center</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>Shielded twisted pair (STP) dan kodenya</h3>
+      <p>Di area dengan gangguan elektromagnetik tinggi (dekat motor listrik, mesin pabrik, kabel listrik besar), dipakai kabel berpelindung. Kodenya ditulis <b>X/YTP</b>: X = pelindung seluruh kabel, Y = pelindung tiap pasang (U = tanpa pelindung, F = foil, S = anyaman/<i>braid</i>).</p>
+      <div class="widget" id="w-iso">
+        <div class="widget-title">Pembaca kode kabel <span class="tag mask">interaktif</span></div>
+        <div class="iso-row">
+          <div class="field">Pelindung seluruh kabel (X)<div class="seg" id="iso-x"><button type="button" class="on" data-v="U">U</button><button type="button" data-v="F">F</button><button type="button" data-v="S">S</button><button type="button" data-v="SF">SF</button></div></div>
+          <div class="field">Pelindung tiap pasang (Y)<div class="seg" id="iso-y"><button type="button" class="on" data-v="U">U</button><button type="button" data-v="F">F</button></div></div>
+        </div>
+        <div class="iso-out">
+          <svg class="isofig" id="iso-svg" viewBox="0 0 120 120" aria-hidden="true"></svg>
+          <div class="stack"><b class="iso-code mono" id="iso-code">U/UTP</b><p class="small" id="iso-desc"></p></div>
+        </div>
+      </div>
+      <div class="tbl-wrap">
+        <table class="tbl">
+          <thead><tr><th>Kode</th><th>Kepanjangan</th><th>Keterangan</th></tr></thead>
+          <tbody>
+            <tr><td>U/UTP</td><td>Unshielded / unshielded twisted pair</td><td>Tanpa pelindung, baik pada seluruh kabel maupun tiap pasang</td></tr>
+            <tr><td>F/UTP</td><td>Foiled / unshielded twisted pair</td><td>Seluruh kabel dibungkus foil, tiap pasang tanpa pelindung</td></tr>
+            <tr><td>U/FTP</td><td>Unshielded / foiled twisted pair</td><td>Tiap pasang dibungkus foil, tanpa pelindung luar</td></tr>
+            <tr><td>S/FTP</td><td>Shielded / foiled twisted pair</td><td>Pelindung luar berupa anyaman kawat dan tiap pasang juga dibungkus foil</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>Susunan warna T568A dan T568B</h3>
+      <p>Ujung kabel UTP dipasang konektor RJ45 dengan urutan warna standar. Kabel <b>straight-through</b> memakai urutan yang sama di kedua ujung (T568B–T568B) untuk menghubungkan perangkat berbeda jenis (PC ke switch). Kabel <b>crossover</b> memakai T568A di satu ujung dan T568B di ujung lain untuk perangkat sejenis (PC ke PC, switch ke switch).</p>
+      <div class="color-rows">
+        <div><b class="small">T568A</b><div class="wire-strip" data-std="A"></div></div>
+        <div><b class="small">T568B</b><div class="wire-strip" data-std="B"></div></div>
+      </div>
+      <p class="small muted">Pin 1 di sebelah kiri saat konektor dilihat dari depan dengan pengunci (<i>clip</i>) di bawah. Perangkat modern umumnya mendukung <b>Auto MDI-X</b>, yaitu otomatis menukar pasangan kirim/terima, sehingga kabel straight pun bisa dipakai antarperangkat sejenis. Crossover tetap perlu dipahami untuk perangkat lama dan ujian kompetensi.</p>
+      <div class="btn-row"><a class="btn btn-primary small" href="#lab"><svg><use href="#i-plug"/></svg>Latihan di Lab kabel RJ45</a></div>
+    </section>
+
+    <section class="block">
+      <h2>Kegiatan siswa</h2>
+      <ul class="checklist">
+        <li><label><input type="checkbox" data-save="k1a"><span>Pertemuan 1: gambar diagram komunikasi data saat mengirim chat, beri label kelima elemennya.</span></label></li>
+        <li><label><input type="checkbox" data-save="k1b"><span>Pertemuan 1: gambar sinyal digital untuk huruf awal namamu (8 bit ASCII) di buku, cocokkan dengan Lab sinyal.</span></label></li>
+        <li><label><input type="checkbox" data-save="k1c"><span>Pertemuan 2: amati tiang/kotak telepon di sekitar rumah atau sekolah (RK, DP, KTB), foto lalu beri keterangan.</span></label></li>
+        <li><label><input type="checkbox" data-save="k1d"><span>Pertemuan 3: lulus latihan straight dan crossover di Lab kabel RJ45, lalu buat kabel fisik dan uji dengan LAN tester.</span></label></li>
+      </ul>
+    </section>
+
+    <section class="block">
+      <h2>Latihan pemahaman</h2>
+      <details class="reveal"><summary>Mengapa protokol disebut elemen penting komunikasi data?</summary><div><p>Protokol menyatukan aturan (format, urutan, kecepatan) antara pengirim dan penerima. Tanpa protokol yang sama, data mungkin sampai tetapi tidak bisa ditafsirkan dengan benar.</p></div></details>
+      <details class="reveal"><summary>Mengapa jaringan komputer jarak jauh memakai transmisi serial, bukan paralel?</summary><div><p>Pada transmisi paralel, bit-bit yang dikirim bersamaan bisa tiba tidak serempak (<i>skew</i>) dan saling mengganggu (<i>crosstalk</i>), serta butuh banyak kabel. Serial hanya butuh satu jalur sehingga lebih andal dan murah untuk jarak jauh.</p></div></details>
+      <details class="reveal"><summary>Telepon rumah dan internet ADSL memakai kabel yang sama. Bagaimana keduanya tidak saling mengganggu?</summary><div><p>Suara memakai frekuensi rendah (sampai sekitar 4 kHz), sedangkan data ADSL memakai frekuensi yang jauh lebih tinggi. Splitter/filter memisahkan keduanya di rumah, dan DSLAM memisahkannya di sentral.</p></div></details>
+      <details class="reveal"><summary>Reno memasang jaringan di dekat panel listrik dan motor pabrik. Kabel apa yang tepat, dan mengapa?</summary><div><p>Kabel berpelindung, misalnya STP/S-FTP Cat 6. Pelindung foil/anyaman meredam gangguan elektromagnetik dari peralatan listrik, sedangkan UTP tidak punya pelindung.</p></div></details>
+      <details class="reveal"><summary>Apa urutan warna T568B?</summary><div><p>Putih-oranye, oranye, putih-hijau, biru, putih-biru, hijau, putih-coklat, coklat.</p></div></details>
+    </section>
+
+    <nav class="pager"><a href="#peta"><small>Sebelumnya</small>Peta 20 pertemuan</a><a class="next" href="#bab2"><small>Berikutnya</small>Bab 2 · Jaringan nirkabel</a></nav>
+  </div>
+</section>
+
+<!-- ============================== BAB 2 ============================== -->
+<section class="view" id="v-bab2" data-title="Bab 2 · Jaringan nirkabel" hidden>
+  <div class="wrap">
+    <div class="chap-head">
+      <div class="eyebrow"><span class="rbar b2"></span>Bab 2 · Pertemuan 4-6</div>
+      <h1>Jaringan nirkabel</h1>
+      <p class="lead">Jaringan nirkabel memakai gelombang radio, inframerah, atau medan magnet sebagai media transmisi, sehingga perangkat bisa terhubung tanpa kabel. Bab ini membahas elemen pembentuknya, aturan komunikasinya, cara banyak pengguna berbagi frekuensi, serta tipe dan standarnya.</p>
+    </div>
+
+    <section class="block" id="s-2-1">
+      <h2><span class="num">2.1</span>Teknologi jaringan nirkabel</h2>
+      <p>Komunikasi radio tanpa kabel dipelopori <b>Guglielmo Marconi</b>, yang mengirim sinyal telegraf radio pada 1895 dan melintasi Samudra Atlantik pada 1901. Prinsipnya masih sama sampai sekarang: informasi ditumpangkan pada gelombang elektromagnetik.</p>
+      <h3>Komponen dan elemen pembentukan</h3>
+      <p>Secara fisik, jaringan nirkabel terdiri atas perangkat pengguna (laptop, HP), <i>wireless adapter</i>, access point, antena, dan perangkat jaringan di belakangnya (router, server). Secara fungsi, jaringan dibentuk oleh tiga elemen utama dan dua elemen pendukung.</p>
+      <div class="widget" id="w-elemen">
+        <div class="widget-title">Elemen jaringan nirkabel <span class="tag mask">interaktif</span></div>
+        <svg class="elemen" id="el-svg" viewBox="0 0 360 170" role="img" aria-label="CPE, access network, core network, network management, network services"></svg>
+        <p class="small" id="el-info" aria-live="polite">Ketuk salah satu elemen.</p>
+      </div>
+
+      <h3>Protokol komunikasi: model OSI dan TCP/IP</h3>
+      <p>Protokol disusun berlapis. Model <b>OSI</b> punya 7 lapisan, sedangkan model <b>TCP/IP</b> (disebut juga model DARPA) meringkasnya menjadi 4 lapisan. Wi-Fi bekerja di lapisan fisik dan data link; lapisan di atasnya sama persis dengan jaringan kabel.</p>
+      <div class="widget" id="w-osi">
+        <div class="widget-title">Lapisan OSI dan TCP/IP <span class="tag mask">interaktif</span></div>
+        <div class="osi" id="osi-grid"></div>
+        <p class="small" id="osi-info" aria-live="polite">Ketuk satu lapisan OSI.</p>
+        <div class="btn-row"><button class="btn btn-ghost small" type="button" id="osi-encap"><svg><use href="#i-play"/></svg>Lihat enkapsulasi</button></div>
+        <div class="encap" id="osi-encap-box" hidden></div>
+      </div>
+
+      <h3>Teknik multiple access</h3>
+      <p>Banyak pengguna harus berbagi spektrum frekuensi yang terbatas. Ada tiga teknik dasar:</p>
+      <ul class="list">
+        <li><b>FDMA</b> (<i>frequency division multiple access</i>): setiap pengguna mendapat pita frekuensi sendiri.</li>
+        <li><b>TDMA</b> (<i>time division multiple access</i>): semua memakai frekuensi yang sama, tetapi bergiliran dalam slot waktu.</li>
+        <li><b>CDMA</b> (<i>code division multiple access</i>): semua memakai frekuensi dan waktu yang sama, dibedakan oleh kode unik. Penerima yang tahu kodenya bisa memisahkan sinyal miliknya walaupun semua sinyal bercampur, sehingga tahan terhadap interferensi antarpengguna.</li>
+      </ul>
+      <div class="widget" id="w-ma">
+        <div class="widget-title">Berbagi spektrum <span class="tag mask">interaktif</span></div>
+        <div class="seg" id="ma-tabs" role="tablist" aria-label="Teknik akses"><button type="button" class="on" data-m="fdma">FDMA</button><button type="button" data-m="tdma">TDMA</button><button type="button" data-m="cdma">CDMA</button></div>
+        <svg class="magrid" id="ma-svg" viewBox="0 0 360 170" role="img" aria-label="Pembagian frekuensi dan waktu antar pengguna"></svg>
+        <p class="small" id="ma-note"></p>
+        <div id="ma-cdma" class="stack" hidden>
+          <b class="small">Coba sendiri: dua pengguna kirim bersamaan</b>
+          <div class="cdma-ctl">
+            <div class="field">Bit Andi (kode +1 +1 +1 +1)<div class="seg" id="cd-a"><button type="button" data-v="0">0</button><button type="button" class="on" data-v="1">1</button></div></div>
+            <div class="field">Bit Budi (kode +1 −1 +1 −1)<div class="seg" id="cd-b"><button type="button" class="on" data-v="0">0</button><button type="button" data-v="1">1</button></div></div>
+          </div>
+          <div class="tbl-wrap"><table class="tbl mono" id="cd-table"></table></div>
+          <p class="small muted">Bit 1 dikirim sebagai +1, bit 0 sebagai −1, lalu dikalikan dengan kode (<i>spreading</i>). Di udara kedua sinyal dijumlahkan. Penerima mengalikan sinyal campuran dengan kode pengguna, menjumlahkan, lalu membagi 4: hasil +1 berarti bit 1, −1 berarti bit 0. Kode Andi dan Budi saling ortogonal, jadi sinyal yang lain terhapus.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="block" id="s-2-2">
+      <h2><span class="num">2.2</span>Tipe jaringan nirkabel</h2>
+      <h3>Berdasarkan jangkauan</h3>
+      <div class="tbl-wrap">
+        <table class="tbl">
+          <thead><tr><th>Tipe</th><th>Performa</th><th>Standar</th><th>Jangkauan</th></tr></thead>
+          <tbody>
+            <tr><td>WPAN</td><td>Sedang</td><td>Bluetooth, inframerah (IrDA), IEEE 802.15</td><td>Bersifat pribadi, di sekitar satu orang (beberapa meter)</td></tr>
+            <tr><td>WLAN</td><td>Tinggi</td><td>IEEE 802.11 (Wi-Fi)</td><td>Ruangan, gedung, dan area terbuka terbatas</td></tr>
+            <tr><td>WMAN</td><td>Tinggi</td><td>IEEE 802.16 (WiMAX)</td><td>Antargedung hingga satu kota</td></tr>
+            <tr><td>WWAN</td><td>Rendah–tinggi</td><td>Seluler 1G–5G (GSM, GPRS, EDGE, LTE, NR)</td><td>Antarkota, negara, hingga global</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="widget" id="w-jangkau">
+        <div class="widget-title">Tebak tipenya <span class="tag mask">latihan</span></div>
+        <div class="qc" data-qc="jangkau"></div>
+      </div>
+
+      <h3>Berdasarkan koneksi</h3>
+      <div class="widget" id="w-mode">
+        <div class="widget-title">Mode koneksi <span class="tag mask">interaktif</span></div>
+        <div class="seg" id="md-tabs" role="tablist" aria-label="Mode koneksi"><button type="button" class="on" data-m="adhoc">Ad hoc</button><button type="button" data-m="infra">Infrastructure</button><button type="button" data-m="hybrid">Hybrid</button></div>
+        <svg class="modefig" id="md-svg" viewBox="0 0 360 170" role="img" aria-label="Diagram mode koneksi nirkabel"></svg>
+        <p class="small" id="md-note"></p>
+      </div>
+
+      <h3>Teknik komunikasi media nirkabel</h3>
+      <div class="grid">
+        <div class="card"><h3>Soft handoff</h3><p class="small">Saat berpindah area, perangkat tersambung ke stasiun baru <b>sebelum</b> sambungan lama diputus (<i>make before break</i>), sehingga panggilan tidak terputus.</p></div>
+        <div class="card"><h3>Power control</h3><p class="small">Daya pancar diatur secukupnya: perangkat dekat menurunkan daya, perangkat jauh menaikkan. Hemat baterai dan mengurangi interferensi.</p></div>
+        <div class="card"><h3>Space-time coding &amp; multiuser diversity</h3><p class="small">Memakai beberapa antena dan memilih pengguna dengan kondisi kanal terbaik pada setiap saat untuk menaikkan keandalan dan kapasitas (dasar teknologi MIMO).</p></div>
+        <div class="card"><h3>Adaptive modulation &amp; coding (AMC)</h3><p class="small">Jenis modulasi berubah mengikuti kualitas sinyal. Sinyal bagus memakai modulasi rapat (cepat), sinyal lemah memakai modulasi sederhana (lambat tetapi tahan gangguan).</p></div>
+      </div>
+      <div class="widget" id="w-amc">
+        <div class="widget-title">AMC: kualitas sinyal menentukan kecepatan <span class="tag mask">interaktif</span></div>
+        <div class="range-row"><span class="small">SNR</span><input type="range" id="amc-snr" min="0" max="40" value="22"><output id="amc-snr-o">22 dB</output></div>
+        <div class="amc-out"><svg class="constel" id="amc-svg" viewBox="0 0 120 120" aria-hidden="true"></svg><div class="stack"><b id="amc-mod" class="mono">16-QAM</b><span class="small" id="amc-desc"></span></div></div>
+      </div>
+
+      <h3>Komponen dan topologi</h3>
+      <div class="compare">
+        <div class="card"><h3>Komponen</h3><ul class="list small"><li><b>Server</b>: pusat manajemen dan layanan data.</li><li><b>Access point</b>: memancarkan sinyal radio dengan nama jaringan (SSID) agar klien bisa terhubung.</li><li><b>Repeater</b>: memperkuat dan memperluas sinyal access point.</li><li><b>Perangkat pengguna</b>: laptop, HP, PC dengan adapter nirkabel.</li></ul></div>
+        <div class="card"><h3>Topologi</h3><ul class="list small"><li><b>Peer to peer (P2P)</b>: koneksi langsung antarperangkat (mode ad hoc). SSID, kanal, dan standar perangkat harus sama.</li><li><b>Star</b>: access point menjadi pusat pengatur dan distribusi sinyal (mode infrastructure).</li><li><b>Hybrid</b>: gabungan star dan P2P, cocok untuk jaringan skala besar.</li></ul></div>
+      </div>
+    </section>
+
+    <section class="block" id="s-2-3">
+      <h2><span class="num">2.3</span>Standar jaringan nirkabel</h2>
+      <div class="tbl-wrap">
+        <table class="tbl">
+          <thead><tr><th>Standar</th><th>Frekuensi</th><th>Jangkauan umum</th><th>Kecepatan</th><th>Pemakaian</th></tr></thead>
+          <tbody>
+            <tr><td>IEEE 802.11 (Wi-Fi)</td><td>2,4 / 5 / 6 GHz</td><td>±30–100 m</td><td>11 Mbps hingga puluhan Gbps</td><td>WLAN rumah, sekolah, kantor</td></tr>
+            <tr><td>Bluetooth (IEEE 802.15.1)</td><td>2,4 GHz</td><td>±10 m (kelas 2)</td><td>1–3 Mbps</td><td>Menghubungkan perangkat mobile: headset, speaker</td></tr>
+            <tr><td>ZigBee (IEEE 802.15.4)</td><td>2,4 GHz</td><td>±10–100 m, bisa mesh</td><td>250 kbps</td><td>Perangkat IoT hemat daya: sensor, lampu pintar</td></tr>
+            <tr><td>NFC</td><td>13,56 MHz</td><td>≤ ±4 cm (maks. sekitar 10 cm)</td><td>424 kbps</td><td>Pembayaran nontunai, kartu e-money</td></tr>
+            <tr><td>WiMAX (IEEE 802.16)</td><td>2–66 GHz</td><td>Hingga puluhan km</td><td>Puluhan–ratusan Mbps</td><td>Akses broadband antargedung/kota</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <h3>Generasi IEEE 802.11</h3>
+      <div class="tbl-wrap">
+        <table class="tbl">
+          <thead><tr><th>Standar</th><th>Nama</th><th>Tahun</th><th>Frekuensi</th><th>Kecepatan maks. teoretis</th></tr></thead>
+          <tbody>
+            <tr><td>802.11b</td><td>–</td><td>1999</td><td>2,4 GHz</td><td>11 Mbps</td></tr>
+            <tr><td>802.11a</td><td>–</td><td>1999</td><td>5 GHz</td><td>54 Mbps</td></tr>
+            <tr><td>802.11g</td><td>–</td><td>2003</td><td>2,4 GHz</td><td>54 Mbps</td></tr>
+            <tr><td>802.11n</td><td>Wi-Fi 4</td><td>2009</td><td>2,4 &amp; 5 GHz</td><td>600 Mbps</td></tr>
+            <tr><td>802.11ac</td><td>Wi-Fi 5</td><td>2013</td><td>5 GHz</td><td>±6,9 Gbps</td></tr>
+            <tr><td>802.11ax</td><td>Wi-Fi 6 / 6E</td><td>2019–2021</td><td>2,4, 5 &amp; 6 GHz</td><td>±9,6 Gbps</td></tr>
+            <tr><td>802.11be</td><td>Wi-Fi 7</td><td>2024</td><td>2,4, 5 &amp; 6 GHz</td><td>±46 Gbps</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="widget" id="w-standar">
+        <div class="widget-title">Pilih standar yang tepat <span class="tag mask">latihan</span></div>
+        <div class="qc" data-qc="standar"></div>
+      </div>
+    </section>
+
+    <section class="block" id="s-2-4">
+      <h2><span class="num">2.4</span>Teknologi nirkabel indoor dan outdoor</h2>
+      <div class="compare">
+        <div class="card"><h3>Indoor</h3><p class="small">Menyediakan konektivitas jarak dekat hingga menengah dengan kecepatan cukup tinggi dan sinyal stabil walaupun ada dinding atau penghalang. Contoh: access point plafon, router rumah, sistem mesh. Tantangannya redaman dinding dan interferensi antarjaringan.</p></div>
+        <div class="card"><h3>Outdoor</h3><p class="small">Untuk akses internet jarak jauh, pemantauan area luas, atau koneksi antartitik (<i>point-to-point</i>). Perangkat harus tahan cuaca (rating IP65/IP67), memakai antena berpenguatan tinggi, dan dipasang dengan pentanahan serta penangkal petir.</p></div>
+      </div>
+    </section>
+
+    <section class="block">
+      <h2>Kegiatan siswa</h2>
+      <ul class="checklist">
+        <li><label><input type="checkbox" data-save="k2a"><span>Pertemuan 4: buat tabel lapisan OSI dan TCP/IP, isi contoh protokol yang dipakai saat membuka web.</span></label></li>
+        <li><label><input type="checkbox" data-save="k2b"><span>Pertemuan 5: daftar 5 perangkat nirkabel di rumah, tentukan tipe (WPAN/WLAN/WMAN/WWAN) dan standarnya.</span></label></li>
+        <li><label><input type="checkbox" data-save="k2c"><span>Pertemuan 6: bandingkan Bluetooth, ZigBee, dan NFC untuk satu kasus (misalnya smart home), tulis alasannya.</span></label></li>
+      </ul>
+    </section>
+
+    <section class="block">
+      <h2>Latihan pemahaman</h2>
+      <details class="reveal"><summary>Sebuah universitas ingin menghubungkan antargedung dengan kecepatan tinggi tanpa kabel. Tipe jaringan apa yang tepat?</summary><div><p>WMAN, yang dirancang untuk koneksi antarbangunan. Dalam praktiknya sering memakai perangkat point-to-point berbasis 802.11 dengan antena directional (lihat Bab 3).</p></div></details>
+      <details class="reveal"><summary>Mengapa NFC dianggap lebih aman untuk transaksi daripada Bluetooth?</summary><div><p>NFC hanya bekerja pada jarak sangat dekat (beberapa sentimeter), sehingga penyadapan dari jauh sangat sulit dan transaksi butuh kesengajaan menempelkan perangkat.</p></div></details>
+      <details class="reveal"><summary>Apa beda mode ad hoc dan infrastructure?</summary><div><p>Ad hoc: perangkat terhubung langsung satu sama lain tanpa access point. Infrastructure: semua perangkat terhubung lewat access point yang mengatur lalu lintas dan biasanya menyambung ke jaringan kabel/internet.</p></div></details>
+      <details class="reveal"><summary>Di lapisan OSI mana Wi-Fi (IEEE 802.11) bekerja?</summary><div><p>Lapisan 1 (fisik: modulasi radio, frekuensi) dan lapisan 2 (data link: MAC, pengalamatan perangkat, akses media).</p></div></details>
+    </section>
+
+    <nav class="pager"><a href="#bab1"><small>Sebelumnya</small>Bab 1 · Jaringan kabel</a><a class="next" href="#bab3"><small>Berikutnya</small>Bab 3 · Instalasi nirkabel</a></nav>
+  </div>
+</section>
+
+<!-- ============================== BAB 3 ============================== -->
+<section class="view" id="v-bab3" data-title="Bab 3 · Instalasi nirkabel" hidden>
+  <div class="wrap">
+    <div class="chap-head">
+      <div class="eyebrow"><span class="rbar b3"></span>Bab 3 · Pertemuan 7-9</div>
+      <h1>Instalasi dan perawatan jaringan nirkabel</h1>
+      <p class="lead">Memasang Wi-Fi bukan sekadar menyalakan router. Teknisi memilih antena sesuai area, menentukan mode perangkat, mengatur alamat IP dan keamanan, lalu merawatnya agar tetap stabil.</p>
+    </div>
+
+    <section class="block" id="s-3-1">
+      <h2><span class="num">3.1</span>Jenis pancaran gelombang radio</h2>
+      <div class="grid">
+        <div class="card"><h3>Omni-directional</h3><p class="small">Menyebarkan sinyal ke semua arah (360°) secara merata dari satu titik. Bisa dipakai indoor maupun outdoor. Contoh: antena tegak pada wireless router.</p></div>
+        <div class="card"><h3>Directional</h3><p class="small">Pancaran terfokus ke satu arah dengan jangkauan jauh. Cocok untuk menghubungkan dua titik (<i>point-to-point</i>) atau menargetkan area tertentu. Contoh: antena grid, parabola, yagi.</p></div>
+        <div class="card"><h3>Semi-directional</h3><p class="small">Lebih luas daripada directional, lebih sempit daripada omni. Cocok untuk area outdoor terbatas: taman kota, kampus, stadion. Contoh: antena sektoral, panel, patch.</p></div>
+      </div>
+      <div class="widget" id="w-antena">
+        <div class="widget-title">Pola pancar dan cakupan antena <span class="tag mask">simulasi</span></div>
+        <div class="seg" id="an-tabs" role="tablist" aria-label="Jenis antena"><button type="button" class="on" data-a="omni">Omni</button><button type="button" data-a="sector">Sektoral</button><button type="button" data-a="grid">Grid (directional)</button></div>
+        <div class="antena-wrap">
+          <svg class="antmap" id="an-svg" viewBox="0 0 240 240" role="img" aria-label="Peta cakupan antena dan posisi klien"></svg>
+          <div class="stack">
+            <div class="range-row" id="an-rot-row"><span class="small">Arah</span><input type="range" id="an-rot" min="0" max="359" value="45"><output id="an-rot-o">45°</output></div>
+            <div class="stat-grid" id="an-stats"></div>
+            <p class="small" id="an-note"></p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="block" id="s-3-2">
+      <h2><span class="num">3.2</span>Wireless access point</h2>
+      <p><b>Access point (AP)</b> menghubungkan perangkat nirkabel ke jaringan kabel. Contoh di bawah: router Cisco punya dua interface. <code>fa0/0</code> (172.16.0.126) terhubung ke LAN melalui access point, dan <code>fa1/0</code> (10.11.0.125/25) tersambung ke internet. Routing mengarahkan data dari jaringan lokal 172.16.0.0/25 ke internet dan sebaliknya.</p>
+      <div class="widget" id="w-topo-ap">
+        <div class="widget-title">Topologi jaringan dengan access point <span class="tag mask">interaktif</span></div>
+        <svg class="topo" id="ap-svg" viewBox="0 0 360 180" role="img" aria-label="Internet, router Cisco, access point, dan klien"></svg>
+        <p class="small" id="ap-info" aria-live="polite">Ketuk perangkat untuk melihat alamat IP-nya.</p>
+        <div class="btn-row"><a class="btn btn-ghost small" href="#kalkulator" data-calc="172.16.0.126/25"><svg><use href="#i-calc"/></svg>Hitung subnet 172.16.0.126/25</a></div>
+      </div>
+      <div class="compare">
+        <div class="card"><h3>AP tipe firmware</h3><p class="small">Firmware adalah perangkat lunak kecil (ukuran kilobyte–megabyte) yang bekerja langsung dengan hardware, seperti di mesin cuci, remote TV, ponsel, dan BIOS/UEFI komputer. AP tipe ini fiturnya tetap sesuai bawaan pabrik; pembaruan dilakukan dengan <i>flash firmware</i>.</p></div>
+        <div class="card"><h3>AP tipe sistem operasi</h3><p class="small">Memakai sistem operasi jaringan (misalnya OpenWrt atau RouterOS) yang menyediakan pustaka dan fungsi kontrol dari tingkat hardware sampai antarmuka pengguna. Fiturnya lebih lengkap dan bisa ditambah paket.</p></div>
+      </div>
+    </section>
+
+    <section class="block" id="s-3-3">
+      <h2><span class="num">3.3</span>Wireless router</h2>
+      <p>Wireless router (termasuk modem ONT dari penyedia internet) menggabungkan access point, switch, dan router dalam satu perangkat. Fitur yang diatur teknisi:</p>
+      <ul class="list">
+        <li><b>Pengaturan WAN</b>: cara router mendapat internet (DHCP, PPPoE, atau IP statis).</li>
+        <li><b>Pengaturan WLAN</b>: SSID, kanal, standar, dan keamanan.</li>
+        <li><b>Routing dengan NAT</b>: menerjemahkan alamat IP privat klien menjadi IP publik router.</li>
+        <li><b>DHCP server</b>: membagikan alamat IP otomatis ke klien.</li>
+        <li><b>Filter IP/MAC dan firewall</b>: membatasi akses.</li>
+      </ul>
+      <div class="widget" id="w-router">
+        <div class="widget-title">Simulasi konfigurasi wireless router <span class="tag mask">praktik</span></div>
+        <div class="router-form" id="rt-form">
+          <fieldset><legend>WAN</legend>
+            <label class="field">Mode WAN<select id="rt-wan"><option value="dhcp">DHCP (otomatis dari ISP)</option><option value="pppoe">PPPoE (username &amp; password ISP)</option><option value="static">IP statis</option></select></label>
+            <label class="field" id="rt-ppp-row" hidden>Username PPPoE<input type="text" id="rt-ppp" value="" placeholder="dari ISP" autocomplete="off"></label>
+            <label class="field" style="flex-direction:row;display:flex;gap:8px;align-items:center"><input type="checkbox" id="rt-nat" checked> NAT aktif</label>
+          </fieldset>
+          <fieldset><legend>WLAN</legend>
+            <label class="field">SSID<input type="text" id="rt-ssid" value="TJKT-XI" autocomplete="off"></label>
+            <label class="field">Kanal 2,4 GHz<select id="rt-ch"><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option><option selected>6</option><option>7</option><option>8</option><option>9</option><option>10</option><option>11</option><option>12</option><option>13</option></select></label>
+            <label class="field">Keamanan<select id="rt-sec"><option value="open">Open (tanpa password)</option><option value="wep">WEP</option><option value="wpa">WPA-PSK (TKIP)</option><option value="wpa2" selected>WPA2-PSK (AES)</option><option value="wpa3">WPA3-SAE</option></select></label>
+            <label class="field">Password Wi-Fi<input type="text" id="rt-pass" value="tjkt2026" autocomplete="off"></label>
+          </fieldset>
+          <fieldset><legend>LAN &amp; DHCP</legend>
+            <label class="field">IP LAN router<input type="text" id="rt-lan" value="192.168.1.1" autocomplete="off" inputmode="decimal"></label>
+            <label class="field">Subnet mask<select id="rt-mask"><option value="24" selected>255.255.255.0 (/24)</option><option value="25">255.255.255.128 (/25)</option><option value="26">255.255.255.192 (/26)</option></select></label>
+            <label class="field" style="flex-direction:row;display:flex;gap:8px;align-items:center"><input type="checkbox" id="rt-dhcp" checked> DHCP server aktif</label>
+            <label class="field">Awal pool DHCP<input type="text" id="rt-d1" value="192.168.1.100" autocomplete="off" inputmode="decimal"></label>
+            <label class="field">Akhir pool DHCP<input type="text" id="rt-d2" value="192.168.1.200" autocomplete="off" inputmode="decimal"></label>
+          </fieldset>
+        </div>
+        <div class="btn-row"><button class="btn btn-primary small" type="button" id="rt-apply">Simpan &amp; uji koneksi klien</button><button class="btn btn-ghost small" type="button" id="rt-reset">Kembalikan bawaan</button></div>
+        <div class="checks" id="rt-out" aria-live="polite"></div>
+      </div>
+    </section>
+
+    <section class="block" id="s-3-4">
+      <h2><span class="num">3.4</span>Bridge, station, dan repeater</h2>
+      <p>Satu perangkat nirkabel bisa bekerja dalam beberapa mode. Teknisi memilih mode sesuai kebutuhan lokasi.</p>
+      <div class="widget" id="w-apmode">
+        <div class="widget-title">Mode kerja perangkat nirkabel <span class="tag mask">interaktif</span></div>
+        <div class="seg" id="am-tabs" role="tablist" aria-label="Mode perangkat"><button type="button" class="on" data-m="bridge">Bridge pada switch</button><button type="button" data-m="station">Wireless station</button><button type="button" data-m="wbridge">Wireless bridge</button><button type="button" data-m="repeater">Repeater</button></div>
+        <svg class="modefig" id="am-svg" viewBox="0 0 360 170" role="img" aria-label="Diagram mode perangkat nirkabel"></svg>
+        <p class="small" id="am-note"></p>
+      </div>
+      <p>Sinyal wireless melemah makin jauh dari sumbernya dan setiap dinding meredamnya. Repeater menerima sinyal lalu memancarkannya ulang. Enam jenis repeater sesuai kebutuhan: <b>radio/wireless repeater</b>, <b>telephone repeater</b>, <b>signal booster</b>, <b>optical communication repeater</b>, <b>wired repeater</b>, serta <b>repeater analog dan digital</b>.</p>
+      <div class="widget" id="w-repeater">
+        <div class="widget-title">Kekuatan sinyal vs jarak <span class="tag mask">simulasi</span></div>
+        <svg class="rssi" id="rp-svg" viewBox="0 0 360 150" role="img" aria-label="Grafik kekuatan sinyal terhadap jarak"></svg>
+        <div class="range-row"><span class="small">Jarak klien</span><input type="range" id="rp-d" min="2" max="60" value="35"><output id="rp-d-o">35 m</output></div>
+        <div class="range-row"><span class="small">Jumlah dinding</span><input type="range" id="rp-w" min="0" max="4" value="2"><output id="rp-w-o">2</output></div>
+        <label class="small" style="display:flex;gap:6px;align-items:center"><input type="checkbox" id="rp-on"> Pasang repeater di jarak 20 m</label>
+        <div class="stat-grid" id="rp-stats"></div>
+        <p class="small muted">Perkiraan memakai model redaman dalam ruang (2,4 GHz, eksponen 3, ±5 dB per dinding bata). Patokan: −67 dBm atau lebih kuat bagus untuk video call/VoIP, −70 dBm cukup, −80 dBm lemah, di bawah −90 dBm sambungan putus.</p>
+      </div>
+    </section>
+
+    <section class="block" id="s-3-5">
+      <h2><span class="num">3.5</span>Keamanan jaringan nirkabel</h2>
+      <h3>Unsur proteksi dasar WLAN</h3>
+      <div class="grid">
+        <div class="card"><h3>Confidentiality</h3><p class="small">Kerahasiaan: hanya pengguna berizin yang bisa bergabung dan membaca data, karena data dienkripsi.</p></div>
+        <div class="card"><h3>Authentication</h3><p class="small">Memastikan identitas klien. Ada dua teknik akses: <b>open system</b> (tanpa autentikasi) dan <b>shared key</b> (harus memasukkan kunci dulu).</p></div>
+        <div class="card"><h3>Integrity</h3><p class="small">Menjamin data yang dikirim antarklien tetap utuh dan tidak diubah selama transmisi.</p></div>
+      </div>
+      <h3>Metode keamanan Wi-Fi</h3>
+      <div class="tbl-wrap">
+        <table class="tbl">
+          <thead><tr><th>Metode</th><th>Enkripsi</th><th>Integritas</th><th>Status</th></tr></thead>
+          <tbody>
+            <tr><td>WEP</td><td>RC4, kunci statis</td><td>CRC-32</td><td><span class="tag err">Jangan dipakai</span> bisa dibobol dalam hitungan menit</td></tr>
+            <tr><td>WPA (PSK/Enterprise)</td><td>TKIP (masih RC4, kunci berganti)</td><td>MIC "Michael"</td><td><span class="tag warn">Usang</span> solusi sementara pengganti WEP</td></tr>
+            <tr><td>WPA2 (PSK/Enterprise)</td><td>AES-CCMP</td><td>CCMP (CBC-MAC)</td><td><span class="tag ok">Aman</span> dengan password kuat</td></tr>
+            <tr><td>WPA3 (SAE/Enterprise)</td><td>AES-CCMP/GCMP</td><td>Kuat, tahan tebak password offline</td><td><span class="tag ok">Disarankan</span> bila perangkat mendukung</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>Tiga kelemahan utama <b>WEP</b>: algoritma RC4 dengan vektor inisialisasi pendek sehingga mudah didekripsi, kunci bersifat statis sehingga polanya mudah dipelajari, dan integritas hanya memakai CRC-32 yang bisa dimanipulasi.</p>
+      <div class="compare">
+        <div class="card"><h3>Mode PSK (Personal)</h3><p class="small">Semua pengguna memakai satu password yang sama. Cocok untuk rumah dan kantor kecil. Kelemahannya: jika satu orang membocorkan password, semua harus diganti.</p></div>
+        <div class="card"><h3>Mode Enterprise (802.1X)</h3><p class="small">Setiap pengguna login dengan akun sendiri yang diperiksa server RADIUS. Cocok untuk sekolah dan perusahaan; akun yang bermasalah cukup dinonaktifkan satu per satu.</p></div>
+      </div>
+      <div class="widget" id="w-pass">
+        <div class="widget-title">Seberapa kuat password Wi-Fi-mu? <span class="tag mask">interaktif</span></div>
+        <label class="field">Coba password (tidak disimpan atau dikirim ke mana pun)<input type="text" id="pw-in" value="smk2026" autocomplete="off" spellcheck="false"></label>
+        <div class="meter pw-meter"><i id="pw-bar"></i></div>
+        <p class="small" id="pw-out" aria-live="polite"></p>
+      </div>
+    </section>
+
+    <section class="block" id="s-3-6">
+      <h2><span class="num">3.6</span>Perawatan dan troubleshooting</h2>
+      <ul class="checklist">
+        <li><label><input type="checkbox" data-save="pr1"><span>Perbarui firmware AP/router secara berkala dari situs resmi pabrikan.</span></label></li>
+        <li><label><input type="checkbox" data-save="pr2"><span>Cadangkan (<i>backup</i>) konfigurasi setelah setiap perubahan.</span></label></li>
+        <li><label><input type="checkbox" data-save="pr3"><span>Lakukan <i>site survey</i> dengan Wi-Fi analyzer: pilih kanal paling sepi (1, 6, atau 11 untuk 2,4 GHz).</span></label></li>
+        <li><label><input type="checkbox" data-save="pr4"><span>Periksa log, daftar klien, dan pemakaian bandwidth.</span></label></li>
+        <li><label><input type="checkbox" data-save="pr5"><span>Periksa fisik: konektor, kabel, adaptor daya, pentanahan perangkat outdoor.</span></label></li>
+        <li><label><input type="checkbox" data-save="pr6"><span>Ganti password Wi-Fi dan password admin secara berkala.</span></label></li>
+      </ul>
+      <div class="tbl-wrap">
+        <table class="tbl">
+          <thead><tr><th>Gejala</th><th>Kemungkinan penyebab</th><th>Langkah perbaikan</th></tr></thead>
+          <tbody>
+            <tr><td>Klien terhubung Wi-Fi tetapi mendapat IP 169.254.x.x</td><td>DHCP server mati atau pool habis</td><td>Aktifkan DHCP server, perlebar pool, periksa masa sewa (<i>lease</i>)</td></tr>
+            <tr><td>Muncul pesan konflik alamat IP</td><td>Ada IP statis di dalam pool DHCP, atau DHCP mati sehingga pengguna mengisi IP manual</td><td>Periksa DHCP server dulu, keluarkan IP statis dari pool, gunakan reservasi DHCP</td></tr>
+            <tr><td>Sinyal penuh tetapi lambat</td><td>Kanal padat (interferensi), terlalu banyak klien</td><td>Pindah kanal hasil site survey, gunakan 5 GHz, tambah AP</td></tr>
+            <tr><td>Sinyal hilang di ruangan tertentu</td><td>Jarak dan dinding</td><td>Pindahkan AP ke tengah, tambah repeater atau AP mesh</td></tr>
+            <tr><td>Terhubung Wi-Fi tetapi tidak bisa internet</td><td>WAN putus, NAT mati, DNS salah</td><td>Cek status WAN, aktifkan NAT, periksa DNS</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="block">
+      <h2>Kegiatan siswa</h2>
+      <ul class="checklist">
+        <li><label><input type="checkbox" data-save="k3a"><span>Pertemuan 7: tentukan jenis antena untuk 3 lokasi (kelas, lapangan, antargedung) beserta alasannya.</span></label></li>
+        <li><label><input type="checkbox" data-save="k3b"><span>Pertemuan 8: selesaikan Simulasi konfigurasi wireless router tanpa peringatan merah, lalu terapkan di router lab.</span></label></li>
+        <li><label><input type="checkbox" data-save="k3c"><span>Pertemuan 9: site survey Wi-Fi sekolah (kanal, dBm di 5 titik), tulis rekomendasi perbaikan.</span></label></li>
+      </ul>
+    </section>
+
+    <section class="block">
+      <h2>Latihan pemahaman</h2>
+      <details class="reveal"><summary>Mengapa WPA2-PSK disarankan dibanding WEP?</summary><div><p>Karena algoritma enkripsinya: WPA2 memakai AES-CCMP yang kuat, sedangkan WEP memakai RC4 dengan kunci statis dan CRC-32 yang mudah dibobol.</p></div></details>
+      <details class="reveal"><summary>Apa fungsi utama bridge pada jaringan?</summary><div><p>Menghubungkan dua segmen LAN sehingga bekerja seperti satu jaringan (satu subnet). Wireless bridge menghubungkan segmen itu lewat gelombang radio.</p></div></details>
+      <details class="reveal"><summary>Pada mode wireless station, apakah perangkat memancarkan SSID?</summary><div><p>Tidak. Perangkat hanya menerima/terhubung ke AP lain sebagai klien, biasanya untuk koneksi point-to-point atau point-to-multipoint jarak jauh.</p></div></details>
+      <details class="reveal"><summary>Klien mengeluh konflik IP di Wi-Fi kantor. Apa yang pertama diperiksa?</summary><div><p>DHCP server: apakah aktif, apakah pool-nya cukup, dan apakah ada perangkat ber-IP statis yang alamatnya berada di dalam pool.</p></div></details>
+    </section>
+
+    <nav class="pager"><a href="#bab2"><small>Sebelumnya</small>Bab 2 · Jaringan nirkabel</a><a class="next" href="#bab4"><small>Berikutnya</small>Bab 4 · Instalasi VoIP</a></nav>
+  </div>
+</section>
+
+<!-- ============================== BAB 4 ============================== -->
+<section class="view" id="v-bab4" data-title="Bab 4 · Instalasi VoIP" hidden>
+  <div class="wrap">
+    <div class="chap-head">
+      <div class="eyebrow"><span class="rbar b4"></span>Bab 4 · Pertemuan 11-13</div>
+      <h1>Instalasi VoIP dalam jaringan kabel</h1>
+      <p class="lead"><b>VoIP</b> (<i>Voice over Internet Protocol</i>) mengirim suara sebagai paket data di jaringan IP, bukan lewat jalur khusus seperti PSTN. Bab ini membahas cara suara menjadi paket, faktor yang menentukan kualitasnya, codec, softswitch, dan Asterisk sebagai server VoIP.</p>
+    </div>
+
+    <section class="block" id="s-4-1">
+      <h2><span class="num">4.1</span>Layanan VoIP</h2>
+      <div class="widget" id="w-voipflow">
+        <div class="widget-title">Perjalanan suara di VoIP <span class="tag mask">animasi</span></div>
+        <div class="vflow" id="vf-steps"></div>
+        <p class="small" id="vf-info" aria-live="polite"></p>
+        <div class="btn-row"><button class="btn btn-primary small" type="button" id="vf-play"><svg><use href="#i-play"/></svg>Putar tahapan</button><button class="btn btn-ghost small" type="button" id="vf-next"><svg><use href="#i-step"/></svg>Langkah</button></div>
+      </div>
+      <div class="compare">
+        <div class="card"><h3>Keuntungan VoIP</h3><ul class="list small"><li>Biaya awal dan biaya panggilan lebih murah</li><li>Tidak ada biaya roaming</li><li>Bisa berjalan melalui jalur analog lewat gateway</li><li>Hemat bandwidth berkat kompresi codec</li><li>Dapat diintegrasikan dengan data, video, dan aplikasi</li><li>Mudah diperluas menjadi jaringan global</li><li>Fleksibel: nomor ikut ke mana pun pengguna login</li></ul></div>
+        <div class="card"><h3>Kekurangan VoIP</h3><ul class="list small"><li>Kualitas suara bisa kurang stabil</li><li>Ada delay atau gema (<i>echo</i>)</li><li>Sangat bergantung pada koneksi internet dan listrik</li><li>Integrasi dengan jaringan analog butuh gateway</li><li>Perlu pengaturan kanal/QoS untuk memisahkan suara dari data</li><li>Masalah interoperabilitas antarperangkat dan protokol</li></ul></div>
+      </div>
+      <div class="widget" id="w-sortvoip">
+        <div class="widget-title">Keuntungan atau kekurangan? <span class="tag mask">latihan</span></div>
+        <div class="qc" data-qc="voip"></div>
+      </div>
+
+      <h3>Mekanisme VoIP: format paket</h3>
+      <p>Setiap paket suara VoIP dibungkus beberapa header:</p>
+      <ul class="list">
+        <li><b>Link header</b>: bergantung pada media transmisi (misalnya Ethernet 18 byte).</li>
+        <li><b>IP header</b> (20 byte): mencatat alamat dan informasi routing.</li>
+        <li><b>UDP header</b> (8 byte): cepat, tetapi tidak menjamin data terkirim utuh. Suara yang terlambat memang lebih baik dibuang daripada dikirim ulang.</li>
+        <li><b>RTP header</b> (12 byte): menandai paket dengan nomor urut dan <i>timestamp</i> untuk framing dan penyusunan ulang data real-time.</li>
+        <li><b>Payload</b>: potongan suara hasil codec. Contoh standar Cisco: G.723.1 (5,3 kbps, bingkai 30 ms) menghasilkan payload 20 byte.</li>
+      </ul>
+      <div class="widget" id="w-header">
+        <div class="widget-title">Isi satu paket VoIP <span class="tag mask">interaktif</span></div>
+        <div class="hdr-ctl">
+          <label class="field">Codec<select id="hd-codec"></select></label>
+          <label class="field">Interval paket<select id="hd-ptime"><option value="10">10 ms</option><option value="20" selected>20 ms</option><option value="30">30 ms</option><option value="40">40 ms</option></select></label>
+        </div>
+        <div class="pkt" id="hd-pkt"></div>
+        <div class="stat-grid" id="hd-stats"></div>
+      </div>
+    </section>
+
+    <section class="block" id="s-4-2">
+      <h2><span class="num">4.2</span>Kualitas jaringan VoIP</h2>
+      <h3>Latency</h3>
+      <div class="grid">
+        <div class="card"><h3>Real latency</h3><p class="small">Waktu tempuh data yang dipengaruhi kondisi fisik jaringan, kecepatan media, dan <i>round trip time</i> (RTT) antara pengirim dan penerima.</p></div>
+        <div class="card"><h3>Remembered latency</h3><p class="small">Keterlambatan yang <b>dirasakan</b> pengguna, termasuk waktu untuk memproses, memahami, dan merespons informasi.</p></div>
+        <div class="card"><h3>Induced latency</h3><p class="small">Keterlambatan karena antrean data (<i>queueing</i>) dan kemacetan (<i>congestion</i>) di jaringan.</p></div>
+      </div>
+      <h3>Delay</h3>
+      <div class="compare">
+        <div class="card"><h3>Fixed delay (tetap)</h3><ul class="list small"><li><b>Propagation delay</b>: karena jarak dan jenis media.</li><li><b>Packetization delay</b>: waktu mengisi payload sampai paket penuh (misalnya 20 ms suara).</li><li><b>Processing delay</b>: proses coding, kompresi, dekompresi, decoding.</li></ul></div>
+        <div class="card"><h3>Variable delay (berubah)</h3><ul class="list small"><li><b>Queueing delay</b>: antrean sebelum paket ditransmisikan.</li><li><b>Jitter buffer delay</b>: waktu tambahan yang sengaja diberikan untuk menstabilkan variasi kedatangan paket.</li></ul></div>
+      </div>
+      <p><b>Jitter</b> adalah variasi waktu kedatangan antarpaket di penerima. <b>Packet loss</b> terjadi ketika sebagian paket hilang, misalnya karena penumpukan data (<i>traffic overload</i>) sehingga paket terpaksa dibuang. Patokan umum (ITU-T G.114 dan praktik industri): delay satu arah ≤ 150 ms, jitter &lt; 30 ms, packet loss &lt; 1%.</p>
+      <div class="widget" id="w-jitter">
+        <div class="widget-title">Jitter buffer: menunggu sebentar agar suara mulus <span class="tag mask">simulasi</span></div>
+        <svg class="jit" id="jt-svg" viewBox="0 0 360 150" role="img" aria-label="Waktu kirim, waktu tiba, dan waktu putar paket"></svg>
+        <div class="range-row"><span class="small">Jitter jaringan</span><input type="range" id="jt-j" min="0" max="80" value="30"><output id="jt-j-o">30 ms</output></div>
+        <div class="range-row"><span class="small">Jitter buffer</span><input type="range" id="jt-b" min="0" max="120" step="10" value="40"><output id="jt-b-o">40 ms</output></div>
+        <div class="range-row"><span class="small">Packet loss</span><input type="range" id="jt-l" min="0" max="15" value="1"><output id="jt-l-o">1%</output></div>
+        <div class="stat-grid" id="jt-stats"></div>
+        <div class="btn-row"><button class="btn btn-ghost small" type="button" id="jt-new"><svg><use href="#i-reset"/></svg>Acak ulang kedatangan</button></div>
+      </div>
+    </section>
+
+    <section class="block" id="s-4-3">
+      <h2><span class="num">4.3</span>Standar codec</h2>
+      <p><b>Codec</b> (<i>coder-decoder</i>) mengubah suara menjadi data digital dan memampatkannya. Makin kecil bitrate, makin hemat bandwidth, tetapi kualitas dan beban prosesor ikut berubah. Delapan codec yang umum di VoIP:</p>
+      <div class="tbl-wrap">
+        <table class="tbl">
+          <thead><tr><th>Codec</th><th>Bitrate</th><th>Kualitas (MOS perkiraan)</th><th>Catatan</th></tr></thead>
+          <tbody>
+            <tr><td>G.711 (µ-law/A-law)</td><td>64 kbps</td><td>±4,1–4,4</td><td>Tanpa kompresi, kualitas setara telepon biasa; di Asterisk disebut <code>ulaw</code>/<code>alaw</code></td></tr>
+            <tr><td>G.723.1</td><td>5,3 / 6,3 kbps</td><td>±3,6–3,9</td><td>Sangat hemat, delay algoritma besar</td></tr>
+            <tr><td>G.726</td><td>16–40 kbps</td><td>±3,9 (32 kbps)</td><td>ADPCM, separuh bitrate G.711</td></tr>
+            <tr><td>G.728</td><td>16 kbps</td><td>±3,6</td><td>Delay sangat rendah</td></tr>
+            <tr><td>G.729</td><td>8 kbps</td><td>±3,9</td><td>Populer untuk trunk hemat bandwidth</td></tr>
+            <tr><td>iLBC</td><td>13,3 / 15,2 kbps</td><td>±4,0</td><td>Tahan packet loss, gratis</td></tr>
+            <tr><td>Speex</td><td>2,15–44 kbps</td><td>bervariasi</td><td>Open source, bitrate fleksibel (kini digantikan Opus)</td></tr>
+            <tr><td>Opus</td><td>6–510 kbps</td><td>hingga &gt; 4,5</td><td>Modern, adaptif, dipakai aplikasi chat dan WebRTC</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="small muted">MOS (<i>mean opinion score</i>) adalah nilai kualitas suara skala 1 (buruk) sampai 5 (sangat baik). Angka di tabel adalah kisaran perkiraan dari berbagai pengujian.</p>
+    </section>
+
+    <section class="block" id="s-4-4">
+      <h2><span class="num">4.4</span>Teknologi jaringan softswitch</h2>
+      <p><b>Softswitch</b> adalah sistem penyambungan panggilan berbasis perangkat lunak yang memisahkan fungsi kontrol panggilan dari jalur media. Komponennya:</p>
+      <div class="widget" id="w-softswitch">
+        <div class="widget-title">Topologi VoIP dengan softswitch <span class="tag mask">interaktif</span></div>
+        <svg class="topo" id="ss-svg" viewBox="0 0 360 200" role="img" aria-label="MGC, media gateway, signaling gateway, application server, media server"></svg>
+        <p class="small" id="ss-info" aria-live="polite">Ketuk komponen.</p>
+        <div class="seg" id="ss-flow" aria-label="Jenis panggilan"><button type="button" data-f="ip">Panggilan IP ke IP</button><button type="button" data-f="pstn">Panggilan IP ke PSTN</button></div>
+      </div>
+      <div class="compare">
+        <div class="card"><h3>Fungsi</h3><ul class="list small"><li><b>Switching</b>: menyambungkan panggilan.</li><li><b>Control</b>: mengendalikan sesi panggilan.</li><li><b>Signaling</b>: bertukar informasi pensinyalan (SIP, H.323, SS7).</li><li><b>Interface</b>: antarmuka ke jaringan lain.</li></ul></div>
+        <div class="card"><h3>Fitur</h3><ul class="list small"><li>Call transfer, call forwarding, call waiting, conference call.</li><li>Call forking (satu nomor berdering di beberapa perangkat), call group, abbreviated dialing (nomor singkat).</li><li>Calling line identification presentation (CLIP): menampilkan nomor penelepon.</li></ul></div>
+      </div>
+      <h3>Cara kerja softswitch</h3>
+      <ol class="list">
+        <li>Mendeteksi asal sinyal panggilan: dari jaringan IP atau PSTN.</li>
+        <li>Jika dari jaringan IP, softswitch memerintahkan <i>originating</i> dan <i>terminating gateway</i> untuk memetakan jalur <i>voice stream</i>.</li>
+        <li>Jika tujuan di jaringan PSTN, softswitch mengarahkan voice stream ke media gateway, yang melakukan <i>packetizing</i> (saat mengirim) dan <i>depacketizing</i> (saat menerima).</li>
+      </ol>
+      <h3>Lapisan (plane) softswitch</h3>
+      <div class="grid">
+        <div class="card"><h3>Transport plane</h3><p class="small">Mengirim sinyal dan media, serta menjaga stabilitas jalur.</p></div>
+        <div class="card"><h3>Call control &amp; signaling plane</h3><p class="small">Mengontrol panggilan agar sesi komunikasi berjalan baik.</p></div>
+        <div class="card"><h3>Service &amp; application plane</h3><p class="small">Menjalankan logika layanan dan aplikasi (voicemail, IVR, konferensi).</p></div>
+        <div class="card"><h3>Management plane</h3><p class="small">Mendukung OSS, penagihan (<i>billing</i>), dan pemeliharaan.</p></div>
+      </div>
+      <p>Fungsi-fungsi di dalam plane tersebut: media gateway controller function (MGC-F), call agent function (CA-F), routing function (R-F), SIP proxy server function (SPS-F), signaling gateway function (SG-F), application server function (AS-F), service control function (SC-F), media gateway function (MG-F), dan media server function (MS-F).</p>
+    </section>
+
+    <section class="block" id="s-4-5">
+      <h2><span class="num">4.5</span>Asterisk</h2>
+      <p><b>Asterisk</b> adalah perangkat lunak open source (lisensi GNU GPL) yang dikembangkan Mark Spencer sejak 1999. Asterisk berfungsi sebagai <b>PBX</b> (<i>private branch exchange</i>) dan dapat diintegrasikan dengan jaringan PSTN maupun jaringan IP. Fiturnya antara lain extension, voicemail, IVR, antrean panggilan, dan konferensi.</p>
+      <p>Asterisk memakai <b>SIP</b> untuk mengatur sesi komunikasi, didukung tiga protokol:</p>
+      <ol class="list">
+        <li><b>RTP</b> (<i>real-time transport protocol</i>): mengirim data suara/video secara real-time melalui UDP.</li>
+        <li><b>RTCP</b> (<i>real-time control protocol</i>): memantau dan mengontrol kualitas transmisi RTP (jitter, paket hilang) serta sinkronisasi.</li>
+        <li><b>SDP</b> (<i>session description protocol</i>): mendeskripsikan aliran media yang dipakai selama sesi (codec, alamat IP, port).</li>
+      </ol>
+      <div class="tbl-wrap">
+        <table class="tbl">
+          <thead><tr><th>File</th><th>Isi</th></tr></thead>
+          <tbody>
+            <tr><td><code>sip.conf</code> / <code>pjsip.conf</code></td><td>Akun SIP (extension), password, codec, context</td></tr>
+            <tr><td><code>extensions.conf</code></td><td>Dialplan: apa yang terjadi saat sebuah nomor dihubungi</td></tr>
+            <tr><td><code>voicemail.conf</code></td><td>Kotak suara dan PIN-nya</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="btn-row"><a class="btn btn-primary small" href="#voip"><svg><use href="#i-call"/></svg>Buka Simulator VoIP Asterisk</a></div>
+    </section>
+
+    <section class="block">
+      <h2>Kegiatan siswa</h2>
+      <ul class="checklist">
+        <li><label><input type="checkbox" data-save="k4a"><span>Pertemuan 11: hitung bandwidth 10 panggilan G.711 dan G.729 di Kalkulator VoIP, bandingkan hasilnya.</span></label></li>
+        <li><label><input type="checkbox" data-save="k4b"><span>Pertemuan 12: ukur ping dan jitter ke server (misalnya dengan aplikasi tes kecepatan), tentukan apakah layak untuk VoIP.</span></label></li>
+        <li><label><input type="checkbox" data-save="k4c"><span>Pertemuan 13: pasang Asterisk di PC/VM lab (atau jalankan Simulator VoIP), daftarkan 2 softphone dan lakukan panggilan.</span></label></li>
+      </ul>
+    </section>
+
+    <section class="block">
+      <h2>Latihan pemahaman</h2>
+      <details class="reveal"><summary>Mengapa VoIP memakai UDP, bukan TCP?</summary><div><p>TCP mengirim ulang paket yang hilang dan menunggu urutan lengkap, sehingga menambah delay. Untuk suara real-time, paket yang terlambat sudah tidak berguna; lebih baik dibuang dan percakapan berjalan terus.</p></div></details>
+      <details class="reveal"><summary>Kalau UDP sudah cepat, mengapa masih perlu RTP?</summary><div><p>RTP menambahkan nomor urut dan timestamp sehingga penerima bisa menyusun ulang paket, mendeteksi paket hilang, dan memutar suara pada waktu yang tepat (sinkron).</p></div></details>
+      <details class="reveal"><summary>VoIP di daerah terpencil sering putus-putus walaupun bandwidth cukup. Apa penyebab utamanya?</summary><div><p>Jitter tinggi dan packet loss akibat jaringan yang tidak stabil. Jitter buffer yang lebih besar dan codec yang tahan loss (misalnya iLBC atau Opus) bisa membantu.</p></div></details>
+      <details class="reveal"><summary>Apa peran media gateway dalam softswitch?</summary><div><p>Mengubah media antara jaringan PSTN (sirkuit) dan jaringan IP (paket): packetizing saat ke IP dan depacketizing saat ke PSTN, di bawah kendali MGC.</p></div></details>
+    </section>
+
+    <nav class="pager"><a href="#bab3"><small>Sebelumnya</small>Bab 3 · Instalasi nirkabel</a><a class="next" href="#bab5"><small>Berikutnya</small>Bab 5 · SIP &amp; Asterisk</a></nav>
+  </div>
+</section>
+
+<!-- ============================== BAB 5 ============================== -->
+<section class="view" id="v-bab5" data-title="Bab 5 · SIP & Asterisk" hidden>
+  <div class="wrap">
+    <div class="chap-head">
+      <div class="eyebrow"><span class="rbar b5"></span>Bab 5 · Pertemuan 14-16</div>
+      <h1>Implementasi Session Initiation Protocol dalam jaringan kabel</h1>
+      <p class="lead">Bab ini membawa VoIP ke praktik: memahami PBX dan sistem hunting, menulis dialplan Asterisk, lalu melihat bagaimana protokol SIP membentuk sebuah panggilan. Contoh dialplan di bab ini bisa langsung dicoba di Simulator VoIP.</p>
+    </div>
+
+    <section class="block" id="s-5-1">
+      <h2><span class="num">5.1</span>Teknologi private branch exchange (PBX)</h2>
+      <p><b>PBX</b> adalah sentral telepon milik sendiri di sebuah kantor. Telepon internal saling terhubung lewat nomor pendek (<i>extension</i>), dan beberapa saluran ke luar (<i>trunk</i>) dipakai bersama. PBX memakai jalur trunking agar sambungan telepon, faksimile, dan internet tidak saling bertabrakan. Pada sistem hybrid, pengguna juga bisa menelepon nomor eksternal di PSTN.</p>
+      <div class="widget" id="w-pbx">
+        <div class="widget-title">Panggilan masuk ke PT X <span class="tag mask">simulasi</span></div>
+        <div class="pbx" id="pbx-box">
+          <div class="pbx-ivr"><p class="small" id="pbx-msg">Penelepon dari Jakarta menghubungi nomor kantor PT X.</p><div class="keypad" id="pbx-keys"></div></div>
+          <svg class="pbxfig" id="pbx-svg" viewBox="0 0 360 150" role="img" aria-label="PSTN, trunk, PBX, dan extension divisi"></svg>
+        </div>
+        <div class="btn-row"><button class="btn btn-primary small" type="button" id="pbx-call"><svg><use href="#i-call"/></svg>Telepon PT X</button><button class="btn btn-ghost small" type="button" id="pbx-reset">Ulang</button></div>
+      </div>
+      <h3>PABX dan softswitch</h3>
+      <p>PBX awalnya bekerja secara elektromekanis dengan bantuan operator. <b>PABX</b> (<i>private automatic branch exchange</i>) menyambungkan panggilan secara otomatis. Contoh: PABX Panasonic KX-TDA50G dengan pesawat KX-T7736 yang mendukung sistem hybrid IP-PBX. PABX adalah perangkat keras fisik, sedangkan <b>softswitch</b> (seperti Asterisk) adalah perangkat lunak yang dipasang di hardware komputer biasa.</p>
+      <h3>Bagian arsitektur PBX</h3>
+      <div class="grid">
+        <div class="card"><h3>Trunk cards</h3><p class="small">Antarmuka ke saluran luar (PSTN, E1, SIP trunk).</p></div>
+        <div class="card"><h3>Line cards</h3><p class="small">Antarmuka ke pesawat telepon extension.</p></div>
+        <div class="card"><h3>Signaling cards</h3><p class="small">Menangani pensinyalan: nada sambung, nada sibuk, dering, digit tekan.</p></div>
+        <div class="card"><h3>Processor cards</h3><p class="small">Otak PBX yang menjalankan program dan konfigurasi.</p></div>
+        <div class="card"><h3>Switch cards</h3><p class="small">Menyambungkan jalur suara antara trunk dan extension.</p></div>
+        <div class="card"><h3>IVR / operator switchboard</h3><p class="small">Mesin penjawab otomatis ("tekan 1 untuk…") atau meja operator.</p></div>
+      </div>
+    </section>
+
+    <section class="block" id="s-5-2">
+      <h2><span class="num">5.2</span>Sistem hunting</h2>
+      <p><b>Sistem hunting</b> adalah layanan sentral publik yang mengelompokkan beberapa saluran telepon di bawah satu nomor utama. Jika saluran pertama sibuk, panggilan "berburu" saluran lain yang kosong.</p>
+      <div class="tbl-wrap">
+        <table class="tbl">
+          <thead><tr><th>Sistem hunting</th><th>PBX</th></tr></thead>
+          <tbody>
+            <tr><td>Memakai dial number group (DNG) sebagai nomor utama</td><td>Memakai nomor operator</td></tr>
+            <tr><td>Memiliki banyak saluran dial number part (DNP)</td><td>Tiap telepon memiliki nomor extension</td></tr>
+            <tr><td>DNP dapat dipanggil langsung tanpa melalui DNG</td><td>Harus melalui operator/IVR untuk menghubungi extension</td></tr>
+            <tr><td>Memakai subscriber line ke sentral publik</td><td>Memakai trunk line</td></tr>
+            <tr><td>Koneksi antarsaluran diatur sentral publik</td><td>Koneksi antar-extension diatur PBX</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>Jenis sistem hunting: <b>regular hunting</b> (selalu mencari dari saluran pertama), <b>circular hunting</b> (melanjutkan dari saluran setelah yang terakhir dipakai), <b>UCD dan GUCD</b> (<i>uniform call distribution</i>: membagi rata ke saluran yang paling lama menganggur), <b>ANNC hunting</b> (memutar pengumuman bila semua saluran sibuk), serta <b>2WF dan 2WB</b> (varian hunting pada sentral tertentu; rinciannya mengikuti dokumentasi sentral yang dipakai).</p>
+      <div class="widget" id="w-hunting">
+        <div class="widget-title">Simulasi hunting 4 saluran <span class="tag mask">simulasi</span></div>
+        <div class="seg" id="hu-tabs" role="tablist" aria-label="Jenis hunting"><button type="button" class="on" data-h="regular">Regular</button><button type="button" data-h="circular">Circular</button><button type="button" data-h="ucd">UCD</button><button type="button" data-h="annc">ANNC</button></div>
+        <div class="lines" id="hu-lines"></div>
+        <p class="small" id="hu-note" aria-live="polite"></p>
+        <div class="btn-row"><button class="btn btn-primary small" type="button" id="hu-call"><svg><use href="#i-call"/></svg>Panggilan masuk</button><button class="btn btn-ghost small" type="button" id="hu-reset">Kosongkan semua</button><span class="small muted">Ketuk saluran yang sibuk untuk menutup teleponnya.</span></div>
+      </div>
+    </section>
+
+    <section class="block" id="s-5-3">
+      <h2><span class="num">5.3</span>Dialplan dan extension</h2>
+      <p><b>Dialplan</b> adalah inti Asterisk: daftar aturan yang menentukan apa yang terjadi ketika sebuah nomor dihubungi. Dialplan ditulis di file <code>extensions.conf</code> dan disusun dalam blok bernama <b>context</b>. Setiap context berisi beberapa <b>extension</b>.</p>
+      <div class="snippet" data-file="extensions.conf" data-code="[general]
+; pengaturan umum dialplan
+static=yes
+writeprotect=no
+autofallthrough=yes
+
+[globals]
+; variabel global, bisa dipakai di semua context
+OPERATOR=SIP/101
+
+[internal]
+exten => 101,1,Dial(SIP/101,20)
+exten => 101,2,Hangup()
+
+exten => 500,1,Answer()
+ same => n,Playback(hello-world)
+ same => n,Hangup()"></div>
+      <h3>Bagian [general]</h3>
+      <div class="tbl-wrap">
+        <table class="tbl">
+          <thead><tr><th>Opsi</th><th>Nilai</th><th>Arti</th></tr></thead>
+          <tbody>
+            <tr><td><code>static</code></td><td>yes / no</td><td>Dialplan dibaca dari file (yes) dan tidak diubah dari luar</td></tr>
+            <tr><td><code>writeprotect</code></td><td>yes / no</td><td>Jika no, perintah CLI <code>dialplan save</code> boleh menimpa file. Biasanya dibiarkan no bersama static=yes</td></tr>
+            <tr><td><code>autofallthrough</code></td><td>yes / no</td><td>Jika yes, panggilan otomatis ditutup saat prioritas di extension habis</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>Bagian <code>[globals]</code> mendefinisikan variabel global yang bisa dipanggil di seluruh extension dengan <code>${NAMA}</code>. Selain [general] dan [globals], semua bagian lain adalah <b>context nyata</b> berisi extension.</p>
+      <h3>Menulis extension</h3>
+      <div class="snippet" data-file="format" data-norun="1" data-code="exten => nomor,prioritas,aplikasi(argumen1,argumen2,...)
+ same => n,aplikasi(argumen...)"></div>
+      <ul class="list">
+        <li><b>nomor</b>: extension yang dihubungi.</li>
+        <li><b>prioritas</b>: urutan langkah, mulai dari 1. Penulisan <code>n</code> berarti "nomor berikutnya", dan <code>same =&gt;</code> berarti extension yang sama dengan baris sebelumnya.</li>
+        <li><b>aplikasi</b>: perintah yang dijalankan, misalnya <code>Answer()</code>, <code>Dial()</code>, <code>Playback()</code>, <code>VoiceMail()</code>, <code>Hangup()</code>.</li>
+      </ul>
+      <p>Jenis extension:</p>
+      <div class="grid">
+        <div class="card"><h3>Literal</h3><p class="small">Nomor persis, misalnya <code>101</code> atau <code>helpdesk</code>.</p></div>
+        <div class="card"><h3>Predefined (khusus)</h3><p class="small"><code>s</code> (start, panggilan tanpa nomor), <code>i</code> (invalid, nomor tidak dikenal), <code>t</code> (timeout), <code>h</code> (hangup).</p></div>
+        <div class="card"><h3>Pattern</h3><p class="small">Diawali garis bawah: <code>_X</code> angka 0-9, <code>Z</code> 1-9, <code>N</code> 2-9, <code>[1-5]</code> rentang, <code>.</code> satu atau lebih karakter apa saja, <code>!</code> nol atau lebih.</p></div>
+      </div>
+      <div class="widget" id="w-pattern">
+        <div class="widget-title">Penguji pattern extension <span class="tag mask">interaktif</span></div>
+        <div class="hdr-ctl">
+          <label class="field">Pattern<input type="text" id="pt-pat" value="_08XXXXXXX." autocomplete="off" spellcheck="false" class="mono"></label>
+          <label class="field">Nomor yang dihubungi<input type="text" id="pt-num" value="081234567890" autocomplete="off" inputmode="tel" class="mono"></label>
+        </div>
+        <div class="ptrow" id="pt-row"></div>
+        <p class="small" id="pt-out" aria-live="polite"></p>
+      </div>
+      <div class="snippet" data-file="extensions.conf" data-code="[internal]
+; semua extension 101-199 memakai satu baris pattern
+exten => _1XX,1,NoOp(Panggilan ke ${EXTEN})
+ same => n,Dial(SIP/${EXTEN},20)
+ same => n,VoiceMail(${EXTEN}@default)
+ same => n,Hangup()
+
+; tes gema: suara kita dipantulkan kembali
+exten => 600,1,Answer()
+ same => n,Echo()"></div>
+    </section>
+
+    <section class="block" id="s-5-4">
+      <h2><span class="num">5.4</span>Teknologi session initiation protocol (SIP)</h2>
+      <p>Protokol <b>SIP</b> bekerja dengan mengirim pesan teks mirip HTTP untuk membentuk sambungan antarpengguna. Setiap pengguna punya alamat unik bernama <b>SIP URI</b>, misalnya <code>sip:101@192.168.1.5</code>. SIP hanya mengatur sesi; suaranya sendiri mengalir lewat RTP.</p>
+      <div class="compare">
+        <div class="card"><h3>Lima fungsi SIP</h3><ul class="list small"><li><b>User location</b>: menentukan lokasi pengguna yang akan dihubungi.</li><li><b>User availability</b>: mengevaluasi kesiapan pengguna untuk berkomunikasi.</li><li><b>User capability</b>: menentukan jenis media dan codec yang dipakai.</li><li><b>Session setup</b>: memulai komunikasi antara pemanggil dan penerima.</li><li><b>Session management</b>: mengelola sesi termasuk transfer, perubahan, dan pengakhiran.</li></ul></div>
+        <div class="card"><h3>Elemen jaringan SIP</h3><ul class="list small"><li><b>User agent</b>: softphone/IP phone (UAC saat memanggil, UAS saat menerima).</li><li><b>SIP proxy server</b>: menerima, mengelola, dan meneruskan permintaan.</li><li><b>Redirect server</b>: memberi tahu alamat tujuan yang benar.</li><li><b>Registrar</b>: mencatat lokasi pengguna saat REGISTER.</li><li><b>Session border controller</b>: pengaman di batas jaringan.</li><li><b>Gateway</b>: penghubung ke PSTN atau jaringan lain.</li></ul></div>
+      </div>
+      <div class="widget" id="w-ladder">
+        <div class="widget-title">Pesan SIP langkah demi langkah <span class="tag mask">animasi</span></div>
+        <div class="seg" id="ld-tabs" role="tablist" aria-label="Skenario"><button type="button" class="on" data-s="reg">Registrasi</button><button type="button" data-s="call">Panggilan diangkat</button><button type="button" data-s="busy">Penerima sibuk</button></div>
+        <div class="ladder" id="ld-box"></div>
+        <p class="small" id="ld-info" aria-live="polite"></p>
+        <div class="btn-row"><button class="btn btn-primary small" type="button" id="ld-play"><svg><use href="#i-play"/></svg>Putar</button><button class="btn btn-ghost small" type="button" id="ld-next"><svg><use href="#i-step"/></svg>Langkah</button></div>
+      </div>
+      <div class="tbl-wrap">
+        <table class="tbl">
+          <thead><tr><th>Kode respons</th><th>Kelas</th><th>Contoh</th></tr></thead>
+          <tbody>
+            <tr><td>1xx</td><td>Informasi (sedang diproses)</td><td>100 Trying, 180 Ringing</td></tr>
+            <tr><td>2xx</td><td>Berhasil</td><td>200 OK</td></tr>
+            <tr><td>3xx</td><td>Pengalihan</td><td>302 Moved Temporarily</td></tr>
+            <tr><td>4xx</td><td>Kesalahan klien</td><td>401 Unauthorized, 403 Forbidden, 404 Not Found, 486 Busy Here, 488 Not Acceptable Here</td></tr>
+            <tr><td>5xx</td><td>Kesalahan server</td><td>503 Service Unavailable</td></tr>
+            <tr><td>6xx</td><td>Kegagalan global</td><td>603 Decline</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <h3>Tahapan membangun jaringan berbasis SIP</h3>
+      <ol class="list">
+        <li>Pasang server Asterisk dan pastikan alamat IP-nya tetap (statis).</li>
+        <li>Buat akun SIP untuk setiap extension di <code>sip.conf</code> (atau <code>pjsip.conf</code>).</li>
+        <li>Tulis dialplan di <code>extensions.conf</code>.</li>
+        <li>Muat ulang konfigurasi: <code>sip reload</code> dan <code>dialplan reload</code> di CLI Asterisk.</li>
+        <li>Daftarkan softphone dengan username, password, dan IP server; cek dengan <code>sip show peers</code>.</li>
+        <li>Uji panggilan antar-extension dan baca log CLI bila gagal.</li>
+      </ol>
+      <div class="btn-row"><a class="btn btn-primary small" href="#voip"><svg><use href="#i-call"/></svg>Praktikkan di Simulator VoIP</a></div>
+    </section>
+
+    <section class="block" id="s-5-5">
+      <h2><span class="num">5.5</span>Protokol H.323</h2>
+      <p><b>H.323</b> adalah rekomendasi ITU-T untuk komunikasi multimedia di jaringan paket, lebih tua daripada SIP. H.323 adalah satu paket (<i>suite</i>) berisi beberapa protokol:</p>
+      <svg class="h323" id="h323-svg" viewBox="0 0 360 170" role="img" aria-label="Susunan protokol H.323"></svg>
+      <div class="tbl-wrap">
+        <table class="tbl">
+          <thead><tr><th>Aspek</th><th>SIP</th><th>H.323</th></tr></thead>
+          <tbody>
+            <tr><td>Pembuat</td><td>IETF</td><td>ITU-T</td></tr>
+            <tr><td>Format pesan</td><td>Teks (mirip HTTP), mudah dibaca</td><td>Biner (ASN.1), lebih rumit</td></tr>
+            <tr><td>Komponen</td><td>User agent, proxy, registrar, redirect</td><td>Terminal, gateway, gatekeeper, MCU</td></tr>
+            <tr><td>Pemakaian sekarang</td><td>Dominan di VoIP modern</td><td>Sistem konferensi video lama</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="block">
+      <h2>Kegiatan siswa</h2>
+      <ul class="checklist">
+        <li><label><input type="checkbox" data-save="k5a"><span>Pertemuan 14: rancang denah extension untuk sekolah (TU, BK, kepala sekolah, ruang guru) dan tentukan nomornya.</span></label></li>
+        <li><label><input type="checkbox" data-save="k5b"><span>Pertemuan 15: tulis dialplan dengan pattern <code>_1XX</code>, voicemail, dan tes gema; uji di Simulator VoIP sampai semua panggilan berhasil.</span></label></li>
+        <li><label><input type="checkbox" data-save="k5c"><span>Pertemuan 16: terapkan konfigurasi yang sama di Asterisk lab, rekam layar <code>sip show peers</code> dan log panggilan.</span></label></li>
+      </ul>
+    </section>
+
+    <section class="block">
+      <h2>Latihan pemahaman</h2>
+      <details class="reveal"><summary>Server Asterisk hanya boleh menerima koneksi SIP dari IP tertentu. File apa yang diubah?</summary><div><p><code>sip.conf</code>, dengan opsi <code>deny=</code> dan <code>permit=</code> pada akun (peer). Di Asterisk baru, pembatasan ini diatur di <code>pjsip.conf</code> (ACL).</p></div></details>
+      <details class="reveal"><summary>Softphone berhasil register, tetapi gagal menelepon ke nomor luar. Apa yang diperiksa?</summary><div><p>Konfigurasi trunk keluar (outbound): apakah akun trunk ke penyedia ada dan aktif, dan apakah dialplan punya aturan (misalnya <code>_0X.</code>) yang mengarahkan nomor luar ke trunk tersebut.</p></div></details>
+      <details class="reveal"><summary>Apa arti <code>exten => 101,2,Hangup()</code>?</summary><div><p>Untuk extension 101, langkah (prioritas) kedua adalah menutup panggilan.</p></div></details>
+      <details class="reveal"><summary>Pattern <code>_NXX</code> cocok dengan nomor apa saja?</summary><div><p>Nomor tiga digit yang digit pertamanya 2–9 dan dua digit berikutnya 0–9, yaitu 200 sampai 999.</p></div></details>
+    </section>
+
+    <nav class="pager"><a href="#bab4"><small>Sebelumnya</small>Bab 4 · Instalasi VoIP</a><a class="next" href="#bab6"><small>Berikutnya</small>Bab 6 · Serat optik</a></nav>
+  </div>
+</section>
+
+<!-- ============================== BAB 6 ============================== -->
+<section class="view" id="v-bab6" data-title="Bab 6 · Serat optik" hidden>
+  <div class="wrap">
+    <div class="chap-head">
+      <div class="eyebrow"><span class="rbar b6"></span>Bab 6 · Pertemuan 17-19</div>
+      <h1>Jaringan serat optik</h1>
+      <p class="lead">Serat optik mengirim data sebagai cahaya di dalam serat kaca setipis rambut. Kapasitasnya sangat besar, jangkauannya jauh, dan kebal gangguan listrik, sehingga menjadi tulang punggung internet dan layanan FTTH (internet rumah).</p>
+    </div>
+
+    <section class="block" id="s-6-1">
+      <h2><span class="num">6.1</span>Broadband</h2>
+      <p>Layanan broadband (pita lebar) dibentuk tiga elemen penting:</p>
+      <div class="grid">
+        <div class="card"><h3>Device (CPE)</h3><p class="small">Perangkat pengguna untuk mengakses layanan: HP, laptop, smart TV, modem/ONT.</p></div>
+        <div class="card"><h3>Content</h3><p class="small">Data dalam format tertentu yang dikirim dan diterima perangkat, termasuk layanan <i>over the top</i> (OTT) seperti video streaming dan chat.</p></div>
+        <div class="card"><h3>Connectivity</h3><p class="small">Infrastruktur fisik dan logis yang menentukan kapasitas, jumlah pengguna, dan kecepatan.</p></div>
+      </div>
+      <p>Saat memilih media transmisi, penyedia jasa mempertimbangkan empat hal: <b>high transfer</b> (kecepatan tinggi untuk aktivitas pengguna), <b>easy access</b> (mudah diakses di berbagai lokasi dengan kualitas stabil), <b>cheap</b> (biaya terjangkau), dan <b>usability</b> (mendukung layanan <i>multiplay</i>: suara, video, dan web).</p>
+      <div class="tbl-wrap">
+        <table class="tbl">
+          <thead><tr><th>Media</th><th>Kapasitas</th><th>Jarak tanpa penguat</th><th>Tahan gangguan listrik</th></tr></thead>
+          <tbody>
+            <tr><td>Tembaga (UTP/koaksial)</td><td>Sedang (hingga 10 Gbps, jarak pendek)</td><td>±100 m (UTP)</td><td>Rendah–sedang</td></tr>
+            <tr><td>Nirkabel</td><td>Sedang, dibagi antarpengguna</td><td>Puluhan m–km</td><td>Rendah (interferensi)</td></tr>
+            <tr><td>Serat optik</td><td>Sangat tinggi (Tbps dengan WDM)</td><td>Puluhan km (singlemode)</td><td>Kebal</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="block" id="s-6-2">
+      <h2><span class="num">6.2</span>Perkembangan serat optik</h2>
+      <div class="timeline">
+        <div class="tl-item"><b>1840-an</b><p>Daniel Colladon dan Jacques Babinet di Prancis memperagakan cahaya yang "terpandu" di dalam pancuran air.</p></div>
+        <div class="tl-item"><b>1854</b><p>John Tyndall di London memperagakan prinsip yang sama dalam kuliah umum, dikenal sebagai pemantulan total (<i>total internal reflection</i>). Sebagian buku menulis tahun 1852.</p></div>
+        <div class="tl-item"><b>1920-an</b><p>Clarence Hansell dan John Logie Baird mengusulkan penggunaan berkas batang/serat transparan untuk televisi dan faksimile.</p></div>
+        <div class="tl-item"><b>1953</b><p>Bram van Heel memperagakan pengiriman gambar melalui berkas (<i>bundle</i>) serat optik berlapis.</p></div>
+        <div class="tl-item"><b>1965</b><p>Charles Kao dan George Hockham menunjukkan serat kaca murni bisa dipakai untuk transmisi data jarak jauh.</p></div>
+        <div class="tl-item"><b>1981</b><p>General Electric memproduksi batangan kuarsa lebur (<i>fused quartz ingots</i>) yang dapat ditarik menjadi serat sepanjang puluhan kilometer.</p></div>
+      </div>
+    </section>
+
+    <section class="block" id="s-6-3">
+      <h2><span class="num">6.3</span>Struktur dan prinsip serat optik</h2>
+      <p>Serat optik terdiri atas <b>inti</b> (<i>core</i>) dengan indeks bias n₁ dan <b>selubung</b> (<i>cladding</i>) dengan indeks bias n₂ yang sedikit lebih kecil. Indeks bias menyatakan seberapa lambat cahaya di suatu medium:</p>
+      <div class="formula"><span>n = c / v</span><span class="small muted">n = indeks bias, c = kecepatan cahaya di ruang hampa (3 × 10⁸ m/s), v = kecepatan cahaya di medium (m/s)</span></div>
+      <p>Cahaya yang mengenai batas inti–cladding dengan sudut lebih besar dari <b>sudut kritis</b> dipantulkan seluruhnya ke dalam inti, sehingga terus terpandu sampai ujung serat:</p>
+      <div class="formula"><span>sin θc = n₂ / n₁</span><span class="small muted">θc = sudut kritis (diukur dari garis normal), n₁ = indeks bias inti, n₂ = indeks bias cladding</span></div>
+      <div class="widget" id="w-snell">
+        <div class="widget-title">Pemantulan total di dalam inti <span class="tag mask">simulasi</span></div>
+        <svg class="snell" id="sn-svg" viewBox="0 0 360 170" role="img" aria-label="Berkas cahaya di dalam inti serat optik"></svg>
+        <div class="range-row"><span class="small">Sudut datang</span><input type="range" id="sn-a" min="40" max="89" value="85"><output id="sn-a-o">85°</output></div>
+        <div class="range-row"><span class="small">n₁ (inti)</span><input type="range" id="sn-n1" min="1440" max="1500" value="1480"><output id="sn-n1-o">1,480</output></div>
+        <div class="range-row"><span class="small">n₂ (cladding)</span><input type="range" id="sn-n2" min="1400" max="1490" value="1460"><output id="sn-n2-o">1,460</output></div>
+        <div class="stat-grid" id="sn-stats"></div>
+      </div>
+      <h3>Transmisi banyak kanal</h3>
+      <div class="grid">
+        <div class="card"><h3>Multi-channel transmission</h3><p class="small">Satu serat mampu membawa banyak kanal sekaligus untuk berbagai jenis data.</p></div>
+        <div class="card"><h3>Wavelength division multiplexing (WDM)</h3><p class="small">Setiap kanal memakai panjang gelombang cahaya berbeda ("warna" berbeda), sehingga banyak sinyal berjalan bersamaan tanpa bercampur.</p></div>
+        <div class="card"><h3>Net data rate</h3><p class="small">Kecepatan bersih = jumlah kanal × (kecepatan kotor per kanal − overhead).</p></div>
+      </div>
+      <div class="widget" id="w-wdm">
+        <div class="widget-title">WDM: banyak warna, satu serat <span class="tag mask">interaktif</span></div>
+        <svg class="wdm" id="wdm-svg" viewBox="0 0 360 120" role="img" aria-label="Beberapa panjang gelombang digabung multiplexer ke satu serat"></svg>
+        <div class="wdm-ctl">
+          <label class="field">Jumlah kanal<input type="number" id="wdm-n" value="8" min="1" max="96"></label>
+          <label class="field">Kecepatan kotor per kanal (Gbps)<input type="number" id="wdm-g" value="10" min="1" max="800"></label>
+          <label class="field">Overhead (%)<input type="number" id="wdm-o" value="7" min="0" max="50"></label>
+        </div>
+        <p class="small" id="wdm-out"></p>
+      </div>
+    </section>
+
+    <section class="block" id="s-6-4">
+      <h2><span class="num">6.4</span>Kabel serat optik</h2>
+      <div class="widget" id="w-focab">
+        <div class="widget-title">Penampang kabel serat optik <span class="tag mask">interaktif</span></div>
+        <div class="coax-wrap">
+          <svg class="coax" id="fc-svg" viewBox="0 0 220 120" role="img" aria-label="Penampang kabel serat optik"></svg>
+          <div class="stack"><div class="seg" id="fc-tabs" aria-label="Lapisan kabel"></div><p class="small" id="fc-info" aria-live="polite"></p></div>
+        </div>
+      </div>
+      <h3>Panjang gelombang (window)</h3>
+      <p>Serat kaca paling sedikit meredam cahaya pada panjang gelombang tertentu di daerah inframerah. Daerah ini disebut <i>window</i>:</p>
+      <div class="widget" id="w-window">
+        <div class="widget-title">Redaman terhadap panjang gelombang <span class="tag mask">interaktif</span></div>
+        <svg class="wincurve" id="wn-svg" viewBox="0 0 360 170" role="img" aria-label="Kurva redaman serat optik dan window panjang gelombang"></svg>
+        <p class="small" id="wn-info" aria-live="polite">Ketuk penanda panjang gelombang.</p>
+      </div>
+      <h3>Material utama inti</h3>
+      <div class="grid">
+        <div class="card"><h3>Glass fiber</h3><p class="small">Inti dan cladding dari kaca silika. Redaman paling rendah, untuk jarak jauh dan backbone.</p></div>
+        <div class="card"><h3>Plastic fiber (POF)</h3><p class="small">Inti dan cladding dari plastik. Murah dan lentur, tetapi redamannya tinggi; hanya untuk jarak beberapa puluh meter.</p></div>
+        <div class="card"><h3>Plastic-clad silica (PCS)</h3><p class="small">Inti kaca silika (<i>vitreous silica</i>) dengan cladding plastik/silikon. Jarak menengah dengan harga di antara keduanya.</p></div>
+      </div>
+    </section>
+
+    <section class="block" id="s-6-5">
+      <h2><span class="num">6.5</span>Karakteristik kabel serat optik</h2>
+      <div class="compare">
+        <div class="card"><h3>Karakteristik linear</h3><ul class="list small"><li><b>Attenuation</b>: pelemahan daya cahaya sepanjang serat (dB/km).</li><li><b>Chromatic dispersion</b>: panjang gelombang berbeda merambat dengan kecepatan berbeda sehingga pulsa melebar.</li><li><b>Polarization mode dispersion (PMD)</b>: dua polarisasi cahaya merambat sedikit berbeda kecepatan.</li><li><b>Optical signal-to-noise ratio (OSNR)</b>: perbandingan daya sinyal dan derau optik.</li><li><b>Interference</b>: gangguan antar sinyal/kanal.</li></ul></div>
+        <div class="card"><h3>Karakteristik nonlinear</h3><ul class="list small"><li><b>Self-phase modulation (SPM)</b>: daya sinyal mengubah fasenya sendiri.</li><li><b>Cross-phase modulation (XPM)</b>: daya satu kanal mengubah fase kanal lain.</li><li><b>Four-wave mixing (FWM)</b>: beberapa kanal bercampur menghasilkan frekuensi baru yang mengganggu.</li><li><b>Stimulated Raman scattering (SRS)</b>: energi berpindah dari kanal panjang gelombang pendek ke panjang.</li><li><b>Stimulated Brillouin scattering (SBS)</b>: sebagian daya dipantulkan balik bila daya terlalu tinggi.</li></ul></div>
+      </div>
+      <p class="small muted">Efek nonlinear muncul saat daya cahaya tinggi dan banyak kanal WDM, terutama di jaringan jarak jauh.</p>
+    </section>
+
+    <section class="block" id="s-6-6">
+      <h2><span class="num">6.6</span>Jenis kabel serat optik</h2>
+      <div class="widget" id="w-fomode">
+        <div class="widget-title">Multimode vs singlemode <span class="tag mask">animasi</span></div>
+        <div class="seg" id="fm-tabs" role="tablist" aria-label="Jenis serat"><button type="button" class="on" data-m="mm">Multimode</button><button type="button" data-m="sm">Singlemode</button></div>
+        <svg class="fomode" id="fm-svg" viewBox="0 0 360 160" role="img" aria-label="Jalur cahaya pada serat multimode dan singlemode"></svg>
+        <div class="range-row"><span class="small">Panjang serat</span><input type="range" id="fm-len" min="1" max="20" value="5"><output id="fm-len-o">5 km</output></div>
+        <p class="small" id="fm-note"></p>
+      </div>
+      <div class="compare">
+        <div class="card"><h3>Multimode</h3><ul class="list small"><li>Menghantarkan banyak berkas cahaya (mode) sekaligus dalam satu inti.</li><li>Diameter inti besar: 50 atau 62,5 µm; cladding 125 µm.</li><li>Sumber cahaya LED/VCSEL di 850 dan 1.300 nm. Redaman maksimum menurut TIA-568: 3,5 dB/km (850 nm) dan 1,5 dB/km (1.300 nm).</li><li>Jarak pendek (ratusan meter): dalam gedung dan data center.</li></ul></div>
+        <div class="card"><h3>Singlemode</h3><ul class="list small"><li>Hanya satu mode cahaya merambat lurus di inti.</li><li>Diameter inti sangat kecil, sekitar 8–10 µm, dibungkus cladding 125 µm.</li><li>Sumber laser di 1.310 dan 1.550 nm, redaman sangat rendah (±0,35 dan ±0,22 dB/km).</li><li>Ideal untuk jarak jauh (puluhan km) dan FTTH. Jaket biasanya kuning.</li></ul></div>
+      </div>
+    </section>
+
+    <section class="block" id="s-6-7">
+      <h2><span class="num">6.7</span>Fiber to the home (FTTH)</h2>
+      <p><b>FTTH</b> adalah jaringan serat optik yang ditarik sampai ke rumah pelanggan. Peran dan pendorong FTTH:</p>
+      <ol class="list" type="a">
+        <li>Layanan OTT yang makin beragam.</li>
+        <li>Kecepatan broadband yang tinggi mendorong peningkatan aktivitas internet.</li>
+        <li>Tren penggunaan smartphone yang kini melampaui komputer dan laptop.</li>
+        <li>Dukungan regulasi pemerintah yang memfasilitasi penggunaan infrastruktur.</li>
+        <li>Peralihan sistem informasi dari <i>dedicated system</i> menuju <i>cloud computing</i>.</li>
+        <li>Dari segi biaya, kabel serat optik butuh modal awal (CAPEX) besar tetapi biaya operasional jangka panjangnya rendah.</li>
+        <li>Ketersediaan informasi dan pelatihan sumber daya manusia (SDM).</li>
+      </ol>
+      <div class="widget" id="w-ftth">
+        <div class="widget-title">Jalur FTTH dari STO ke rumah <span class="tag mask">interaktif</span></div>
+        <svg class="ftth" id="ft-svg" viewBox="0 0 360 160" role="img" aria-label="OLT, ODC, ODP, kabel drop, ONT"></svg>
+        <p class="small" id="ft-info" aria-live="polite">Ketuk perangkat untuk penjelasan.</p>
+        <div class="btn-row"><a class="btn btn-ghost small" href="#kalkulator" data-calc-tab="fo"><svg><use href="#i-calc"/></svg>Hitung link budget jalur ini</a></div>
+      </div>
+      <div class="compare">
+        <div class="card"><h3>Perangkat aktif</h3><ul class="list small"><li>Memperkuat dan mengarahkan sinyal optik menggunakan daya listrik.</li><li>Meregenerasi sinyal optik sehingga jangkauan bertambah.</li><li>Melakukan switching dan routing sinyal optik.</li><li>Butuh konfigurasi dan pemeliharaan rutin.</li><li>Contoh: OLT di STO, ONT di rumah.</li></ul></div>
+        <div class="card"><h3>Perangkat pasif</h3><ul class="list small"><li>Tidak butuh listrik: splitter, konektor, kabel, ODC, ODP.</li><li>Menerapkan WDM: membawa sinyal downstream (1.490 nm) dan upstream (1.310 nm) pada satu serat.</li><li>Mendukung bandwidth tinggi dan jarak transmisi lebih jauh.</li><li>Memakai dua standar: ITU-T (GPON) dan IEEE (GE-PON/EPON).</li></ul></div>
+      </div>
+    </section>
+
+    <section class="block">
+      <h2>Kegiatan siswa</h2>
+      <ul class="checklist">
+        <li><label><input type="checkbox" data-save="k6a"><span>Pertemuan 17: hitung sudut kritis untuk n₁ = 1,48 dan n₂ = 1,46, cocokkan dengan simulasi.</span></label></li>
+        <li><label><input type="checkbox" data-save="k6b"><span>Pertemuan 18: identifikasi patch cord di lab (singlemode/multimode, jenis konektor SC/LC, UPC/APC dari warnanya).</span></label></li>
+        <li><label><input type="checkbox" data-save="k6c"><span>Pertemuan 19: rancang jalur FTTH untuk satu perumahan dan buktikan link budget-nya layak di Kalkulator.</span></label></li>
+      </ul>
+    </section>
+
+    <section class="block">
+      <h2>Latihan pemahaman</h2>
+      <details class="reveal"><summary>Lapisan apa yang lentur, berbahan plastik, dan melindungi cladding dari kelembapan serta goresan?</summary><div><p><i>Coating</i> (buffer coating): lapisan plastik/akrilat yang langsung membungkus cladding.</p></div></details>
+      <details class="reveal"><summary>Mengapa singlemode cocok untuk jarak jauh?</summary><div><p>Hanya satu mode cahaya yang merambat sehingga hampir tidak ada dispersi antar-mode, dan redaman di 1.310/1.550 nm sangat rendah.</p></div></details>
+      <details class="reveal"><summary>Panjang gelombang first window berapa?</summary><div><p>850 nm, dipakai sistem multimode dengan LED/VCSEL. Second window 1.310 nm, third window 1.550 nm.</p></div></details>
+      <details class="reveal"><summary>Mengapa satu serat FTTH bisa dipakai untuk unduh dan unggah sekaligus?</summary><div><p>Karena WDM: downstream memakai panjang gelombang 1.490 nm dan upstream 1.310 nm, sehingga tidak bercampur.</p></div></details>
+    </section>
+
+    <nav class="pager"><a href="#bab5"><small>Sebelumnya</small>Bab 5 · SIP &amp; Asterisk</a><a class="next" href="#lab"><small>Berikutnya</small>Lab kabel RJ45</a></nav>
+  </div>
+</section>
+
+<!-- ============================== LAB RJ45 ============================== -->
+<section class="view" id="v-lab" data-title="Lab kabel RJ45" hidden>
+  <div class="wrap-wide">
+    <div class="chap-head">
+      <div class="eyebrow">Alat praktik</div>
+      <h1>Lab kabel RJ45</h1>
+      <p class="lead">Susun urutan 8 kabel di kedua konektor, crimp, lalu uji dengan LAN tester. Latih dulu di sini sampai lancar, baru praktik dengan kabel dan konektor sungguhan.</p>
+    </div>
+    <div class="toolbar">
+      <div class="seg" id="lab-target" role="tablist" aria-label="Kabel yang dibuat">
+        <button type="button" class="on" data-t="straight">Straight-through</button>
+        <button type="button" data-t="cross">Crossover</button>
+        <button type="button" data-t="free">Bebas</button>
+      </div>
+      <span class="small muted" id="lab-goal"></span>
+    </div>
+    <div class="tool-grid">
+      <div class="tool-col">
+        <div class="panel">
+          <h3>Pilih kabel</h3>
+          <p class="small muted">Ketuk satu warna, kabel masuk ke slot kosong berikutnya pada konektor yang aktif. Ketuk kabel di slot untuk mencabutnya.</p>
+          <div class="wire-pool" id="lab-pool"></div>
+        </div>
+        <div class="rj-pair">
+          <div class="rj-card on" data-end="A" tabindex="0" role="button" aria-pressed="true"><div class="rj-head"><b>Ujung A</b><span class="small muted" id="lab-stdA"></span></div><svg class="rj45" viewBox="0 0 200 150" id="lab-plugA" aria-label="Konektor ujung A"></svg></div>
+          <div class="rj-card" data-end="B" tabindex="0" role="button" aria-pressed="false"><div class="rj-head"><b>Ujung B</b><span class="small muted" id="lab-stdB"></span></div><svg class="rj45" viewBox="0 0 200 150" id="lab-plugB" aria-label="Konektor ujung B"></svg></div>
+        </div>
+        <div class="btn-row">
+          <button class="btn btn-ghost small" type="button" id="lab-clear"><svg><use href="#i-reset"/></svg>Kosongkan ujung aktif</button>
+          <button class="btn btn-ghost small" type="button" id="lab-fillA">Isi T568A</button>
+          <button class="btn btn-ghost small" type="button" id="lab-fillB">Isi T568B</button>
+        </div>
+        <p class="small muted">Pin 1 ada di kiri saat konektor dilihat dari depan (lubang kabel menghadap kita) dengan pengunci di bawah. Tombol Isi hanya untuk demonstrasi guru; saat latihan, susun sendiri.</p>
+      </div>
+      <div class="tool-col sticky">
+        <div class="panel">
+          <h3>LAN tester</h3>
+          <svg class="tester" id="lab-tester" viewBox="0 0 320 150" role="img" aria-label="LAN tester dengan lampu 1 sampai 8 di unit utama dan unit jarak jauh"></svg>
+          <div class="btn-row"><button class="btn btn-primary" type="button" id="lab-test"><svg><use href="#i-play"/></svg>Crimp &amp; uji</button><span class="verdict" id="lab-verdict" aria-live="polite"></span></div>
+          <div class="checks" id="lab-out"></div>
+        </div>
+        <div class="panel">
+          <h3>Rekap latihan</h3>
+          <div class="stat-grid" id="lab-stats"></div>
+          <details class="reveal"><summary>Langkah membuat kabel UTP fisik</summary><div><ol class="list small">
+            <li>Masukkan boot ke kabel, kupas jaket luar sekitar 2–3 cm tanpa melukai isolasi kabel di dalamnya.</li>
+            <li>Urai pilinan, luruskan, lalu susun sesuai standar.</li>
+            <li>Ratakan dan potong ujung kabel sehingga tersisa sekitar 1,2–1,5 cm.</li>
+            <li>Masukkan ke konektor sampai ujung kabel menyentuh dinding depan; jaket luar harus ikut masuk sampai titik jepit.</li>
+            <li>Crimp dengan tang sampai pin tertekan rata.</li>
+            <li>Uji dengan LAN tester; ulangi ujung yang salah.</li>
+          </ol></div></details>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================== SIMULATOR VOIP ============================== -->
+<section class="view" id="v-voip" data-title="Simulator VoIP" hidden>
+  <div class="wrap-wide">
+    <div class="chap-head">
+      <div class="eyebrow">Alat praktik</div>
+      <h1>Simulator VoIP Asterisk</h1>
+      <p class="lead">Tulis konfigurasi Asterisk, tekan <b>Muat ulang</b>, daftarkan softphone, lalu lakukan panggilan. Log CLI dan diagram pesan SIP menunjukkan apa yang terjadi di server.</p>
+      <details class="reveal"><summary>Fitur dan batasan simulator</summary><div>
+        <p class="small">Simulator ini meniru perilaku Asterisk dengan <code>chan_sip</code> untuk keperluan belajar, bukan server sungguhan. Yang didukung:</p>
+        <ul class="list small">
+          <li><code>sip.conf</code>: <code>type</code>, <code>host</code>, <code>secret</code>, <code>context</code>, <code>callerid</code>, <code>allow</code>/<code>disallow</code>, <code>permit</code>/<code>deny</code>; bagian [general] untuk nilai bawaan.</li>
+          <li><code>extensions.conf</code>: [general], [globals], context, <code>exten =&gt;</code>, <code>same =&gt;</code>, prioritas <code>n</code> dan label <code>n(nama)</code>, pattern <code>_XZN[]</code> <code>.</code> <code>!</code>, extension khusus <code>i</code> dan <code>h</code>, <code>include =&gt;</code>, variabel <code>${EXTEN}</code>, <code>${EXTEN:1}</code>, <code>${CALLERID(num)}</code>, <code>${DIALSTATUS}</code>.</li>
+          <li>Aplikasi: Answer, Dial, Hangup, Playback, Background, Wait, Echo, VoiceMail, VoiceMailMain, Goto, GotoIf, Set, NoOp, Busy, Congestion, Ringing, SayDigits, ConfBridge.</li>
+          <li><code>voicemail.conf</code>: kotak suara <code>nomor =&gt; PIN,nama</code>.</li>
+          <li>Perintah CLI: <code>sip show peers</code>, <code>dialplan show</code>, <code>core show channels</code>, <code>sip reload</code>, <code>dialplan reload</code>, <code>help</code>.</li>
+        </ul>
+        <p class="small">Tidak ada suara sungguhan; RTP digambarkan sebagai garis aliran media. Codec <code>ulaw</code>, <code>alaw</code>, <code>gsm</code> bisa saling diterjemahkan (transcoding), sedangkan <code>g729</code> harus sama di kedua sisi.</p>
+      </div></details>
+    </div>
+    <div class="mobile-tabs" id="voip-mtabs">
+      <div class="seg"><button type="button" class="on" data-pane="code">Konfigurasi</button><button type="button" data-pane="run">Telepon &amp; log</button></div>
+    </div>
+    <div class="tool-grid" id="voip-grid" data-pane="code">
+      <div class="tool-col pane-code">
+        <div class="toolbar">
+          <select id="vp-example" aria-label="Pilih contoh konfigurasi"></select>
+          <button class="btn btn-primary small" type="button" id="vp-reload"><svg><use href="#i-reset"/></svg>Muat ulang</button>
+        </div>
+        <div class="editor">
+          <div class="editor-head">
+            <div class="seg" id="vp-files" role="tablist" aria-label="File konfigurasi"><button type="button" class="on" data-f="sip">sip.conf</button><button type="button" data-f="ext">extensions.conf</button><button type="button" data-f="vm">voicemail.conf</button></div>
+            <span class="grow"></span>
+            <button class="btn btn-ghost small" type="button" id="vp-save"><svg><use href="#i-down"/></svg>Unduh</button>
+            <button class="btn btn-ghost small" type="button" id="vp-open"><svg><use href="#i-up"/></svg>Buka file</button>
+            <input type="file" id="vp-file" accept=".conf,.txt,text/plain" hidden>
+          </div>
+          <div class="cfg-wrap"><pre class="cfg-gutter" id="vp-gutter" aria-hidden="true"></pre><textarea class="cfg" id="vp-text" spellcheck="false" autocapitalize="off" autocomplete="off" aria-label="Isi file konfigurasi"></textarea></div>
+          <div class="symbar" id="vp-sym"></div>
+        </div>
+        <div class="diags" id="vp-diags"></div>
+      </div>
+      <div class="tool-col pane-run sticky">
+        <div class="panel">
+          <h3>Softphone</h3>
+          <div class="phones" id="vp-phones"></div>
+        </div>
+        <div class="panel">
+          <h3>Lakukan panggilan</h3>
+          <div class="dial-row">
+            <label class="field">Dari<select id="vp-from"></select></label>
+            <label class="field">Nomor tujuan<input type="text" id="vp-num" value="102" autocomplete="off" inputmode="tel" class="mono"></label>
+          </div>
+          <div class="keypad small-pad" id="vp-pad"></div>
+          <div class="dial-row">
+            <label class="field">Jika telepon tujuan berdering, penerima akan…<select id="vp-answer"><option value="answer">Mengangkat</option><option value="busy">Menolak (sibuk)</option><option value="noanswer">Tidak mengangkat</option></select></label>
+            <label class="field">Digit saat menu IVR (opsional)<input type="text" id="vp-dtmf" value="" placeholder="misal 1" autocomplete="off" inputmode="tel" class="mono"></label>
+          </div>
+          <div class="btn-row"><button class="btn btn-primary" type="button" id="vp-call"><svg><use href="#i-call"/></svg>Panggil</button><div class="seg" id="vp-speed"><button type="button" class="on" data-s="1">Animasi</button><button type="button" data-s="0">Langsung</button></div></div>
+          <div class="callres" id="vp-result" aria-live="polite"></div>
+        </div>
+        <div class="out-panel">
+          <div class="seg out-tabs" id="vp-out-tabs" role="tablist" aria-label="Keluaran"><button type="button" class="on" data-o="ladder">Diagram SIP</button><button type="button" data-o="cli">Log CLI</button></div>
+          <div class="ladder big" id="vp-ladder"><p class="small muted ladder-empty">Diagram pesan SIP muncul di sini setelah registrasi atau panggilan.</p></div>
+          <div class="term" id="vp-cli" hidden>
+            <div class="term-head"><span class="dot run"></span><span class="status">asterisk*CLI&gt;</span><button type="button" id="vp-cli-clear">Bersihkan</button></div>
+            <pre class="term-out" id="vp-cli-out"></pre>
+            <form class="cli-in" id="vp-cli-form"><span>CLI&gt;</span><input type="text" id="vp-cli-in" placeholder="sip show peers" autocomplete="off" autocapitalize="off" spellcheck="false" aria-label="Perintah CLI Asterisk"><button type="submit">Kirim</button></form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================== KALKULATOR ============================== -->
+<section class="view" id="v-kalkulator" data-title="Kalkulator jaringan" hidden>
+  <div class="wrap">
+    <div class="chap-head">
+      <div class="eyebrow">Alat praktik</div>
+      <h1>Kalkulator jaringan</h1>
+      <p class="lead">Tiga perhitungan yang sering dipakai teknisi: membagi alamat IP, memperkirakan bandwidth dan kualitas VoIP, serta memastikan sinyal serat optik cukup sampai ke rumah pelanggan.</p>
+    </div>
+    <nav class="tabnav" role="tablist" aria-label="Jenis kalkulator">
+      <a role="tab" href="#k-ip" data-tab-for="k-ip">Subnet IPv4</a>
+      <a role="tab" href="#k-voip" data-tab-for="k-voip">VoIP</a>
+      <a role="tab" href="#k-fo" data-tab-for="k-fo">Serat optik</a>
+    </nav>
+
+    <section class="block tab-panel" id="k-ip" role="tabpanel">
+      <h2>Subnet IPv4</h2>
+      <div class="panel">
+        <label class="field">Alamat IP / prefix<input type="text" id="ip-in" value="172.16.0.126/25" autocomplete="off" inputmode="decimal" class="mono"></label>
+        <div class="btn-row small" id="ip-ex"></div>
+        <div class="tbl-wrap"><table class="tbl kv mono" id="ip-out"></table></div>
+        <div class="bits" id="ip-bits"></div>
+      </div>
+      <p class="small muted">Alamat network adalah alamat pertama (semua bit host 0) dan broadcast adalah alamat terakhir (semua bit host 1). Keduanya tidak boleh dipakai perangkat. Gateway biasanya alamat host pertama atau terakhir.</p>
+    </section>
+
+    <section class="block tab-panel" id="k-voip" role="tabpanel">
+      <h2>Bandwidth dan kualitas VoIP</h2>
+      <div class="panel">
+        <div class="hdr-ctl">
+          <label class="field">Codec<select id="kv-codec"></select></label>
+          <label class="field">Interval paket<select id="kv-ptime"><option value="10">10 ms</option><option value="20" selected>20 ms</option><option value="30">30 ms</option><option value="40">40 ms</option></select></label>
+          <label class="field">Lapisan 2<select id="kv-l2"><option value="18" selected>Ethernet (18 byte)</option><option value="6">PPP (6 byte)</option><option value="0">Tanpa header L2</option></select></label>
+          <label class="field">Jumlah panggilan serentak<input type="number" id="kv-calls" value="10" min="1" max="1000"></label>
+        </div>
+        <div class="stat-grid" id="kv-bw"></div>
+      </div>
+      <div class="panel">
+        <h3>Perkiraan kualitas (E-model sederhana)</h3>
+        <div class="range-row"><span class="small">Delay satu arah</span><input type="range" id="kv-d" min="20" max="500" step="10" value="120"><output id="kv-d-o">120 ms</output></div>
+        <div class="range-row"><span class="small">Jitter</span><input type="range" id="kv-j" min="0" max="100" value="20"><output id="kv-j-o">20 ms</output></div>
+        <div class="range-row"><span class="small">Packet loss</span><input type="range" id="kv-l" min="0" max="20" step="0.5" value="1"><output id="kv-l-o">1%</output></div>
+        <div class="mos" id="kv-mos"></div>
+        <p class="small muted">Perkiraan memakai pendekatan E-model ITU-T G.107 yang disederhanakan (jitter dihitung sebagai tambahan delay jitter buffer). Hasilnya untuk membandingkan, bukan pengukuran resmi.</p>
+      </div>
+    </section>
+
+    <section class="block tab-panel" id="k-fo" role="tabpanel">
+      <h2>Serat optik</h2>
+      <div class="panel">
+        <h3>Link budget FTTH (GPON)</h3>
+        <div class="fo-grid">
+          <label class="field">Daya kirim OLT (dBm)<input type="number" id="fo-tx" value="3" step="0.5"></label>
+          <label class="field">Sensitivitas ONT (dBm)<input type="number" id="fo-rx" value="-27" step="0.5"></label>
+          <label class="field">Panjang kabel (km)<input type="number" id="fo-len" value="5" step="0.1" min="0"></label>
+          <label class="field">Redaman kabel (dB/km)<input type="number" id="fo-att" value="0.35" step="0.01" min="0"></label>
+          <label class="field">Jumlah konektor<input type="number" id="fo-con" value="4" min="0"></label>
+          <label class="field">Rugi per konektor (dB)<input type="number" id="fo-conl" value="0.25" step="0.05" min="0"></label>
+          <label class="field">Jumlah sambungan (splice)<input type="number" id="fo-spl" value="6" min="0"></label>
+          <label class="field">Rugi per splice (dB)<input type="number" id="fo-spll" value="0.1" step="0.05" min="0"></label>
+          <label class="field">Splitter tahap 1<select id="fo-s1"></select></label>
+          <label class="field">Splitter tahap 2<select id="fo-s2"></select></label>
+          <label class="field">Margin cadangan (dB)<input type="number" id="fo-mar" value="3" step="0.5" min="0"></label>
+        </div>
+        <div class="lossbar" id="fo-bar"></div>
+        <div class="stat-grid" id="fo-out"></div>
+      </div>
+      <div class="panel">
+        <h3>Indeks bias dan sudut kritis</h3>
+        <div class="fo-grid">
+          <label class="field">n₁ inti<input type="number" id="fo-n1" value="1.48" step="0.001"></label>
+          <label class="field">n₂ cladding<input type="number" id="fo-n2" value="1.46" step="0.001"></label>
+        </div>
+        <div class="stat-grid" id="fo-crit"></div>
+      </div>
+      <p class="small muted">Nilai bawaan mengikuti kebiasaan GPON kelas B+: daya kirim OLT +1,5 sampai +5 dBm dan sensitivitas ONT sekitar −27 sampai −28 dBm. Rugi splitter adalah nilai khas; lihat lembar data perangkat yang dipakai.</p>
+    </section>
+  </div>
+</section>
+
+<!-- ============================== ASESMEN ============================== -->
+<section class="view" id="v-asesmen" data-title="Asesmen & kuis" hidden>
+  <div class="wrap">
+    <div class="chap-head">
+      <div class="eyebrow">Asesmen</div>
+      <h1>Asesmen dan kuis</h1>
+      <p class="lead">Penilaian dibagi tiga: diagnostik di awal, formatif setiap pertemuan, dan sumatif di pertemuan 10 dan 20. Praktik mendapat bobot lebih besar daripada hafalan.</p>
+    </div>
+
+    <nav class="tabnav" role="tablist" aria-label="Bagian asesmen">
+      <a role="tab" href="#s-ringkas" data-tab-for="s-ringkas">Ringkasan</a>
+      <a role="tab" href="#s-kuis" data-tab-for="s-kuis">Kuis</a>
+      <a role="tab" href="#s-kasus" data-tab-for="s-kasus">Studi kasus</a>
+      <a role="tab" href="#s-debug" data-tab-for="s-debug">Perbaiki konfigurasi</a>
+      <a role="tab" href="#s-sumatif" data-tab-for="s-sumatif">Sumatif</a>
+      <a role="tab" href="#s-rubrik" data-tab-for="s-rubrik">Rubrik praktik</a>
+    </nav>
+
+    <section class="block tab-panel" id="s-ringkas" role="tabpanel">
+      <h2>Ringkasan asesmen</h2>
+      <div class="grid">
+        <a class="card tab-card" href="#s-kuis"><h3>Kuis</h3><p class="small muted">36 soal pilihan ganda Bab 1–6, termasuk soal sumatif dari slide, langsung dicek.</p></a>
+        <a class="card tab-card" href="#s-kasus"><h3>Studi kasus</h3><p class="small muted">6 kasus gangguan nyata. Pilih langkah pemeriksaan pertama dan baca alasannya.</p></a>
+        <a class="card tab-card" href="#s-debug"><h3>Perbaiki konfigurasi</h3><p class="small muted">4 konfigurasi Asterisk bermasalah untuk diperbaiki dan diuji otomatis.</p></a>
+        <a class="card tab-card" href="#s-sumatif"><h3>Sumatif</h3><p class="small muted">Contoh soal uraian dan tugas praktik semester 1 dan 2.</p></a>
+        <a class="card tab-card" href="#s-rubrik"><h3>Rubrik praktik</h3><p class="small muted">Kalkulator nilai praktik untuk guru: crimping, Wi-Fi, VoIP, FTTH.</p></a>
+      </div>
+      <h3>Asesmen diagnostik (pertemuan 1)</h3>
+      <ul class="list">
+        <li>Pernah memasang atau melihat kabel LAN, router, atau modem di rumah?</li>
+        <li>Sebutkan perangkat di rumah yang terhubung tanpa kabel dan cara menghubungkannya.</li>
+        <li>Apa yang dimaksud alamat IP? Tuliskan contohnya.</li>
+        <li>Pernah menelepon lewat aplikasi chat? Apa bedanya dengan telepon biasa?</li>
+      </ul>
+      <p class="small muted">Hasilnya dipakai untuk membentuk pasangan praktik dan menentukan siapa yang perlu pendampingan saat crimping dan konfigurasi.</p>
+      <h3>Asesmen formatif</h3>
+      <ul class="list">
+        <li><b>Tiket keluar</b>: 3 soal kuis bab yang sedang dipelajari, atau tangkapan layar hasil simulasi.</li>
+        <li><b>Bukti praktik</b>: kabel yang lolos uji, tangkapan layar konfigurasi router, file konfigurasi Asterisk.</li>
+        <li><b>Studi kasus</b>: menjelaskan langkah troubleshooting secara lisan atau tertulis.</li>
+      </ul>
+    </section>
+
+    <section class="block tab-panel" id="s-kuis" role="tabpanel">
+      <h2>Kuis pilihan ganda</h2>
+      <p class="small muted">6 soal per bab. Soal bertanda <span class="tag">slide</span> berasal dari asesmen sumatif di slide (sebagian dirapikan agar akurat). Jawaban dicek saat kamu memilih.</p>
+      <div class="seg" id="quiz-filter" aria-label="Saring per bab"></div>
+      <div class="score" id="quiz-score"><b class="tnum" id="quiz-num">0/36</b><span class="muted small" id="quiz-msg">Belum ada jawaban.</span><button class="btn btn-ghost small" type="button" id="quiz-reset" style="margin-left:auto">Ulangi kuis</button></div>
+      <div class="quiz" id="quiz"></div>
+    </section>
+
+    <section class="block tab-panel" id="s-kasus" role="tabpanel">
+      <h2>Studi kasus troubleshooting</h2>
+      <p class="small muted">Baca gejalanya, pilih apa yang paling tepat diperiksa atau dilakukan <b>pertama kali</b>. Setiap pilihan punya penjelasan, jadi pilihan yang kurang tepat pun memberi pelajaran.</p>
+      <div class="quiz" id="case-list"></div>
+    </section>
+
+    <section class="block tab-panel" id="s-debug" role="tabpanel">
+      <h2>Perbaiki konfigurasi Asterisk</h2>
+      <p class="small muted">Setiap soal berisi konfigurasi yang membuat panggilan gagal. Perbaiki langsung di kotak teks, lalu tekan Periksa. Pemeriksa menjalankan simulator dengan skenario uji yang tertulis di soal.</p>
+      <div class="quiz" id="debug-list"></div>
+    </section>
+
+    <section class="block tab-panel" id="s-sumatif" role="tabpanel">
+      <h2>Contoh soal sumatif</h2>
+      <h3>Semester 1 (pertemuan 10): Bab 1–3</h3>
+      <details class="reveal"><summary>1. Jelaskan lima elemen komunikasi data pada contoh mengirim pesan chat.</summary><div><p>Pengirim: HP pengirim. Penerima: HP tujuan. Pesan: teks chat. Media: Wi-Fi/seluler dan jaringan internet. Protokol: aturan seperti TCP/IP dan protokol aplikasi chat yang dipahami kedua sisi.</p></div></details>
+      <details class="reveal"><summary>2. Gambarkan jalur kabel telepon dari STO sampai pesawat telepon pelanggan.</summary><div><p>STO (MDF) → kabel primer → rumah kabel (RK) → kabel sekunder → distribution point (DP) → kabel drop → kotak terminal batas (KTB) → instalasi kabel rumah → roset → pesawat telepon.</p></div></details>
+      <details class="reveal"><summary>3. Kapan memakai kabel straight dan kapan crossover? Tulis urutan warnanya.</summary><div><p>Straight (T568B–T568B) untuk perangkat berbeda jenis, misalnya PC–switch. Crossover (T568A–T568B) untuk perangkat sejenis, misalnya PC–PC. T568B: PO, O, PH, B, PB, H, PC, C. T568A: PH, H, PO, B, PB, O, PC, C.</p></div></details>
+      <details class="reveal"><summary>4. Bandingkan FDMA, TDMA, dan CDMA.</summary><div><p>FDMA membagi frekuensi, TDMA membagi waktu pada frekuensi yang sama, CDMA memakai frekuensi dan waktu yang sama dengan kode unik per pengguna.</p></div></details>
+      <details class="reveal"><summary>5. Tentukan jenis antena untuk: (a) ruang kelas, (b) dua gedung berjarak 500 m, (c) lapangan sekolah dari pojok gedung.</summary><div><p>(a) Omni-directional, (b) directional (grid/parabola) point-to-point, (c) semi-directional (sektoral) diarahkan ke lapangan.</p></div></details>
+      <p><b>Praktik:</b> membuat kabel straight dan crossover yang lolos uji LAN tester, lalu mengonfigurasi wireless router (SSID, WPA2-PSK, DHCP) dan menghubungkan dua klien. Nilai dengan rubrik "Crimping kabel UTP" dan "Konfigurasi Wi-Fi".</p>
+      <h3>Semester 2 (pertemuan 20): Bab 4–6</h3>
+      <details class="reveal"><summary>1. Hitung bandwidth satu panggilan G.711 dengan interval 20 ms di Ethernet.</summary><div><p>Payload 160 byte + RTP 12 + UDP 8 + IP 20 + Ethernet 18 = 218 byte. 50 paket per detik × 218 × 8 = 87,2 kbps per arah.</p></div></details>
+      <details class="reveal"><summary>2. Jelaskan arti setiap bagian dari <code>exten => _1XX,1,Dial(SIP/${EXTEN},20)</code>.</summary><div><p><code>_1XX</code>: pattern nomor 100–199. <code>1</code>: prioritas pertama. <code>Dial</code>: menghubungi kanal. <code>SIP/${EXTEN}</code>: akun SIP dengan nama sama seperti nomor yang ditekan. <code>20</code>: berdering maksimal 20 detik.</p></div></details>
+      <details class="reveal"><summary>3. Urutkan pesan SIP pada panggilan yang diangkat lalu ditutup.</summary><div><p>INVITE → 100 Trying → 180 Ringing → 200 OK → ACK → (RTP suara) → BYE → 200 OK.</p></div></details>
+      <details class="reveal"><summary>4. Hitung sudut kritis untuk n₁ = 1,48 dan n₂ = 1,46.</summary><div><p>sin θc = 1,46 / 1,48 = 0,9865 → θc ≈ 80,6°.</p></div></details>
+      <details class="reveal"><summary>5. Daya OLT +3 dBm, kabel 5 km (0,35 dB/km), splitter 1:4 (7,2 dB) dan 1:8 (10,5 dB), 4 konektor (0,25 dB), 6 splice (0,1 dB). Apakah layak untuk ONT bersensitivitas −27 dBm dengan margin 3 dB?</summary><div><p>Rugi total = 1,75 + 7,2 + 10,5 + 1 + 0,6 = 21,05 dB. Daya terima = 3 − 21,05 = −18,05 dBm. Batas = −27 + 3 = −24 dBm. −18,05 lebih kuat dari −24, jadi layak dengan sisa ±6 dB.</p></div></details>
+      <p><b>Praktik:</b> memasang Asterisk, membuat 3 extension, dialplan dengan voicemail dan tes gema, lalu menguji panggilan antar-softphone. Nilai dengan rubrik "Instalasi server VoIP".</p>
+    </section>
+
+    <section class="block tab-panel" id="s-rubrik" role="tabpanel">
+      <h2>Rubrik praktik</h2>
+      <p class="small muted">Untuk guru: pilih jenis praktik, lalu pilih skor tiap aspek. Nilai akhir = jumlah (skor × bobot) / 4 × 100.</p>
+      <div class="panel">
+        <div class="field">Jenis praktik<div class="seg" id="rub-mode" role="tablist" aria-label="Jenis praktik"></div></div>
+        <label class="field">Nama kelompok / siswa<input type="text" id="rub-name" placeholder="misal: Kelompok 2 · Andi &amp; Budi" autocomplete="off"></label>
+        <div id="rubric"></div>
+        <div class="rubric-total"><span class="small muted">Nilai akhir</span><b class="tnum" id="rub-total">–</b><span class="small muted" id="rub-detail"></span></div>
+      </div>
+    </section>
+  </div>
+</section>
+
+<!-- ============================== REFERENSI ============================== -->
+<section class="view" id="v-referensi" data-title="Glosarium & cheat sheet" hidden>
+  <div class="wrap">
+    <div class="chap-head">
+      <div class="eyebrow">Bantuan</div>
+      <h1>Glosarium dan cheat sheet</h1>
+      <p class="lead">Istilah penting dari keenam bab dan ringkasan yang sering dibutuhkan saat praktik.</p>
+    </div>
+    <section class="block">
+      <h2>Glosarium</h2>
+      <input type="search" class="search" id="glo-search" placeholder="Cari istilah, misalnya: jitter, DSLAM, ONT" autocomplete="off" aria-label="Cari istilah">
+      <div class="tbl-wrap"><table class="tbl" id="glo-table"><thead><tr><th>Istilah</th><th>Arti</th><th>Bab</th></tr></thead><tbody></tbody></table></div>
+    </section>
+    <section class="block">
+      <h2>Perintah CLI Asterisk</h2>
+      <div class="panel" style="padding:0" id="cheat-cli"></div>
+    </section>
+    <section class="block">
+      <h2>Padanan sip.conf dan pjsip.conf</h2>
+      <div class="compare">
+        <div class="snippet" data-file="sip.conf (chan_sip)" data-norun="1" data-code="[101]
+type=friend
+host=dynamic
+secret=rahasia101
+context=internal
+disallow=all
+allow=ulaw"></div>
+        <div class="snippet" data-file="pjsip.conf (Asterisk 21+)" data-norun="1" data-code="[101]
+type=endpoint
+context=internal
+disallow=all
+allow=ulaw
+auth=101
+aors=101
+
+[101]
+type=auth
+auth_type=userpass
+username=101
+password=rahasia101
+
+[101]
+type=aor
+max_contacts=1"></div>
+      </div>
+      <p class="small muted">Di dialplan, ganti <code>SIP/101</code> menjadi <code>PJSIP/101</code>. Perintah <code>sip show peers</code> menjadi <code>pjsip show endpoints</code>.</p>
+    </section>
+    <section class="block">
+      <h2>Angka penting</h2>
+      <div class="tbl-wrap">
+        <table class="tbl">
+          <thead><tr><th>Hal</th><th>Nilai</th></tr></thead>
+          <tbody>
+            <tr><td>Panjang maksimum kabel UTP Ethernet</td><td>100 m per segmen</td></tr>
+            <tr><td>Kanal Wi-Fi 2,4 GHz yang tidak tumpang tindih</td><td>1, 6, 11</td></tr>
+            <tr><td>Port SIP / RTP Asterisk</td><td>UDP 5060 / UDP 10000–20000 (bawaan <code>rtp.conf</code>)</td></tr>
+            <tr><td>Pita suara telepon analog</td><td>300–3.400 Hz</td></tr>
+            <tr><td>Batas kualitas VoIP</td><td>Delay ≤ 150 ms, jitter &lt; 30 ms, loss &lt; 1%</td></tr>
+            <tr><td>Window serat optik</td><td>850 nm (I), 1.310 nm (II), 1.550 nm (III); juga 780 dan 1.625 nm</td></tr>
+            <tr><td>Panjang gelombang GPON</td><td>Downstream 1.490 nm, upstream 1.310 nm, video 1.550 nm</td></tr>
+            <tr><td>Rugi splitter khas</td><td>1:2 ±3,5 dB · 1:4 ±7,2 dB · 1:8 ±10,5 dB · 1:16 ±13,8 dB · 1:32 ±17,1 dB</td></tr>
+            <tr><td>Warna konektor serat optik</td><td>Biru = UPC, hijau = APC (ujung miring 8°); jangan disambung beda jenis</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+  </div>
+</section>
+
+  </main>
+
+  <nav class="tabbar" aria-label="Navigasi cepat">
+    <a href="#bab1" data-tab="materi"><svg><use href="#i-book"/></svg>Materi</a>
+    <a href="#lab" data-tab="lab"><svg><use href="#i-plug"/></svg>Lab RJ45</a>
+    <a href="#voip" data-tab="voip"><svg><use href="#i-call"/></svg>VoIP</a>
+    <a href="#asesmen" data-tab="asesmen"><svg><use href="#i-check"/></svg>Kuis</a>
+    <button type="button" id="tab-menu"><svg><use href="#i-menu"/></svg>Menu</button>
+  </nav>
+</div>
+
+<script src="assets/asterisk.js?v=1"></script>
+<script src="assets/app.js?v=1"></script>
+</body>
+</html>
