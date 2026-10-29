@@ -44,6 +44,15 @@ Setiap kali mengubah file di folder `assets`, naikkan juga angka versinya: `?v=â
 - Rujukan CP: Keputusan Kepala BSKAP Nomor 046/H/KR/2025 (menggantikan 032/H/KR/2024). Perubahan CP tahun 2026 hanya menyangkut Pendidikan Agama dan Budi Pekerti. Rumusan CP di halaman Identitas adalah ringkasan pengembang yang dirinci menjadi 5 elemen dan dicocokkan dengan TP, kegiatan, dan asesmen; cocokkan dengan naskah CP resmi yang berlaku di sekolah.
 - Kemajuan, jawaban kuis, dan konfigurasi simulator tersimpan di browser masing-masing siswa, tidak dikirim ke mana pun.
 
+## Aturan penilaian otomatis
+
+Satu hasil penilaian dipakai bersama oleh simulator, halaman Kumpulkan hasil, ringkasan teks, dan laporan `.html`, jadi statusnya selalu sama.
+
+- **Simulasi router**: temuan dibagi tiga. *Penghalang koneksi* (misalnya IP router di dalam pool DHCP, DHCP mati, NAT mati, pool di luar jaringan LAN) selalu membuat uji **Gagal**. *Kesalahan keamanan* (Wi-Fi terbuka, WEP) membuat hasil "Terhubung, perlu perbaikan". *Peringatan* (password lemah, kanal tumpang tindih) tidak menggagalkan uji. Hasil lama tersimpan sebelum aturan ini ditandai "Perlu diuji ulang".
+- **Simulator VoIP**: setiap **Muat ulang** menerapkan seluruh file, termasuk transport. Bila tidak ada transport UDP 5060 yang aktif (protocol salah, bind kosong/salah, port bentrok), registrasi dan panggilan gagal 408, dan softphone yang sudah terdaftar dikeluarkan. Di Asterisk sungguhan perubahan transport biasanya baru berlaku setelah restart.
+- **Kalkulator**: isian kosong tidak dianggap nol, nilai negatif untuk panjang, redaman, rugi, dan margin ditolak, jumlah konektor/sambungan harus bilangan bulat â‰¥ 0. Daya dalam dBm boleh negatif. Selama ada isian merah, kesimpulan layak/tidak layak tidak ditampilkan.
+- **LKPD**: satu baris baru dinilai bila datanya lengkap. Isian yang kurang disebutkan namanya. Rugi negatif selalu diminta dicek ulang (bisa salah ketik, salah referensi OPM, atau efek "gainer" pada OTDR satu arah). LKPD 2 menandai apakah status berasal dari *hasil ukur* atau *estimasi splicer*; bila keduanya diisi, hasil ukur yang dipakai. Kartu LKPD di Kumpulkan hasil hanya menghitung baris yang sudah dinilai.
+
 ## Mengubah isi
 
 - Teks materi, identitas, persiapan: `index.html`

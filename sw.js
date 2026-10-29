@@ -1,7 +1,7 @@
 /* Service worker: menyimpan salinan web agar bisa dibuka ulang tanpa internet.
  * Strategi: ambil versi terbaru dari jaringan bila ada (maks. 4 detik), lalu simpan;
  * bila jaringan putus, pakai salinan yang tersimpan. Naikkan CACHE setiap rilis. */
-const CACHE = 'modul-tjkn-v2';
+const CACHE = 'modul-tjkn-v3';
 const ASSETS = [
   './',
   './index.html',
@@ -11,7 +11,8 @@ const ASSETS = [
 ];
 
 self.addEventListener('install', e => {
-  e.waitUntil(caches.open(CACHE).then(c => c.addAll(ASSETS)).then(() => self.skipWaiting()));
+  // cache: 'reload' agar salinan awal diambil dari server, bukan dari cache HTTP browser yang mungkin versi lama.
+  e.waitUntil(caches.open(CACHE).then(c => c.addAll(ASSETS.map(u => new Request(u, { cache: 'reload' })))).then(() => self.skipWaiting()));
 });
 
 self.addEventListener('activate', e => {
@@ -39,7 +40,9 @@ self.addEventListener('fetch', e => {
           if (res.ok) { const copy = res.clone(); caches.open(CACHE).then(c => c.put(req, copy)); }
           return res;
         })
-        .catch(() => caches.match(req, { ignoreSearch: true })
+        // Utamakan salinan dengan URL persis (mis. app.js?v=3, yang diperbarui setiap kunjungan);
+        // salinan tanpa ?v dari saat instal hanya cadangan.
+        .catch(() => caches.match(req).then(hit => hit || caches.match(req, { ignoreSearch: true }))
           .then(hit => hit || (req.mode === 'navigate' ? caches.match('./index.html') : null))
           .then(hit => hit || Response.error()))
     );

@@ -9,7 +9,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700;12..96,800&family=JetBrains+Mono:wght@400;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" media="print" onload="this.media='all'">
-<link rel="stylesheet" href="assets/style.css?v=2">
+<link rel="stylesheet" href="assets/style.css?v=3">
 </head>
 <body>
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
@@ -1717,6 +1717,8 @@ max_contacts=1"></div>
           <div class="symbar" id="vp-sym"></div>
         </div>
         <div class="diags" id="vp-diags"></div>
+        <div class="check" id="vp-listen" role="status"></div>
+        <p class="small muted">Setiap <b>Muat ulang</b>, simulator menerapkan seluruh isi file, termasuk transport, lalu memeriksa ulang softphone yang sedang terdaftar; yang tidak lolos lagi dikeluarkan. Di Asterisk sungguhan, perubahan transport biasanya baru berlaku setelah restart (kecuali <code>allow_reload=yes</code>).</p>
       </div>
       <div class="tool-col pane-run sticky">
         <div class="panel">
@@ -1814,7 +1816,8 @@ max_contacts=1"></div>
           <label class="field">Splitter tahap 2<select id="fo-s2"></select></label>
           <label class="field">Margin cadangan (dB)<input type="number" id="fo-mar" value="3" step="0.5" min="0"></label>
         </div>
-        <div class="lossbar" id="fo-bar"></div>
+        <div class="lossbar" id="fo-bar" aria-hidden="true"></div>
+        <div class="lossleg" id="fo-leg"></div>
         <div class="stat-grid" id="fo-out"></div>
       </div>
       <div class="panel">
@@ -2043,7 +2046,7 @@ allow=ulaw"></div>
   </nav>
 </div>
 
-<script src="assets/asterisk.js?v=2"></script>
-<script src="assets/app.js?v=2"></script>
+<script src="assets/asterisk.js?v=3"></script>
+<script src="assets/app.js?v=3"></script>
 </body>
 </html>

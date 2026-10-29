@@ -99,6 +99,19 @@
     else { mask = ip2int(m); if (mask === null) return null; }
     return { ip, mask };
   }
+  // Membaca alamat bind "ip", "ip:port", "[::]", atau "[::]:port". local = alamat itu memang milik server.
+  function parseBind(s, defPort) {
+    const m = String(s).trim().match(/^(\[[0-9a-f:]*\]|[0-9.]+)(?::(\S+))?$/i);
+    if (!m) return { err: 'bukan alamat:port' };
+    let port = defPort;
+    if (m[2] !== undefined) {
+      if (!/^\d{1,5}$/.test(m[2]) || +m[2] < 1 || +m[2] > 65535) return { err: `port ${m[2]} harus bilangan 1–65535` };
+      port = +m[2];
+    }
+    if (m[1].startsWith('[')) return { ip: m[1], port, local: m[1] === '[::]' };
+    if (ip2int(m[1]) === null) return { err: `alamat ${m[1]} tidak valid` };
+    return { ip: m[1], port, local: m[1] === '0.0.0.0' || m[1] === SERVER_IP };
+  }
   function aclAllows(acl, ip) {
     const v = ip2int(ip);
     let ok = true;
@@ -225,7 +238,7 @@
 
   function parseSip(text) {
     const F = 'sip.conf', diags = [], peers = {}, order = [], templates = {};
-    const general = { opts: {}, codecRules: [], line: 0 };
+    const general = { opts: {}, optLine: {}, codecRules: [], line: 0 };
     let cur = null, curName = null;
     text.split(/\r?\n/).forEach((raw, idx) => {
       const ln = idx + 1, line = stripComment(raw);
@@ -288,7 +301,18 @@
       if (!a.codecs.length) diags.push({ file: F, line: p.line, sev: 'warning', msg: `Peer '${name}' tidak punya codec yang diizinkan`, hint: 'Setelah disallow=all, tambahkan minimal satu allow=..., misalnya allow=ulaw.' });
       if (!p.opts.context && !general.opts.context) diags.push({ file: F, line: p.line, sev: 'notice', msg: `Peer '${name}' memakai context 'default'`, hint: 'Tulis context=... agar panggilan dari akun ini masuk ke context dialplan yang benar.' });
     });
-    return { mode: 'sip', accounts, order, diags, transports: [{ name: 'udp', bind: general.opts.bindaddr || '0.0.0.0', port: general.opts.bindport || '5060' }] };
+    // chan_sip mendengarkan UDP di bindaddr:bindport dari [general]; bila gagal bind, tidak ada SIP sama sekali.
+    const td = { name: 'udp', line: general.line || 1, proto: 'udp', bind: '', ok: false, why: '' };
+    const sbad = (key, msg, why, hint) => { diags.push({ file: F, line: general.optLine[key] || general.line || 1, sev: 'error', msg, hint }); if (!td.why) td.why = why; };
+    const bp = general.opts.bindport, ba = general.opts.bindaddr || general.opts.udpbindaddr || '0.0.0.0';
+    let port = 5060;
+    if (bp !== undefined) { if (/^\d{1,5}$/.test(bp) && +bp >= 1 && +bp <= 65535) port = +bp; else sbad('bindport', `Invalid port number '${bp}' in bindport`, `bindport=${bp} tidak valid`, 'bindport harus bilangan 1–65535, biasanya 5060.'); }
+    const b = parseBind(ba, port);
+    if (b.err) sbad(general.opts.bindaddr ? 'bindaddr' : 'udpbindaddr', `Invalid address '${ba}' in bindaddr`, `bindaddr=${ba} tidak valid (${b.err})`, 'Tulis bindaddr=0.0.0.0 agar Asterisk mendengarkan di semua alamat.');
+    else if (!b.local) sbad(general.opts.bindaddr ? 'bindaddr' : 'udpbindaddr', `Failed to bind to ${b.ip}:${b.port}: Cannot assign requested address`, `alamat ${b.ip} bukan milik server`, `bindaddr harus 0.0.0.0 atau alamat server ${SERVER_IP}.`);
+    if (!td.why) Object.assign(td, { ok: true, ip: b.ip, port: b.port, bind: `${b.ip}:${b.port}` });
+    if (td.ok && td.port !== 5060) diags.push({ file: F, line: general.optLine.bindport || general.line || 1, sev: 'warning', msg: `chan_sip mendengarkan UDP port ${td.port}`, hint: 'Softphone di simulator mengirim ke port 5060, jadi REGISTER tidak akan dijawab. Pakai bindport=5060.' });
+    return { mode: 'sip', accounts, order, diags, transports: td.ok ? [td] : [], transportDefs: [td] };
   }
 
   /* ------------------------------ parser akun: pjsip.conf ------------------------------ */
@@ -341,13 +365,32 @@
         if (s.type === 'endpoint' && !order.includes(s.name)) order.push(s.name);
       }
     });
-    const transports = Object.values(by.transport).map(t => {
+    // Definisi transport dipisahkan dari transport yang benar-benar aktif: hanya transport yang lolos semua
+    // pemeriksaan yang ikut melayani REGISTER dan INVITE.
+    const DEF_PORT = { udp: 5060, tcp: 5060, tls: 5061, ws: 8088, wss: 8089 };
+    const transportDefs = [];
+    Object.values(by.transport).forEach(t => {
       const proto = (t.opts.protocol || 'udp').toLowerCase();
-      if (!['udp', 'tcp', 'tls', 'ws', 'wss'].includes(proto)) diags.push({ file: F, line: t.optLine.protocol, sev: 'error', msg: `Invalid protocol '${proto}' for transport '${t.name}'`, hint: 'Gunakan protocol=udp untuk softphone di lab.' });
-      if (!t.opts.bind) diags.push({ file: F, line: t.line, sev: 'warning', msg: `Transport '${t.name}' tanpa bind`, hint: 'Tulis bind=0.0.0.0:5060 agar Asterisk mendengarkan di semua alamat pada port 5060.' });
-      return { name: t.name, proto, bind: t.opts.bind || '0.0.0.0:5060' };
+      const d = { name: t.name, line: t.line, proto, bind: t.opts.bind || '', ok: false, why: '' };
+      const bad = (line, msg, why, hint) => { diags.push({ file: F, line, sev: 'error', msg, hint }); if (!d.why) d.why = why; };
+      if (!DEF_PORT[proto]) bad(t.optLine.protocol, `Invalid protocol '${proto}' for transport '${t.name}'`, `protocol=${proto} tidak dikenal`, 'Protocol yang sah: udp, tcp, tls, ws, wss. Softphone di lab memakai protocol=udp.');
+      if (!t.opts.bind) bad(t.line, `Transport '${t.name}' could not be started as binding not specified`, 'bind= belum diisi', 'Tulis bind=0.0.0.0:5060 agar Asterisk mendengarkan di semua alamat pada port 5060.');
+      else {
+        const b = parseBind(t.opts.bind, DEF_PORT[proto] || 5060);
+        if (b.err) bad(t.optLine.bind, `Invalid bind address '${t.opts.bind}' for transport '${t.name}'`, `bind=${t.opts.bind} tidak valid (${b.err})`, 'Format bind: alamat:port, misalnya 0.0.0.0:5060.');
+        else if (!b.local) bad(t.optLine.bind, `Transport '${t.name}' could not be started: Cannot assign requested address`, `alamat ${b.ip} bukan milik server`, `Alamat bind harus 0.0.0.0 (semua alamat) atau alamat server ${SERVER_IP}.`);
+        else Object.assign(d, { ip: b.ip, port: b.port });
+      }
+      if (['tls', 'wss'].includes(proto) && !d.why && (!t.opts.cert_file || !t.opts.priv_key_file)) bad(t.line, `Transport '${t.name}' could not be started: TLS tanpa sertifikat`, 'cert_file/priv_key_file belum diisi', 'Transport TLS butuh cert_file= dan priv_key_file=. Untuk lab cukup memakai protocol=udp.');
+      const clash = transportDefs.find(x => x.ok && x.port === d.port && (x.proto === 'udp') === (proto === 'udp'));
+      if (!d.why && clash) bad(t.optLine.bind || t.line, `Transport '${t.name}' could not be started: Address already in use`, `port ${d.port} sudah dipakai transport ${clash.name}`, `Port ${d.port} sudah dipakai transport [${clash.name}]. Hapus salah satu atau pakai port lain.`);
+      d.ok = !d.why;
+      transportDefs.push(d);
     });
-    if (!transports.length) diags.push({ file: F, line: 1, sev: 'error', msg: 'No transport configured', hint: 'Tanpa section type=transport, Asterisk tidak mendengarkan port SIP sehingga semua REGISTER dan INVITE tidak dijawab. Tambahkan [transport-udp] dengan type=transport, protocol=udp, bind=0.0.0.0:5060.' });
+    const transports = transportDefs.filter(d => d.ok);
+    if (!transportDefs.length) diags.push({ file: F, line: 1, sev: 'error', msg: 'No transport configured', hint: 'Tanpa section type=transport, Asterisk tidak mendengarkan port SIP sehingga semua REGISTER dan INVITE tidak dijawab. Tambahkan [transport-udp] dengan type=transport, protocol=udp, bind=0.0.0.0:5060.' });
+    else if (!transports.length) diags.push({ file: F, line: transportDefs[0].line, sev: 'error', msg: 'Tidak ada transport yang aktif', hint: `Semua transport gagal dijalankan (${transportDefs.map(d => `${d.name}: ${d.why}`).join('; ')}), jadi REGISTER dan INVITE tidak dijawab. Perbaiki lalu Muat ulang.` });
+    else if (!transports.some(d => d.proto === 'udp' && d.port === 5060)) diags.push({ file: F, line: transports[0].line, sev: 'warning', msg: 'Tidak ada transport UDP di port 5060', hint: `Softphone di simulator mengirim lewat UDP ke port 5060, sedangkan transport aktif: ${transports.map(d => `${d.name} ${d.proto} port ${d.port}`).join(', ')}. REGISTER tidak akan dijawab.` });
     const accounts = {};
     order.forEach(name => {
       const e = by.endpoint[name];
@@ -376,7 +419,7 @@
         kind: contact ? 'trunk' : 'phone' }, parseCid(e.opts.callerid, name));
     });
     Object.values(by.identify).forEach(i => { if (i.opts.endpoint && !by.endpoint[i.opts.endpoint]) diags.push({ file: F, line: i.optLine.endpoint, sev: 'warning', msg: `Identify '${i.name}' menunjuk endpoint '${i.opts.endpoint}' yang tidak ada`, hint: 'Samakan dengan nama section type=endpoint.' }); });
-    return { mode: 'pjsip', accounts, order, diags, transports, auths: by.auth, aors: by.aor };
+    return { mode: 'pjsip', accounts, order, diags, transports, transportDefs, auths: by.auth, aors: by.aor };
   }
 
   /* ------------------------------ extensions.conf & voicemail.conf ------------------------------ */
@@ -538,17 +581,32 @@
   };
   Run.prototype.note = function (text, cls) { this.ev.push({ t: 'note', text, cls: cls || '' }); };
 
+  // Apakah server punya transport aktif yang menerima UDP port 5060 (cara softphone di simulator mengirim)?
+  // Registrasi dan panggilan bergantung pada transport ini saja, bukan pada kesalahan lain yang tidak terkait.
+  function sipListen(server) {
+    const T = server.acc.transports, defs = server.acc.transportDefs || [];
+    const file = server.file;
+    if (!T.length) return { ok: false, why: !defs.length ? `${file} tidak punya section type=transport, jadi Asterisk tidak mendengarkan port SIP.`
+      : `tidak ada transport yang aktif (${defs.map(d => `${d.name}: ${d.why}`).join('; ')}).` };
+    const udp = T.filter(t => t.proto === 'udp');
+    if (!udp.length) return { ok: false, why: `transport yang aktif hanya ${[...new Set(T.map(t => t.proto.toUpperCase()))].join('/')}, sedangkan softphone mengirim lewat UDP.` };
+    const t = udp.find(x => x.port === 5060);
+    if (!t) return { ok: false, why: `Asterisk mendengarkan UDP port ${udp.map(x => x.port).join(', ')}, sedangkan softphone mengirim ke port 5060.` };
+    return { ok: true, t };
+  }
+
   function register(server, dev) {
     const R = new Run(server, { A: dev.label, S: 'Asterisk ' + SERVER_IP });
     const PJ = server.mode === 'pjsip';
     const from = `'"${dev.user}" <sip:${dev.user}@${dev.server}>'`;
     const out = (ok, code, text) => { if (!ok) delete server.regs[dev.user]; return { ok, code, text, events: R.ev, cols: R.cols }; };
     R.sip('A', 'S', 'REGISTER', 'req', `sip:${dev.server} · user ${dev.user}`);
-    if (String(dev.server).trim() !== SERVER_IP || (PJ && !server.acc.transports.length)) {
+    const L = sipListen(server);
+    if (String(dev.server).trim() !== SERVER_IP || !L.ok) {
       R.sip('A', 'S', 'REGISTER (ulang)', 'lost', 'tidak ada jawaban');
       R.note(String(dev.server).trim() !== SERVER_IP
         ? `Tidak ada server SIP di ${dev.server}. Softphone menampilkan "Request Timeout (408)". Periksa isian server/domain: alamat Asterisk adalah ${SERVER_IP}.`
-        : 'pjsip.conf tidak punya section type=transport, jadi Asterisk tidak mendengarkan port 5060. Softphone menampilkan "Request Timeout (408)".', 'bad');
+        : `Asterisk tidak menjawab karena ${L.why} Softphone menampilkan "Request Timeout (408)". Perbaiki transport di ${server.file}, tekan Muat ulang, lalu daftar lagi.`, 'bad');
       return out(false, 408, 'Request Timeout');
     }
     const p = server.acc.accounts[dev.user];
@@ -709,6 +767,12 @@
       return out('notreg', { code: 0, text: 'Belum terdaftar' });
     }
     if (!num) { R.note('Nomor tujuan masih kosong.', 'bad'); return out('empty', { code: 0, text: 'Nomor kosong' }); }
+    const L = sipListen(server);
+    if (!L.ok) {
+      R.sip('A', 'S', `INVITE sip:${num}@${SERVER_IP}`, 'lost', 'tidak ada jawaban');
+      R.note(`Asterisk tidak menjawab karena ${L.why} Softphone menampilkan "Request Timeout (408)".`, 'bad');
+      return out('fail', { code: 408, text: 'Request Timeout', reason: 'transport' });
+    }
     const p = server.acc.accounts[dev.user];
     R.sip('A', 'S', `INVITE sip:${num}@${SERVER_IP}`, 'req', 'SDP: ' + dev.codecs.join(', '));
     if (!p) {
@@ -1096,8 +1160,9 @@
       return ['       Auth:  <AuthId/UserName.............................................................>', '==========================================================================================', '', ...rows, '', rows.length ? `Objects found: ${rows.length}` : 'No objects found.'].join('\n');
     }
     if (lc === 'pjsip show transports') {
-      const rows = A.transports.map(t => `Transport:  ${pad(t.name, 22)}${pad(t.proto, 6)}0      0  ${t.bind}`);
-      return ['Transport:  <TransportId........>  <Type>  <cos>  <tos>  <BindAddress....................>', '==========================================================================================', '', ...rows, '', rows.length ? `Objects found: ${rows.length}` : 'No objects found.'].join('\n');
+      const rows = A.transports.map(t => `Transport:  ${pad(t.name, 22)}${pad(t.proto, 6)}0      0  ${t.ip}:${t.port}`);
+      const off = (A.transportDefs || []).filter(d => !d.ok).map(d => `; [${d.name}] tidak aktif: ${d.why}`);
+      return ['Transport:  <TransportId........>  <Type>  <cos>  <tos>  <BindAddress....................>', '==========================================================================================', '', ...rows, '', rows.length ? `Objects found: ${rows.length}` : 'No objects found.', ...(off.length ? ['', '(Catatan simulator: transport berikut ditulis di pjsip.conf tetapi tidak dijalankan)', ...off] : [])].join('\n');
     }
     if (lc === 'pjsip reload' || lc === 'module reload res_pjsip.so') return '__RELOAD__';
     if (/^sip (show|reload)/.test(lc)) return `No such command '${c}' (type 'core show help sip' for other possible commands)\nAsterisk 21 tidak punya chan_sip. Pakai pjsip show endpoints atau pjsip show contacts.`;
@@ -1182,5 +1247,5 @@
     return `No such command '${c}' (type 'core show help ${c.split(' ')[0]}' for other possible commands)` + (s ? `\nMungkin maksudnya: ${s}` : '\nKetik help untuk daftar perintah.');
   }
 
-  window.AST = { SERVER_IP, MODES, CODECS, load, register, call, cli, matchPattern, tokenizePattern, parseSip, parsePjsip, parseExt, parseVm, subst, evalExpr };
+  window.AST = { SERVER_IP, MODES, CODECS, load, register, call, cli, sipListen, matchPattern, tokenizePattern, parseSip, parsePjsip, parseExt, parseVm, subst, evalExpr };
 })();

@@ -56,6 +56,36 @@
     toast('Mengunduh ' + name);
   }
 
+  /* ============================== Validasi isian angka ============================== */
+  // Pesan kesalahan ditampilkan tepat di bawah isian (di dalam label .field).
+  function fieldMsg(el, msg) {
+    let s = el.nextElementSibling && el.nextElementSibling.classList.contains('ferr') ? el.nextElementSibling : null;
+    if (!s) { s = document.createElement('small'); s.className = 'ferr'; if (el.id) s.id = el.id + '-err'; el.insertAdjacentElement('afterend', s); }
+    s.textContent = msg; s.hidden = !msg;
+    el.classList.toggle('bad', !!msg);
+    if (msg) { el.setAttribute('aria-invalid', 'true'); if (s.id) el.setAttribute('aria-describedby', s.id); }
+    else { el.removeAttribute('aria-invalid'); el.removeAttribute('aria-describedby'); }
+  }
+  // Membaca satu isian angka menurut aturannya. Kosong berbeda dengan nol; nilai tak terhingga atau di luar
+  // batas ditolak. rule: { min, max, gt (harus lebih besar dari), int, optional, minMsg, maxMsg, gtMsg }
+  function numField(el, rule) {
+    rule = rule || {};
+    const raw = el.value.trim();
+    let msg = '', v = null;
+    if (el.validity && el.validity.badInput) msg = 'Bukan angka yang valid.';
+    else if (raw === '') msg = rule.optional ? '' : 'Wajib diisi.';
+    else {
+      v = Number(raw.replace(',', '.'));
+      if (!Number.isFinite(v)) msg = 'Bukan angka yang valid.';
+      else if (rule.int && !Number.isInteger(v)) msg = 'Harus bilangan bulat.';
+      else if (rule.gt !== undefined && !(v > rule.gt)) msg = rule.gtMsg || `Harus lebih besar dari ${fmt(rule.gt, 2)}.`;
+      else if (rule.min !== undefined && v < rule.min) msg = rule.minMsg || `Tidak boleh kurang dari ${fmt(rule.min, 2)}.`;
+      else if (rule.max !== undefined && v > rule.max) msg = rule.maxMsg || `Tidak boleh lebih dari ${fmt(rule.max, 2)}.`;
+    }
+    fieldMsg(el, msg);
+    return { ok: !msg && !(raw === '' && !rule.optional), v: msg ? null : v, empty: raw === '' };
+  }
+
   /* ============================== Tema ============================== */
   const rootEl = document.documentElement;
   function applyTheme(t) {
@@ -953,7 +983,9 @@
         const dx = x - 120, dy = 120 - y, dist = Math.hypot(dx, dy), th = (Math.atan2(dy, dx) * 180 / Math.PI + 360) % 360;
         const ok = dist <= r(th, t, rot);
         if (ok) n++;
-        h += `<g class="an-cl${ok ? ' ok' : ''}"><circle cx="${x}" cy="${y}" r="6"/><text x="${x}" y="${y - 9}" text-anchor="middle">${nm}</text></g>`;
+        // Label titik di dekat tepi peta digeser ke dalam agar tidak terpotong.
+        const lab = x > 200 ? `x="${x + 8}" text-anchor="end"` : x < 40 ? `x="${x - 8}" text-anchor="start"` : `x="${x}" text-anchor="middle"`;
+        h += `<g class="an-cl${ok ? ' ok' : ''}"><circle cx="${x}" cy="${y}" r="6"/><text ${lab} y="${y - 9}">${nm}</text></g>`;
       });
       h += '<circle class="an-ap" cx="120" cy="120" r="7"/><text class="an-lab" x="120" y="138" text-anchor="middle">AP</text>';
       svg.innerHTML = h;
@@ -1017,6 +1049,8 @@
     return { cls: 'ok', label: 'publik', note: 'Dapat dirutekan di internet; diberikan oleh ISP atau registri alamat.', unicast: true, special: false };
   }
 
+  // Ringkasan jumlah temuan simulasi router, dipakai di simulasi dan halaman Kumpulkan hasil
+  const routerCountText = r => [r.penghalang ? `${r.penghalang} penghalang koneksi` : '', r.kesalahan ? `${r.kesalahan} kesalahan keamanan` : '', r.peringatan ? `${r.peringatan} peringatan` : ''].filter(Boolean).join(', ') || 'tanpa kesalahan atau peringatan';
   (function router() {
     const DEF = { wan: 'dhcp', ppp: '', nat: true, ssid: 'TJKT-XI', ch: '6', sec: 'wpa2', pass: 'tjkt2026', lan: '192.168.1.1', mask: '24', dhcp: true, d1: '192.168.1.100', d2: '192.168.1.200' };
     const F = { wan: '#rt-wan', ppp: '#rt-ppp', nat: '#rt-nat', ssid: '#rt-ssid', ch: '#rt-ch', sec: '#rt-sec', pass: '#rt-pass', lan: '#rt-lan', mask: '#rt-mask', dhcp: '#rt-dhcp', d1: '#rt-d1', d2: '#rt-d2' };
@@ -1028,54 +1062,76 @@
     $('#rt-form').addEventListener('change', () => { sync(); store.set('router', get()); });
     sync();
     $('#rt-reset').addEventListener('click', () => { set(DEF); sync(); store.set('router', DEF); $('#rt-out').innerHTML = ''; });
-    $('#rt-apply').addEventListener('click', () => {
-      const c = get(), out = [];
+    // Tingkat pemeriksaan: 'ok', 'warn' (saran, tidak menggagalkan uji), 'err' (kesalahan konfigurasi yang tetap
+    // memungkinkan klien terhubung, misalnya keamanan lemah), 'block' (menghalangi klien uji terhubung atau ke internet).
+    // Klien uji adalah HP siswa yang memakai IP otomatis (DHCP). Hasil uji, pesan, dan rekap memakai satu sumber yang sama.
+    function evaluate(c) {
+      const out = [];
       const add = (lvl, t) => out.push([lvl, t]);
-      let canJoin = true, ipOk = true, inet = true, clientIp = null;
-      if (c.wan === 'pppoe' && !c.ppp) { add('err', 'WAN PPPoE butuh username dan password dari ISP. Tanpa itu router tidak mendapat internet.'); inet = false; }
+      const fail = { join: null, addr: null, gw: null, inet: null };
+      const stop = (k, why) => { if (!fail[k]) fail[k] = why; };
+      let clientIp = null;
+      if (c.wan === 'pppoe' && !c.ppp) { add('block', 'WAN PPPoE butuh username dan password dari ISP. Tanpa itu router tidak mendapat internet.'); stop('inet', 'router belum mendapat internet dari ISP karena username PPPoE kosong'); }
       else add('ok', `WAN memakai ${c.wan === 'dhcp' ? 'DHCP dari ISP' : c.wan === 'pppoe' ? 'PPPoE' : 'IP statis'}.`);
-      if (!c.ssid) { add('err', 'SSID masih kosong, jaringan tidak bisa ditemukan klien.'); canJoin = false; }
-      else if (c.ssid.length > 32) { add('err', 'SSID maksimal 32 karakter.'); canJoin = false; }
+      if (!c.ssid) { add('block', 'SSID masih kosong, jaringan tidak bisa ditemukan klien.'); stop('join', 'SSID kosong sehingga jaringan tidak ditemukan'); }
+      else if (c.ssid.length > 32) { add('block', 'SSID maksimal 32 karakter.'); stop('join', 'SSID lebih dari 32 karakter ditolak router'); }
       else add('ok', `SSID "${c.ssid}".`);
       if (c.sec === 'open') add('err', 'Jaringan terbuka: siapa pun bisa bergabung dan lalu lintasnya tidak dienkripsi. Pakai WPA2-PSK atau WPA3.');
-      else if (c.sec === 'wep') { add('err', 'WEP memakai RC4 dengan kunci statis dan bisa dibobol dalam hitungan menit. Ganti ke WPA2-PSK (AES) atau WPA3.'); if (![5, 13].includes(c.pass.length)) { add('err', 'Kunci WEP harus tepat 5 atau 13 karakter.'); canJoin = false; } }
-      else {
+      else if (c.sec === 'wep') {
+        add('err', 'WEP memakai RC4 dengan kunci statis dan bisa dibobol dalam hitungan menit. Ganti ke WPA2-PSK (AES) atau WPA3.');
+        if (![5, 13].includes(c.pass.length)) { add('block', 'Kunci WEP harus tepat 5 atau 13 karakter.'); stop('join', 'kunci WEP tidak valid'); }
+      } else {
         if (c.sec === 'wpa') add('warn', 'WPA/TKIP sudah usang. Pakai WPA2-PSK (AES) atau WPA3.');
         else add('ok', c.sec === 'wpa3' ? 'WPA3-SAE aktif. Perangkat lama yang belum mendukung WPA3 tidak bisa terhubung; bila perlu pakai mode transisi WPA2/WPA3.' : 'WPA2-PSK (AES) aktif.');
-        if (c.pass.length < 8 || c.pass.length > 63) { add('err', `Password ${c.sec.toUpperCase()} harus 8–63 karakter (sekarang ${c.pass.length}). Router menolak menyimpan.`); canJoin = false; }
+        if (c.pass.length < 8 || c.pass.length > 63) { add('block', `Password ${c.sec.toUpperCase()} harus 8–63 karakter (sekarang ${c.pass.length}). Router menolak menyimpan.`); stop('join', `password ${c.sec.toUpperCase()} ditolak router`); }
         else if (c.pass.length < 12 || /^\d+$/.test(c.pass) || /^[a-z]+$/i.test(c.pass)) add('warn', 'Password mudah ditebak. Gunakan minimal 12 karakter campuran huruf besar, kecil, angka, dan simbol.');
         else add('ok', 'Password cukup kuat.');
       }
       if (!['1', '6', '11'].includes(c.ch)) add('warn', `Kanal ${c.ch} tumpang tindih dengan kanal tetangga. Di 2,4 GHz pilih 1, 6, atau 11 sesuai hasil site survey.`);
       else add('ok', `Kanal ${c.ch} tidak tumpang tindih dengan kanal 1/6/11 lainnya.`);
       const lan = ipInt(c.lan), pre = +c.mask, m = maskOf(pre);
-      if (lan === null) { add('err', `IP LAN "${c.lan}" tidak valid.`); ipOk = false; }
+      if (lan === null) { add('block', `IP LAN "${c.lan}" tidak valid.`); stop('gw', `alamat router "${c.lan}" tidak valid sehingga gateway tidak ada`); }
       else {
         const net = (lan & m) >>> 0, bc = (net | (~m >>> 0)) >>> 0;
-        if (lan === net || lan === bc) { add('err', `${c.lan} adalah alamat ${lan === net ? 'network' : 'broadcast'} dan tidak boleh dipakai router.`); ipOk = false; }
+        if (lan === net || lan === bc) { add('block', `${c.lan} adalah alamat ${lan === net ? 'network' : 'broadcast'} dan tidak boleh dipakai router.`); stop('gw', `alamat router ${c.lan} adalah alamat ${lan === net ? 'network' : 'broadcast'}`); }
         else add(isPrivate(lan) ? 'ok' : 'warn', `LAN ${ipStr(net)}/${pre}, router di ${c.lan}${isPrivate(lan) ? '.' : `. Alamat ini termasuk ${ipKind(lan).label}, bukan alamat privat; LAN sebaiknya memakai 10.x, 172.16–31.x, atau 192.168.x.`}`);
-        if (!c.dhcp) { add('warn', 'DHCP server mati: setiap klien harus diisi IP manual. Jika ada yang lupa atau bentrok, muncul konflik IP atau alamat 169.254.x.x.'); clientIp = null; }
+        if (!c.dhcp) { add('block', 'DHCP server mati. Klien yang memakai IP otomatis, seperti HP siswa di uji ini, hanya mendapat alamat link-local 169.254.x.x. Aktifkan DHCP, atau isi IP manual di setiap klien.'); stop('addr', 'tidak ada DHCP server sehingga HP hanya mendapat alamat link-local 169.254.x.x'); }
         else {
           const a = ipInt(c.d1), b = ipInt(c.d2);
-          if (a === null || b === null) { add('err', 'Alamat awal/akhir pool DHCP tidak valid.'); ipOk = false; }
-          else if (((a & m) >>> 0) !== net || ((b & m) >>> 0) !== net) { add('err', `Pool DHCP ${c.d1}–${c.d2} berada di luar jaringan LAN ${ipStr(net)}/${pre}. Klien mendapat IP yang tidak bisa menjangkau gateway ${c.lan}.`); ipOk = false; clientIp = c.d1; }
-          else if (a > b) { add('err', 'Alamat awal pool lebih besar daripada alamat akhir.'); ipOk = false; }
-          else if (a === net || b === bc) { add('err', 'Pool DHCP tidak boleh memuat alamat network atau broadcast.'); ipOk = false; }
-          else if (lan >= a && lan <= b) { add('err', `IP router ${c.lan} berada di dalam pool DHCP, sehingga bisa dibagikan ke klien dan terjadi konflik IP. Geser pool, misalnya mulai dari .100.`); clientIp = c.d1; }
-          else { add('ok', `DHCP membagikan ${b - a + 1} alamat (${c.d1}–${c.d2}).`); clientIp = c.d1; }
+          if (a === null || b === null) { add('block', 'Alamat awal/akhir pool DHCP tidak valid.'); stop('addr', 'pool DHCP tidak valid sehingga tidak ada alamat yang dibagikan'); }
+          else if (((a & m) >>> 0) !== net || ((b & m) >>> 0) !== net) { add('block', `Pool DHCP ${c.d1}–${c.d2} berada di luar jaringan LAN ${ipStr(net)}/${pre}. Klien mendapat IP yang tidak bisa menjangkau gateway ${c.lan}.`); clientIp = c.d1; stop('gw', `mendapat ${c.d1} yang berada di luar jaringan ${ipStr(net)}/${pre}, sehingga gateway ${c.lan} tidak terjangkau`); }
+          else if (a > b) { add('block', 'Alamat awal pool lebih besar daripada alamat akhir.'); stop('addr', 'pool DHCP terbalik sehingga tidak ada alamat yang dibagikan'); }
+          else if (a === net || b === bc) { add('block', 'Pool DHCP tidak boleh memuat alamat network atau broadcast.'); stop('addr', 'pool DHCP memuat alamat network/broadcast sehingga router menolaknya'); }
+          else if (lan >= a && lan <= b) {
+            clientIp = c.d1;
+            add('block', `IP router ${c.lan} berada di dalam pool DHCP ${c.d1}–${c.d2}, sehingga alamat router bisa dibagikan ke klien dan terjadi konflik IP. Geser pool, misalnya mulai dari .100.`);
+            stop('gw', a === lan ? `mendapat ${c.d1}, alamat yang sama dengan router (gateway). Terjadi konflik IP sehingga gateway tidak bisa dijangkau`
+              : `pool DHCP memuat alamat router ${c.lan}, sehingga klien bisa mendapat alamat yang sama dengan gateway (konflik IP). Router menolak konfigurasi ini`);
+          } else { add('ok', `DHCP membagikan ${b - a + 1} alamat (${c.d1}–${c.d2}).`); clientIp = c.d1; }
         }
       }
-      if (!c.nat) { add('err', 'NAT mati: klien ber-IP privat tidak bisa keluar ke internet karena alamat privat tidak dirutekan di internet.'); inet = false; }
-      let client;
-      if (!canJoin) client = ['err', `HP siswa gagal terhubung ke "${c.ssid || '(tanpa nama)'}".`];
-      else if (!c.dhcp) client = ['warn', 'HP siswa terhubung ke Wi-Fi tetapi mendapat IP 169.254.x.x (tidak ada DHCP), jadi tidak bisa internet sampai IP diisi manual.'];
-      else if (!ipOk) client = ['err', `HP siswa terhubung${clientIp ? ` dan mendapat IP ${clientIp}` : ''}, tetapi tidak bisa menjangkau gateway. Internet tidak jalan.`];
-      else if (!inet) client = ['warn', `HP siswa terhubung dan mendapat IP ${clientIp}, gateway ${c.lan}, tetapi tidak bisa membuka internet.`];
-      else client = ['ok', `HP siswa terhubung ke "${c.ssid}", mendapat IP ${clientIp}/${pre}, gateway dan DNS ${c.lan}, dan bisa membuka internet.`];
-      const errs = out.filter(o => o[0] === 'err').length, warns = out.filter(o => o[0] === 'warn').length;
-      store.set('router-last', { waktu: new Date().toLocaleString('id-ID'), hasil: client[0], klien: client[1], kesalahan: errs, peringatan: warns, ssid: c.ssid, keamanan: c.sec, kanal: c.ch, lan: c.lan + '/' + c.mask, dhcp: c.dhcp ? c.d1 + '–' + c.d2 : 'mati' });
-      $('#rt-out').innerHTML = `<div class="check-head ${client[0]}"><b>Uji klien:</b> ${esc(client[1])}</div>` + out.map(([l, t]) => `<div class="check ${l}"><span class="ci">${l === 'ok' ? '✓' : l === 'warn' ? '!' : '✕'}</span><span>${esc(t)}</span></div>`).join('') +
-        `<p class="small muted">${errs ? `${errs} kesalahan` : 'Tanpa kesalahan'}${warns ? `, ${warns} peringatan` : ''}.</p>`;
+      if (!c.nat) { add('block', 'NAT mati: klien ber-IP privat tidak bisa keluar ke internet karena alamat privat tidak dirutekan di internet.'); stop('inet', 'NAT mati sehingga alamat privat tidak bisa keluar ke internet'); }
+      const ssid = c.ssid || '(tanpa nama)';
+      let klien;
+      if (fail.join) klien = `HP siswa gagal terhubung ke "${ssid}": ${fail.join}.`;
+      else if (fail.addr) klien = `HP siswa terhubung ke Wi-Fi "${ssid}", tetapi ${fail.addr}. Internet tidak jalan.`;
+      else if (fail.gw) klien = `HP siswa terhubung ke Wi-Fi "${ssid}", tetapi ${fail.gw}. Internet tidak jalan.`;
+      else if (fail.inet) klien = `HP siswa terhubung, mendapat IP ${clientIp}/${pre} dengan gateway ${c.lan}, tetapi tidak bisa membuka internet: ${fail.inet}.`;
+      else klien = `HP siswa terhubung ke "${ssid}", mendapat IP ${clientIp}/${pre}, gateway dan DNS ${c.lan}, dan bisa membuka internet.`;
+      const n = lvl => out.filter(o => o[0] === lvl).length;
+      const penghalang = n('block'), kesalahan = n('err'), peringatan = n('warn');
+      const hasil = penghalang ? 'err' : kesalahan ? 'warn' : 'ok';
+      const label = penghalang ? 'Gagal' : kesalahan ? 'Terhubung, perlu perbaikan' : 'Berhasil';
+      return { out, hasil, label, klien, penghalang, kesalahan, peringatan };
+    }
+    $('#rt-apply').addEventListener('click', () => {
+      const c = get(), r = evaluate(c);
+      store.set('router-last', { v: 2, waktu: new Date().toLocaleString('id-ID'), hasil: r.hasil, label: r.label, klien: r.klien, penghalang: r.penghalang, kesalahan: r.kesalahan, peringatan: r.peringatan,
+        ssid: c.ssid, keamanan: c.sec, kanal: c.ch, lan: c.lan + '/' + c.mask, dhcp: c.dhcp ? c.d1 + '–' + c.d2 : 'mati' });
+      const icon2 = { ok: '✓', warn: '!', err: '✕', block: '✕' };
+      $('#rt-out').innerHTML = `<div class="check-head ${r.hasil}"><b>Uji klien: ${esc(r.label)}.</b> ${esc(r.klien)}</div>` +
+        r.out.map(([l, t]) => `<div class="check ${l === 'block' ? 'err block' : l}"><span class="ci">${icon2[l]}</span><span>${l === 'block' ? '<b>Menghalangi koneksi:</b> ' : l === 'err' ? '<b>Perlu diperbaiki:</b> ' : ''}${esc(t)}</span></div>`).join('') +
+        `<p class="small muted">${esc(routerCountText(r))}. Peringatan tidak menggagalkan uji; penghalang koneksi selalu menggagalkan uji.</p>`;
     });
   })();
 
@@ -1476,7 +1532,9 @@
     h += '<text class="sp-lab" x="180" y="88" text-anchor="middle">satu serat</text>';
     $('#wdm-svg').innerHTML = h;
     function calc() {
-      const n = +$('#wdm-n').value || 0, g = +$('#wdm-g').value || 0, o = clamp(+$('#wdm-o').value || 0, 0, 100);
+      const a = numField($('#wdm-n'), { min: 1, max: 200, int: true, minMsg: 'Minimal 1 kanal.' }), b = numField($('#wdm-g'), { gt: 0, max: 1600, gtMsg: 'Kecepatan per kanal harus lebih dari 0.' }), c = numField($('#wdm-o'), { min: 0, max: 99, maxMsg: 'Overhead harus di bawah 100%.' });
+      if (!a.ok || !b.ok || !c.ok) { $('#wdm-out').innerHTML = '<span class="tag err">Belum bisa dihitung</span> Perbaiki isian yang ditandai merah.'; return; }
+      const n = a.v, g = b.v, o = c.v;
       const net = n * g * (1 - o / 100);
       $('#wdm-out').innerHTML = `Kecepatan bersih = ${n} kanal × ${fmt(g, 1)} Gbps × (1 − ${fmt(o, 1)}%) = <b>${fmt(net, 1)} Gbps</b>${net >= 1000 ? ` (±${fmt(net / 1000, 2)} Tbps)` : ''}.`;
     }
@@ -1595,28 +1653,100 @@
   ];
   const lk = Object.assign(LK_DEF(), store.get('lkpd', {}));
   const lkSave = () => store.set('lkpd', lk);
-  function lk1Status(r) { return !r.sesudah ? ['', '–'] : r.sesudah === 'Bersih' ? ['ok', 'Lulus'] : r.sesudah === 'Goresan di inti' ? ['err', 'Ganti/poles'] : ['warn', 'Ulangi bersihkan']; }
+  // Penilaian LKPD: setiap baris dinilai hanya bila datanya lengkap dan masuk akal.
+  // Hasil: { cls, label, final (penilaian akhir), bad: { kolom: alasan } untuk menandai isian }.
+  const LK_NAMA = { sebelum: 'kondisi sebelum', metode: 'metode', sesudah: 'kondisi sesudah', a1: 'sudut kiri', a2: 'sudut kanan', est: 'estimasi splicer', ukur: 'hasil ukur', rugi: 'hasil ukur atau estimasi splicer',
+    km: 'panjang', kon: 'pasang konektor', spl: 'sambungan', rx1310: 'P terima 1.310', rx1550: 'P terima 1.550', ref1310: 'P ref 1.310', ref1550: 'P ref 1.550', att1310: 'redaman kabel 1.310', att1550: 'redaman kabel 1.550' };
+  // Membaca angka isian LKPD (boleh memakai koma). empty = belum diisi; err = bukan angka atau di luar aturan.
+  function lkVal(raw, rule) {
+    const s = String(raw === undefined || raw === null ? '' : raw).trim();
+    if (s === '') return { empty: true, v: null, err: '' };
+    const v = Number(s.replace(',', '.'));
+    if (!Number.isFinite(v)) return { v: null, err: 'bukan angka' };
+    rule = rule || {};
+    if (rule.int && !Number.isInteger(v)) return { v, err: 'harus bilangan bulat' };
+    if (rule.min !== undefined && v < rule.min) return { v, err: rule.minMsg || 'tidak boleh negatif' };
+    if (rule.max !== undefined && v > rule.max) return { v, err: rule.maxMsg || 'di luar kisaran wajar' };
+    return { v, err: '' };
+  }
+  const lkNone = { cls: '', label: '–', final: false, bad: {} };
+  const lkIncomplete = (miss, bad) => ({ cls: 'warn', label: `Data belum lengkap: isi ${miss.map(k => LK_NAMA[k]).join(', ')}`, final: false, bad: Object.assign(Object.fromEntries(miss.map(k => [k, 'belum diisi'])), bad || {}) });
+  const lkCheckInput = bad => ({ cls: 'warn', label: `Periksa isian: ${Object.entries(bad).map(([k, m]) => `${LK_NAMA[k]} ${m}`).join('; ')}`, final: false, bad });
+  function lk1Status(r) {
+    const keys = ['sebelum', 'metode', 'sesudah'], miss = keys.filter(k => !r[k]);
+    if (miss.length === keys.length) return lkNone;
+    if (miss.length) return lkIncomplete(miss);
+    if (r.sebelum !== 'Bersih' && r.metode === 'Tidak perlu' && r.sesudah === 'Bersih') return { cls: 'warn', label: 'Periksa data: konektor yang kotor tidak bisa menjadi bersih tanpa dibersihkan', final: false, bad: { metode: 'tidak sesuai' } };
+    if (r.sebelum === 'Goresan' && r.sesudah === 'Bersih') return { cls: 'warn', label: 'Periksa data: goresan tidak hilang dengan pembersihan; inspeksi ulang', final: false, bad: { sesudah: 'tidak sesuai' } };
+    return r.sesudah === 'Bersih' ? { cls: 'ok', label: 'Lulus', final: true, bad: {} } : r.sesudah === 'Goresan di inti' ? { cls: 'err', label: 'Ganti/poles', final: true, bad: {} } : { cls: 'warn', label: 'Ulangi bersihkan', final: true, bad: {} };
+  }
   function lk2Status(r) {
-    const a1 = numv(r.a1), a2 = numv(r.a2), est = numv(r.est), uk = numv(r.ukur);
-    if (a1 === null && a2 === null && est === null && uk === null) return ['', '–'];
-    if (Math.max(a1 || 0, a2 || 0) > 1) return ['warn', 'Potong ulang (sudut > 1°)'];
-    const u = uk !== null ? uk : est;
-    if (u === null) return ['', '–'];
-    return u <= 0.1 ? ['ok', 'Baik'] : u <= 0.3 ? ['warn', 'Diterima (≤ 0,3 dB)'] : ['err', 'Ulangi sambungan'];
+    if (['a1', 'a2', 'est', 'ukur'].every(k => String(r[k] || '').trim() === '')) return lkNone;
+    const ANG = { min: 0, max: 45, minMsg: 'tidak mungkin negatif', maxMsg: 'di luar kisaran wajar (0–45°)' };
+    const a1 = lkVal(r.a1, ANG), a2 = lkVal(r.a2, ANG), est = lkVal(r.est), uk = lkVal(r.ukur);
+    // Nilai rugi negatif tidak dinilai otomatis: bisa salah ketik, salah referensi, atau "gainer" pada OTDR satu arah.
+    // Selalu ditandai, juga saat baris punya masalah lain.
+    const neg = {};
+    if (!uk.empty && uk.v < 0) neg.ukur = 'negatif';
+    if (!est.empty && est.v < 0) neg.est = 'negatif';
+    const negNote = Object.keys(neg).length ? '; rugi negatif juga perlu dicek' : '';
+    const bad = {};
+    [['a1', a1], ['a2', a2], ['est', est], ['ukur', uk]].forEach(([k, x]) => { if (x.err) bad[k] = x.err; });
+    if (Object.keys(bad).length) return lkCheckInput(Object.assign(bad, neg));
+    const miss = [];
+    if (a1.empty) miss.push('a1');
+    if (a2.empty) miss.push('a2');
+    if (!miss.length && Math.max(a1.v, a2.v) > 1) return { cls: 'warn', label: 'Potong ulang (sudut > 1°)' + negNote, final: true, bad: neg };
+    if (est.empty && uk.empty) miss.push('rugi');
+    if (miss.length) {
+      const c = lkIncomplete(miss, neg);
+      if (c.bad.rugi) { delete c.bad.rugi; c.bad.est = 'belum diisi; cukup isi ini atau hasil ukur'; c.bad.ukur = 'belum diisi; cukup isi ini atau estimasi splicer'; }
+      c.label += negNote;
+      return c;
+    }
+    if (negNote) return { cls: 'warn', label: 'Periksa pengukuran: rugi sambungan negatif. Cek nilai yang diketik dan referensi OPM; pada OTDR satu arah ukur dari dua arah lalu rata-ratakan.', final: false, bad: neg };
+    const basis = uk.empty ? 'estimasi splicer' : 'hasil ukur', u = uk.empty ? est.v : uk.v;
+    const base = u <= 0.1 ? ['ok', 'Baik'] : u <= 0.3 ? ['warn', 'Diterima (≤ 0,3 dB)'] : ['err', 'Ulangi sambungan'];
+    return { cls: base[0], label: `${base[1]} · ${basis}`, final: true, bad: {}, basis };
   }
-  function lk3Calc(r) {
-    const L = lk.l3, km = numv(r.km), kon = numv(r.kon), spl = numv(r.spl);
-    const r1 = numv(L.ref1310), r2 = numv(L.ref1550), x1 = numv(r.rx1310), x2 = numv(r.rx1550);
-    const l1 = r1 !== null && x1 !== null ? r1 - x1 : null, l2 = r2 !== null && x2 !== null ? r2 - x2 : null;
-    const base = (km || 0), b1 = base * (numv(L.att1310) || 0) + (kon || 0) * 0.75 + (spl || 0) * 0.3, b2 = base * (numv(L.att1550) || 0) + (kon || 0) * 0.75 + (spl || 0) * 0.3;
-    if (l1 === null && l2 === null) return { l1, l2, b1, b2, st: ['', '–'], an: '' };
-    const ok = (l1 === null || l1 <= b1 + 1e-9) && (l2 === null || l2 <= b2 + 1e-9);
+  // Isian bersama LKPD 3 (referensi dan redaman kabel) diperiksa sekali untuk semua baris.
+  function lk3Shared() {
+    const L = lk.l3, NN = { min: 0, minMsg: 'tidak boleh negatif' }, DBM = { min: -60, max: 20, minMsg: 'di luar kisaran wajar', maxMsg: 'di luar kisaran wajar' };
+    const S = { ref1310: lkVal(L.ref1310, DBM), ref1550: lkVal(L.ref1550, DBM), att1310: lkVal(L.att1310, NN), att1550: lkVal(L.att1550, NN) };
+    const bad = {};
+    Object.entries(S).forEach(([k, x]) => { if (x.err) bad[k] = x.err; else if (x.empty) bad[k] = 'belum diisi'; });
+    return { S, bad };
+  }
+  function lk3Calc(r, shared) {
+    const sh = shared || lk3Shared(), S = sh.S;
+    const NN = { min: 0, minMsg: 'tidak boleh negatif' }, CNT = { min: 0, int: true, minMsg: 'tidak boleh negatif' }, DBM = { min: -60, max: 20, minMsg: 'di luar kisaran wajar', maxMsg: 'di luar kisaran wajar' };
+    const F = { km: lkVal(r.km, NN), kon: lkVal(r.kon, CNT), spl: lkVal(r.spl, CNT), rx1310: lkVal(r.rx1310, DBM), rx1550: lkVal(r.rx1550, DBM) };
+    const res = (o) => Object.assign({ l1: null, l2: null, b1: null, b2: null, an: '' }, o);
+    if (Object.values(F).every(x => x.empty)) return res({ st: ['', '–'], final: false, bad: {} });
+    const bad = {};
+    Object.entries(F).forEach(([k, x]) => { if (x.err) bad[k] = x.err; });
+    if (Object.keys(bad).length) { const c = lkCheckInput(bad); return res({ st: [c.cls, c.label], final: false, bad }); }
+    const miss = Object.keys(F).filter(k => F[k].empty);
+    const shMiss = Object.keys(sh.bad);
+    if (miss.length || shMiss.length) {
+      const c = lkIncomplete(miss.concat(shMiss.filter(k => sh.bad[k] === 'belum diisi')), {});
+      const shErr = shMiss.filter(k => sh.bad[k] !== 'belum diisi');
+      const label = shErr.length ? `Periksa isian referensi: ${shErr.map(k => `${LK_NAMA[k]} ${sh.bad[k]}`).join('; ')}` : c.label;
+      return res({ st: ['warn', label], final: false, bad: Object.fromEntries(miss.map(k => [k, 'belum diisi'])) });
+    }
+    const l1 = S.ref1310.v - F.rx1310.v, l2 = S.ref1550.v - F.rx1550.v;
+    const conn = F.kon.v * 0.75 + F.spl.v * 0.3, b1 = F.km.v * S.att1310.v + conn, b2 = F.km.v * S.att1550.v + conn;
+    if (l1 < 0 || l2 < 0) {
+      const nb = {}; if (l1 < 0) nb.rx1310 = 'lebih besar dari referensi'; if (l2 < 0) nb.rx1550 = 'lebih besar dari referensi';
+      return res({ l1, l2, b1, b2, st: ['warn', 'Periksa pengukuran: daya terima lebih besar dari referensi. Ambil ulang referensi atau periksa nilai yang diketik.'], final: false, bad: nb });
+    }
+    const ok = l1 <= b1 + 1e-9 && l2 <= b2 + 1e-9;
     let an = 'Redaman sesuai batas.';
-    if (!ok) an = l1 !== null && l2 !== null && l2 - l1 > 0.5 ? 'Rugi 1.550 nm jauh lebih besar dari 1.310 nm: curiga tekukan (macrobend). Periksa radius tekuk di sepanjang jalur.'
+    if (!ok) an = l2 - l1 > 0.5 ? 'Rugi 1.550 nm jauh lebih besar dari 1.310 nm: curiga tekukan (macrobend). Periksa radius tekuk di sepanjang jalur.'
       : 'Rugi tinggi di kedua panjang gelombang: curiga konektor kotor/rusak, adaptor longgar, atau sambungan buruk. Bersihkan, ukur ulang, lalu cari titiknya dengan VFL/OTDR.';
-    return { l1, l2, b1, b2, st: ok ? ['ok', 'Lulus'] : ['err', 'Gagal'], an };
+    return res({ l1, l2, b1, b2, st: ok ? ['ok', 'Lulus'] : ['err', 'Gagal'], an, final: true, bad: {} });
   }
-  const lkF2 = v => v === null ? '–' : fmt(v, 2);
+  const lkF2 = v => v === null || v === undefined ? '–' : fmt(v, 2);
   const lkSel = (l, i, k, opts, v) => `<select data-l="${l}" data-i="${i}" data-k="${k}" aria-label="${k}">${opts.map(o => `<option${o === v ? ' selected' : ''} value="${esc(o)}">${o ? esc(o) : '–'}</option>`).join('')}</select>`;
   const lkInp = (l, i, k, v, ph) => `<input type="text" inputmode="decimal" data-l="${l}" data-i="${i}" data-k="${k}" value="${esc(v)}" placeholder="${ph || ''}" aria-label="${k}">`;
   function lkRender() {
@@ -1632,15 +1762,25 @@
     lkUpdate();
   }
   function lkUpdate() {
-    const tagc = ([c, t]) => `<span class="tag ${c}">${t}</span>`;
-    lk.l1.forEach((r, i) => { $('#lk1-s' + i).innerHTML = tagc(lk1Status(r)); });
-    lk.l2.forEach((r, i) => { $('#lk2-s' + i).innerHTML = tagc(lk2Status(r)); });
+    const tagc = (cls, t) => `<span class="tag ${cls}">${esc(t)}</span>`;
+    // Menandai isian yang kosong atau tidak masuk akal sesuai hasil penilaian barisnya.
+    const mark = (l, i, bad) => $$(`#s-6-8 [data-l="${l}"][data-i="${i}"]`).forEach(el => {
+      const m = bad[el.dataset.k];
+      el.classList.toggle('bad', !!m);
+      if (m) { el.title = `${LK_NAMA[el.dataset.k] || el.dataset.k}: ${m}`; el.setAttribute('aria-invalid', 'true'); } else { el.removeAttribute('title'); el.removeAttribute('aria-invalid'); }
+    });
+    lk.l1.forEach((r, i) => { const s = lk1Status(r); $('#lk1-s' + i).innerHTML = tagc(s.cls, s.label); mark('l1', i, s.bad); });
+    lk.l2.forEach((r, i) => { const s = lk2Status(r); $('#lk2-s' + i).innerHTML = tagc(s.cls, s.label); mark('l2', i, s.bad); });
+    const sh = lk3Shared();
+    const anyRow = lk.l3.rows.some(r => ['km', 'kon', 'spl', 'rx1310', 'rx1550'].some(k => String(r[k] || '').trim() !== ''));
+    mark('l3', -1, anyRow ? sh.bad : Object.fromEntries(Object.entries(sh.bad).filter(([, m]) => m !== 'belum diisi')));
     lk.l3.rows.forEach((r, i) => {
-      const c = lk3Calc(r);
+      const c = lk3Calc(r, sh);
       $('#lk3-a' + i).textContent = `${lkF2(c.l1)} / ${lkF2(c.b1)} dB`;
       $('#lk3-b' + i).textContent = `${lkF2(c.l2)} / ${lkF2(c.b2)} dB`;
-      $('#lk3-s' + i).innerHTML = tagc(c.st);
+      $('#lk3-s' + i).innerHTML = tagc(c.st[0], c.st[1]);
       $('#lk3-n' + i).textContent = c.an;
+      mark('l3', i, c.bad);
     });
   }
   $('#s-6-8').addEventListener('input', e => {
@@ -2094,19 +2234,37 @@ exten => _1XX,1,Dial(PJSIP/\${EXTEN},20)
     saveFiles();
     const prev = vp.server;
     vp.server = AST.load(Object.assign({ mode: vp.mode }, curFiles()));
+    const lost = [];
     if (prev && prev.mode === vp.mode) {
       vp.server.vmCount = prev.vmCount; vp.server.chanSeq = prev.chanSeq;
-      Object.entries(prev.regs).forEach(([u, r]) => { const p = vp.server.acc.accounts[u]; if (p && p.kind === 'phone') vp.server.regs[u] = r; });
+      // Konfigurasi baru diterapkan seluruhnya, lalu setiap softphone yang tadinya terdaftar diperiksa ulang.
+      Object.values(prev.regs).forEach(r => {
+        const res = AST.register(vp.server, r.dev);
+        if (res.ok) return;
+        const i = vp.devs.indexOf(r.dev);
+        if (i >= 0) vp.regState[i] = `${res.code} ${res.text}`;
+        const why = (res.events.filter(e => e.t === 'note' && e.cls === 'bad').pop() || {}).text || '';
+        lost.push({ user: r.dev.user, code: res.code, text: res.text, why });
+        logVoip({ jenis: 'daftar', dari: r.dev.user, ok: false, hasil: `registrasi gugur setelah Muat ulang · ${res.code} ${res.text}` });
+      });
     }
-    fileTabs(); renderDiags(); gutter(); renderPhones();
+    fileTabs(); renderDiags(); renderListen(); gutter(); renderPhones();
+    if (lost.length) cliAppend(`; Setelah Muat ulang, registrasi ${lost.map(x => `${x.user} (${x.code} ${x.text})`).join(', ')} tidak berlaku lagi. ${lost[0].why}`, 'warn');
     if (!quiet) {
       const e = vp.server.diags.filter(d => d.sev === 'error').length, w = vp.server.diags.filter(d => d.sev === 'warning').length;
       cliAppend('CLI> core reload', 'in');
       cliAppend(vp.mode === 'pjsip'
         ? `    -- Reloading module 'res_pjsip.so' (Basic SIP resource)\n    -- Reloading module 'pbx_config.so' (Text Extension Configuration)\nDialplan reloaded.`
         : `    -- Reloading module 'chan_sip.so' (Session Initiation Protocol (SIP))\n    -- Reloading module 'pbx_config.so' (Text Extension Configuration)\nDialplan reloaded.`);
-      toast(e ? `Dimuat dengan ${e} error dan ${w} peringatan` : w ? `Dimuat dengan ${w} peringatan` : 'Konfigurasi dimuat');
+      toast(lost.length ? `Dimuat; ${lost.length} registrasi gugur` : e ? `Dimuat dengan ${e} error dan ${w} peringatan` : w ? `Dimuat dengan ${w} peringatan` : 'Konfigurasi dimuat');
     }
+  }
+  // Status transport yang menjawab softphone: sumber yang sama dengan pemeriksaan REGISTER dan INVITE.
+  function renderListen() {
+    const L = AST.sipListen(vp.server), el = $('#vp-listen');
+    el.className = 'check ' + (L.ok ? 'ok' : 'err');
+    el.innerHTML = L.ok ? `<span class="ci">✓</span><span>Transport aktif: <b>${esc(L.t.name)}</b> (UDP ${esc(L.t.ip)}:${L.t.port}). Softphone bisa mendaftar.</span>`
+      : `<span class="ci">✕</span><span><b>Softphone tidak akan dijawab:</b> ${esc(L.why)} Registrasi dan panggilan gagal (408) sampai transport diperbaiki dan dimuat ulang.</span>`;
   }
   $('#vp-reload').addEventListener('click', () => reload(false));
   $('#vp-example').innerHTML = '<option value="">Contoh konfigurasi…</option>' + EXAMPLES.map(x => `<option value="${x.id}">${esc(x.name)}</option>`).join('');
@@ -2277,11 +2435,12 @@ exten => _1XX,1,Dial(PJSIP/\${EXTEN},20)
     vp.file = files.ext !== undefined && files.acc === undefined ? 'ext' : 'acc';
     ta.value = F[vp.file];
     reload(true);
-    vp.devs.forEach(d => { const r = AST.register(vp.server, d); if (r.ok) cliAppend(vp.mode === 'pjsip' ? `  == Endpoint ${d.user} is now Reachable` : `    -- Registered SIP '${d.user}' at ${d.ip}:5060`); });
+    let okn = 0;
+    vp.devs.forEach((d, i) => { const r = AST.register(vp.server, d); vp.regState[i] = r.ok ? null : `${r.code} ${r.text}`; if (r.ok) { okn++; cliAppend(vp.mode === "pjsip" ? `  == Endpoint ${d.user} is now Reachable` : `    -- Registered SIP '${d.user}' at ${d.ip}:5060`); } });
     renderPhones();
     go('voip');
     setPane('code');
-    toast('Konfigurasi dimuat dan softphone didaftarkan. Coba lakukan panggilan.');
+    toast(okn === vp.devs.length ? 'Konfigurasi dimuat dan softphone didaftarkan. Coba lakukan panggilan.' : `Konfigurasi dimuat; ${okn} dari ${vp.devs.length} softphone berhasil mendaftar. Lihat status di kartu softphone.`);
   }
   onShow.voip = () => { if (!vp.server) { ta.value = curFiles()[vp.file]; reload(true); cliAppend(`${AST.MODES[vp.mode].ver} (simulator) siap. Ketik help untuk daftar perintah.`, 'sys'); } };
   ta.value = curFiles()[vp.file];
@@ -2336,8 +2495,8 @@ exten => _1XX,1,Dial(PJSIP/\${EXTEN},20)
     codecOpts('#kv-codec');
     function calc() {
       const c = CODEC.find(x => x.id === $('#kv-codec').value), r = voipBw(c, +$('#kv-ptime').value, +$('#kv-l2').value);
-      const n = Math.max(1, +$('#kv-calls').value || 1);
-      $('#kv-bw').innerHTML = `<div><b>${r.pay} B</b><span>payload tiap ${r.pt} ms</span></div><div><b>${r.pkt} B</b><span>ukuran paket</span></div><div><b>${fmt(r.pps, r.pps % 1 ? 1 : 0)}/s</b><span>paket per detik</span></div><div><b>${fmt(r.kbps, 1)} kbps</b><span>per panggilan per arah</span></div><div><b>${r.kbps * n >= 1000 ? fmt(r.kbps * n / 1000, 2) + ' Mbps' : fmt(r.kbps * n, 1) + ' kbps'}</b><span>${n} panggilan (unggah = unduh)</span></div>`;
+      const nc = numField($('#kv-calls'), { min: 1, max: 10000, int: true, minMsg: 'Minimal 1 panggilan.' }), n = nc.v;
+      $('#kv-bw').innerHTML = `<div><b>${r.pay} B</b><span>payload tiap ${r.pt} ms</span></div><div><b>${r.pkt} B</b><span>ukuran paket</span></div><div><b>${fmt(r.pps, r.pps % 1 ? 1 : 0)}/s</b><span>paket per detik</span></div><div><b>${fmt(r.kbps, 1)} kbps</b><span>per panggilan per arah</span></div>${nc.ok ? `<div><b>${r.kbps * n >= 1000 ? fmt(r.kbps * n / 1000, 2) + ' Mbps' : fmt(r.kbps * n, 1) + ' kbps'}</b><span>${n} panggilan (unggah = unduh)</span></div>` : '<div><b class="tag err">–</b><span>isi jumlah panggilan (bilangan bulat ≥ 1)</span></div>'}`;
       const d = +$('#kv-d').value, j = +$('#kv-j').value, l = +$('#kv-l').value;
       $('#kv-d-o').textContent = d + ' ms'; $('#kv-j-o').textContent = j + ' ms'; $('#kv-l-o').textContent = String(l).replace('.', ',') + '%';
       const q = emodel(c, d, j, l);
@@ -2350,26 +2509,53 @@ exten => _1XX,1,Dial(PJSIP/\${EXTEN},20)
   (function kfo() {
     const SPL = [['0', 'Tidak ada', 0], ['2', '1:2 (3,5 dB)', 3.5], ['4', '1:4 (7,2 dB)', 7.2], ['8', '1:8 (10,5 dB)', 10.5], ['16', '1:16 (13,8 dB)', 13.8], ['32', '1:32 (17,1 dB)', 17.1], ['64', '1:64 (20,5 dB)', 20.5]];
     ['#fo-s1', '#fo-s2'].forEach((s, k) => { $(s).innerHTML = SPL.map(([v, t]) => `<option value="${v}"${(k === 0 && v === '4') || (k === 1 && v === '8') ? ' selected' : ''}>${t}</option>`).join(''); });
-    const num = id => { const v = parseFloat($('#' + id).value); return isNaN(v) ? 0 : v; };
-    function calc() {
-      const tx = num('fo-tx'), sens = num('fo-rx'), mar = num('fo-mar');
-      const cab = num('fo-len') * num('fo-att'), con = num('fo-con') * num('fo-conl'), spl = num('fo-spl') * num('fo-spll');
+    // Aturan per besaran: daya (dBm) boleh negatif; panjang, redaman, rugi, dan margin tidak boleh negatif;
+    // jumlah konektor dan sambungan harus bilangan bulat ≥ 0.
+    const RULES = {
+      'fo-tx': { min: -20, max: 20, minMsg: 'Daya kirim OLT di luar kisaran wajar (−20 sampai +20 dBm).', maxMsg: 'Daya kirim OLT di luar kisaran wajar (−20 sampai +20 dBm).' },
+      'fo-rx': { min: -50, max: 10, minMsg: 'Sensitivitas di luar kisaran wajar (−50 sampai +10 dBm).', maxMsg: 'Sensitivitas di luar kisaran wajar (−50 sampai +10 dBm).' },
+      'fo-len': { min: 0, minMsg: 'Panjang kabel tidak boleh negatif.' },
+      'fo-att': { min: 0, minMsg: 'Redaman kabel tidak boleh negatif.' },
+      'fo-con': { min: 0, int: true, minMsg: 'Jumlah konektor tidak boleh negatif.' },
+      'fo-conl': { min: 0, minMsg: 'Rugi konektor tidak boleh negatif.' },
+      'fo-spl': { min: 0, int: true, minMsg: 'Jumlah sambungan tidak boleh negatif.' },
+      'fo-spll': { min: 0, minMsg: 'Rugi sambungan tidak boleh negatif.' },
+      'fo-mar': { min: 0, minMsg: 'Margin tidak boleh negatif.' }
+    };
+    function budget() {
+      const V = {};
+      let bad = 0;
+      Object.entries(RULES).forEach(([id, r]) => { const x = numField($('#' + id), r); V[id] = x.v; if (!x.ok) bad++; });
+      if (V['fo-tx'] !== null && V['fo-rx'] !== null && V['fo-rx'] >= V['fo-tx']) { fieldMsg($('#fo-rx'), 'Sensitivitas ONT harus lebih rendah (lebih negatif) daripada daya kirim OLT.'); bad++; }
+      if (bad) {
+        $('#fo-bar').innerHTML = ''; $('#fo-leg').innerHTML = '';
+        $('#fo-out').innerHTML = `<div class="wide"><b class="tag err">Belum bisa dihitung</b><span>Perbaiki ${bad} isian yang ditandai merah. Kesimpulan layak/tidak layak ditahan sampai semua isian valid.</span></div>`;
+        return;
+      }
+      const tx = V['fo-tx'], sens = V['fo-rx'], mar = V['fo-mar'];
+      const cab = V['fo-len'] * V['fo-att'], con = V['fo-con'] * V['fo-conl'], spl = V['fo-spl'] * V['fo-spll'];
       const s1 = SPL.find(x => x[0] === $('#fo-s1').value), s2 = SPL.find(x => x[0] === $('#fo-s2').value);
       const sp = s1[2] + s2[2], total = cab + con + spl + sp, rx = tx - total, need = sens + mar, ok = rx >= need;
       const users = (+s1[0] || 1) * (+s2[0] || 1);
       const parts = [['cab', 'Kabel', cab], ['con', 'Konektor', con], ['spl', 'Splice', spl], ['sp', 'Splitter', sp], ['mar', 'Margin', mar]];
-
-      $('#fo-bar').innerHTML = parts.filter(p => p[2] > 0).map(([k, t, v]) => `<span class="ls ${k}" style="flex:${v}" title="${t}: ${fmt(v, 2)} dB"><b>${t}</b>${fmt(v, 2)} dB</span>`).join('');
-
-      $('#fo-out').innerHTML = `<div><b>${fmt(total, 2)} dB</b><span>total redaman</span></div><div><b>${fmt(rx, 2)} dBm</b><span>daya diterima ONT</span></div><div><b>${fmt(need, 1)} dBm</b><span>batas (sensitivitas + margin)</span></div><div><b class="tag ${ok ? 'ok' : 'err'}">${ok ? 'Layak' : 'Tidak layak'}</b><span>${ok ? `sisa ${fmt(rx - need, 2)} dB` : `kurang ${fmt(need - rx, 2)} dB: kurangi splitter/jarak atau sambungan`}</span></div><div><b>${users}</b><span>rumah per port OLT</span></div>`;
-      const n1 = num('fo-n1'), n2 = num('fo-n2');
-      if (n1 > n2 && n2 > 0) {
-        const tc = Math.asin(n2 / n1) * 180 / Math.PI, na = Math.sqrt(n1 * n1 - n2 * n2), acc = Math.asin(Math.min(1, na)) * 180 / Math.PI;
-        $('#fo-crit').innerHTML = `<div><b>${fmt(tc, 2)}°</b><span>sudut kritis θc = arcsin(n₂/n₁)</span></div><div><b>${fmt(na, 3)}</b><span>NA = √(n₁² − n₂²)</span></div><div><b>${fmt(acc, 1)}°</b><span>sudut penerimaan di udara</span></div><div><b>${fmt(3 / n1, 3)} × 10⁸ m/s</b><span>kecepatan cahaya di inti (c/n₁)</span></div>`;
-      } else $('#fo-crit').innerHTML = '<div><b class="tag err">Tidak valid</b><span>n₁ harus lebih besar daripada n₂</span></div>';
+      // Label di dalam batang disembunyikan CSS bila segmennya terlalu sempit; legenda di bawahnya selalu memuat semua nilai.
+      const shown = parts.filter(p => p[2] > 0);
+      $('#fo-bar').innerHTML = shown.map(([k, t, v]) => `<span class="ls ${k}" style="flex:${v}" title="${t}: ${fmt(v, 2)} dB"><b>${t}</b><span>${fmt(v, 2)} dB</span></span>`).join('');
+      $('#fo-leg').innerHTML = shown.map(([k, t, v]) => `<span><i class="sw ${k}"></i>${t} ${fmt(v, 2)} dB</span>`).join('');
+      $('#fo-out').innerHTML = `<div><b>${fmt(total, 2)} dB</b><span>total redaman</span></div><div><b>${fmt(rx, 2)} dBm</b><span>daya diterima ONT</span></div><div><b>${fmt(need, 1)} dBm</b><span>batas (sensitivitas + margin)</span></div><div><b class="tag ${ok ? 'ok' : 'err'}">${ok ? 'Layak' : 'Tidak layak'}</b><span>${ok ? `sisa ${fmt(rx - need, 2)} dB` : `kurang ${fmt(need - rx, 2)} dB: kurangi splitter/jarak atau sambungan`}</span></div><div><b>${users}</b><span>rumah per port OLT</span></div>` +
+        (V['fo-len'] > 20 ? '<div class="wide"><b class="tag warn">Catatan</b><span>Panjang di atas 20 km melebihi jangkauan umum GPON kelas B+, walaupun redamannya masih cukup.</span></div>' : '');
     }
-    $$('#k-fo input, #k-fo select').forEach(el => el.addEventListener('input', calc));
-    calc();
+    function critical() {
+      const a = numField($('#fo-n1'), { min: 1, max: 3, minMsg: 'Indeks bias selalu ≥ 1.', maxMsg: 'Indeks bias kaca serat optik sekitar 1,4–1,5.' });
+      const b = numField($('#fo-n2'), { min: 1, max: 3, minMsg: 'Indeks bias selalu ≥ 1.', maxMsg: 'Indeks bias kaca serat optik sekitar 1,4–1,5.' });
+      if (a.ok && b.ok && !(a.v > b.v)) fieldMsg($('#fo-n2'), 'n₂ (cladding) harus lebih kecil daripada n₁ (inti).');
+      if (!a.ok || !b.ok || !(a.v > b.v)) { $('#fo-crit').innerHTML = '<div class="wide"><b class="tag err">Belum bisa dihitung</b><span>Perbaiki isian yang ditandai merah.</span></div>'; return; }
+      const n1 = a.v, n2 = b.v;
+      const tc = Math.asin(n2 / n1) * 180 / Math.PI, na = Math.sqrt(n1 * n1 - n2 * n2), acc = Math.asin(Math.min(1, na)) * 180 / Math.PI;
+      $('#fo-crit').innerHTML = `<div><b>${fmt(tc, 2)}°</b><span>sudut kritis θc = arcsin(n₂/n₁)</span></div><div><b>${fmt(na, 3)}</b><span>NA = √(n₁² − n₂²)</span></div><div><b>${fmt(acc, 1)}°</b><span>sudut penerimaan di udara</span></div><div><b>${fmt(3 / n1, 3)} × 10⁸ m/s</b><span>kecepatan cahaya di inti (c/n₁)</span></div>`;
+    }
+    $$('#k-fo input, #k-fo select').forEach(el => el.addEventListener('input', () => { if (/^fo-n[12]$/.test(el.id)) critical(); else budget(); }));
+    budget(); critical();
   })();
 
   /* ============================== Asesmen: kuis ============================== */
@@ -2638,8 +2824,11 @@ exten => _1XX,1,Dial(PJSIP/\${EXTEN},20)
   (function kumpul() {
     const ID = ['nama', 'kelas', 'absen'];
     const idv = store.get('kp-id', {});
-    ID.forEach(k => { $('#kp-' + k).value = idv[k] || ''; $('#kp-' + k).addEventListener('input', debounce(() => { idv[k] = $('#kp-' + k).value.trim(); store.set('kp-id', idv); }, 250)); });
+    // Identitas dibaca langsung dari isian agar tombol unduh tidak menunggu penyimpanan (debounce).
+    const syncId = () => { ID.forEach(k => { idv[k] = $('#kp-' + k).value.trim(); }); store.set('kp-id', idv); };
+    ID.forEach(k => { $('#kp-' + k).value = idv[k] || ''; $('#kp-' + k).addEventListener('input', debounce(syncId, 250)); });
     function data() {
+      syncId();
       const ans = store.get('quiz', {}), cases = store.get('cases', {}), dbg = store.get('dbg2-solved', {});
       const perBab = [1, 2, 3, 4, 5, 6].map(b => { const idx = QUIZ.map((q, i) => i).filter(i => QUIZ[i].b === b); return { b, n: idx.length, dij: idx.filter(i => ans[i] !== undefined).length, benar: idx.filter(i => ans[i] === QUIZ[i].a).length }; });
       const chk = $$('input[data-save]').map(c => c.dataset.save);
@@ -2651,19 +2840,19 @@ exten => _1XX,1,Dial(PJSIP/\${EXTEN},20)
         kasus: { dij: Object.keys(cases).length, tepat: Object.entries(cases).filter(([i, k]) => CASES[i] && CASES[i].o[k] && CASES[i].o[k][1]).length, total: CASES.length },
         dbg: { lulus: DEBUG.map((t, i) => i).filter(i => dbg[i]).map(i => i + 1), total: DEBUG.length },
         lab: store.get('lab-stats', { tries: 0, pass: 0, straight: false, cross: false }),
-        router: store.get('router-last', null),
+        router: (r => !r ? null : r.v === 2 ? r : { lama: true, waktu: r.waktu, label: 'Perlu diuji ulang', klien: 'Hasil ini tersimpan dari versi lama simulator. Buka Bab 3, lalu tekan Simpan & uji koneksi klien lagi.' })(store.get('router-last', null)),
         voip: store.get('voip-log', []).slice(-10),
         lk: {
           sample: !!lk.sample,
-          l1: lk.l1.map(r => Object.assign({}, r, { hasil: lk1Status(r)[1] })),
-          l2: lk.l2.map(r => Object.assign({}, r, { hasil: lk2Status(r)[1] })),
-          l3: { ref1310: lk.l3.ref1310, ref1550: lk.l3.ref1550, rows: lk.l3.rows.map(r => { const c = lk3Calc(r); return Object.assign({}, r, { l1310: c.l1, l1550: c.l2, b1310: c.b1, b1550: c.b2, hasil: c.st[1], analisis: c.an }); }) },
+          l1: lk.l1.map(r => { const s = lk1Status(r); return Object.assign({}, r, { hasil: s.label, final: s.final }); }),
+          l2: lk.l2.map(r => { const s = lk2Status(r); return Object.assign({}, r, { hasil: s.label, final: s.final }); }),
+          l3: { ref1310: lk.l3.ref1310, ref1550: lk.l3.ref1550, rows: (sh => lk.l3.rows.map(r => { const c = lk3Calc(r, sh); return Object.assign({}, r, { l1310: c.l1, l1550: c.l2, b1310: c.b1, b1550: c.b2, hasil: c.st[1], analisis: c.an, final: c.final }); }))(lk3Shared()) },
           l4: LK_CASES.map((c, i) => ({ kasus: c.t, jawaban: lk.l4[i] || '' }))
         }
       };
     }
     const yes = b => b ? '✓' : '–';
-    const filled = rows => rows.filter(r => r.hasil && r.hasil !== '–').length;
+    const filled = rows => rows.filter(r => r.final).length;
     function cards(d) {
       const c = (t, v, s) => `<div class="kp-card"><span>${t}</span><b>${v}</b><small>${s}</small></div>`;
       return c('Pertemuan', `${d.meet.length}/${MEET.length}`, d.meet.length ? 'no. ' + d.meet.join(', ') : 'belum dicentang') +
@@ -2671,9 +2860,9 @@ exten => _1XX,1,Dial(PJSIP/\${EXTEN},20)
         c('Studi kasus', `${d.kasus.tepat}/${d.kasus.total}`, `${d.kasus.dij} dijawab`) +
         c('Perbaiki konfigurasi', `${d.dbg.lulus.length}/${d.dbg.total}`, d.dbg.lulus.length ? 'lulus no. ' + d.dbg.lulus.join(', ') : 'belum ada yang lulus') +
         c('Lab RJ45', `${d.lab.pass}/${d.lab.tries}`, `straight ${yes(d.lab.straight)} · crossover ${yes(d.lab.cross)}`) +
-        c('Simulasi router', d.router ? (d.router.hasil === 'ok' ? 'Berhasil' : d.router.hasil === 'warn' ? 'Sebagian' : 'Gagal') : '–', d.router ? `${d.router.kesalahan} kesalahan, ${d.router.peringatan} peringatan` : 'belum dicoba') +
+        c('Simulasi router', d.router ? d.router.label : '–', d.router ? (d.router.lama ? 'hasil versi lama, uji ulang' : routerCountText(d.router)) : 'belum dicoba') +
         c('Simulator VoIP', `${d.voip.filter(x => x.ok).length}/${d.voip.length}`, 'aktivitas terakhir berhasil') +
-        c('LKPD serat optik', `${filled(d.lk.l1) + filled(d.lk.l2) + filled(d.lk.l3.rows)}/12`, `baris terisi${d.lk.sample ? ' · contoh data' : ''} · LKPD 4: ${d.lk.l4.filter(x => x.jawaban.trim()).length}/4`);
+        c('LKPD serat optik', `${filled(d.lk.l1) + filled(d.lk.l2) + filled(d.lk.l3.rows)}/12`, `baris dinilai${d.lk.sample ? ' · contoh data' : ''} · LKPD 4: ${d.lk.l4.filter(x => x.jawaban.trim()).length}/4`);
     }
     const tbl = (head, rows) => `<table><thead><tr>${head.map(h => `<th>${esc(h)}</th>`).join('')}</tr></thead><tbody>${rows.map(r => `<tr>${r.map(v => `<td>${esc(v === null || v === undefined ? '–' : v)}</td>`).join('')}</tr>`).join('')}</tbody></table>`;
     const n2 = v => v === null || v === undefined ? '–' : fmt(v, 2);
@@ -2681,7 +2870,7 @@ exten => _1XX,1,Dial(PJSIP/\${EXTEN},20)
       let h = '';
       h += `<h3>Kuis per bab</h3>` + tbl(['Bab', 'Dijawab', 'Benar'], d.quiz.perBab.map(x => [x.b, `${x.dij}/${x.n}`, x.benar]));
       h += `<h3>Kegiatan siswa</h3><p>${d.keg.done} dari ${d.keg.total} kegiatan dan butir perawatan dicentang.</p>`;
-      if (d.router) h += `<h3>Simulasi router (terakhir ${esc(d.router.waktu)})</h3><p>${esc(d.router.klien)} SSID ${esc(d.router.ssid)}, keamanan ${esc(d.router.keamanan)}, kanal ${esc(d.router.kanal)}, LAN ${esc(d.router.lan)}, DHCP ${esc(d.router.dhcp)}.</p>`;
+      if (d.router) h += `<h3>Simulasi router (terakhir ${esc(d.router.waktu)})</h3><p><b>${esc(d.router.label)}.</b> ${esc(d.router.klien)}${d.router.lama ? "" : ` (${esc(routerCountText(d.router))}.) Konfigurasi: SSID ${esc(d.router.ssid)}, keamanan ${esc(d.router.keamanan)}, kanal ${esc(d.router.kanal)}, LAN ${esc(d.router.lan)}, DHCP ${esc(d.router.dhcp)}.`}</p>`;
       if (d.voip.length) h += `<h3>Simulator VoIP (10 aktivitas terakhir)</h3>` + tbl(['Waktu', 'Mode', 'Aktivitas', 'Hasil'], d.voip.map(x => [x.waktu, x.mode === 'sip' ? 'chan_sip' : 'PJSIP', x.jenis === 'daftar' ? `${x.dari} mendaftar` : `${x.dari} → ${x.ke}`, x.hasil]));
       h += `<h3>LKPD 1 · Pembersihan & inspeksi${d.lk.sample ? ' (contoh data)' : ''}</h3>` + tbl(['Konektor', 'Jenis', 'Sebelum', 'Metode', 'Sesudah', 'Hasil'], d.lk.l1.map(r => [r.kode, r.jenis, r.sebelum, r.metode, r.sesudah, r.hasil]));
       h += `<h3>LKPD 2 · Penyambungan</h3>` + tbl(['Sambungan', 'Sudut kiri', 'Sudut kanan', 'Estimasi (dB)', 'Ukur (dB)', 'Status'], d.lk.l2.map(r => [r.kode, r.a1, r.a2, r.est, r.ukur, r.hasil]));
@@ -2697,7 +2886,7 @@ exten => _1XX,1,Dial(PJSIP/\${EXTEN},20)
         `Studi kasus: ${d.kasus.tepat}/${d.kasus.total} tepat (${d.kasus.dij} dijawab)`,
         `Perbaiki konfigurasi: ${d.dbg.lulus.length}/${d.dbg.total} lulus${d.dbg.lulus.length ? ' (no. ' + d.dbg.lulus.join(', ') + ')' : ''}`,
         `Lab RJ45: ${d.lab.tries} percobaan, ${d.lab.pass} lulus, straight ${yes(d.lab.straight)}, crossover ${yes(d.lab.cross)}`,
-        `Simulasi router: ${d.router ? d.router.klien : 'belum dicoba'}`,
+        `Simulasi router: ${d.router ? d.router.label + ' · ' + d.router.klien : 'belum dicoba'}`,
         `Simulator VoIP: ${d.voip.filter(x => x.ok).length} dari ${d.voip.length} aktivitas terakhir berhasil`,
         `LKPD serat optik: ${filled(d.lk.l1)}/4 konektor, ${filled(d.lk.l2)}/4 sambungan, ${filled(d.lk.l3.rows)}/4 link diukur, ${d.lk.l4.filter(x => x.jawaban.trim()).length}/4 kasus dianalisis${d.lk.sample ? ' (contoh data)' : ''}`,
         `Dibuat: ${new Date().toLocaleString('id-ID')}`].join('\n');
@@ -2707,8 +2896,11 @@ exten => _1XX,1,Dial(PJSIP/\${EXTEN},20)
       $('#kp-rekap').innerHTML = cards(d);
       $('#kp-detail').innerHTML = detail(d);
     }
-    $('#kp-copy').addEventListener('click', () => copyText(text(data())));
+    // Halaman selalu digambar ulang dari data yang sama dengan yang diunduh/disalin, juga bila tab lain mengubah hasil.
+    window.addEventListener('storage', e => { if (e.key && e.key.startsWith('tjkn:') && location.hash === '#kumpul') render(); });
+    $('#kp-copy').addEventListener('click', () => { render(); copyText(text(data())); });
     $('#kp-download').addEventListener('click', () => {
+      render();
       const d = data();
       if (!d.id.nama) { toast('Isi nama dulu.'); $('#kp-nama').focus(); return; }
       const slug = d.id.nama.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '') || 'siswa';
@@ -2720,6 +2912,7 @@ exten => _1XX,1,Dial(PJSIP/\${EXTEN},20)
       saveFile(`hasil-tjkn-${slug}.html`, html);
     });
     $('#kp-voip').addEventListener('click', () => {
+      syncId();
       const nm = (idv.nama || 'siswa').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '') || 'siswa';
       saveFile(`konfigurasi-voip-${nm}.txt`, ['acc', 'ext', 'vm'].map(k => `;;;;;;;;;; ${fileName(k)} ;;;;;;;;;;\n${curFiles()[k]}`).join('\n\n'));
     });
